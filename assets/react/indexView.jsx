@@ -9,9 +9,12 @@ var React        = require('react'),
 
 
 var dataDict = {
-        'nyct_gtfsr_metadata'           : { title: 'NYCT Subway GTFS-R Metadata'   , path: '/subway/metadata'     } ,
-        'mta_bus_stop_siri_metadata'    : { title: 'MTA Bus Stop SIRI Metadata'    , path: 'bus/stop/metadata/'   } ,
-        'mta_bus_vehicle_siri_metadata' : { title: 'MTA Bus Vehicle SIRI Metadata' , path: 'bus/vehicle/metadata' } ,
+        'nyct_gtfsr_metadata'           : { title : 'NYCT Subway GTFS-R Metadata'   ,
+                                            route : '/subway/metadata'     }        ,
+        'mta_bus_stop_siri_metadata'    : { title : 'MTA Bus Stop SIRI Metadata'    ,
+                                            route : 'bus/stop/metadata/'   }        ,
+        'mta_bus_vehicle_siri_metadata' : { title : 'MTA Bus Vehicle SIRI Metadata' ,
+                                            route : 'bus/vehicle/metadata' }        ,
     },
 
     entities = Object.keys(dataDict);
@@ -20,17 +23,18 @@ var dataDict = {
 var ThisPage = React.createClass ({
 
     _renderTree : function () {
-
-        var theSVG    = React.findDOMNode(this.refs.theSVG),
+        var _this     = this,
+            theSVG    = React.findDOMNode(this.refs.theSVG),
             treeProps = {
                 width  : this.state.width,
                 height : this.state.height,
             };
 
         function renderer (data) {
-            var vizSVG;
+            var rootName = dataDict[_this.state.entity].title,
+                vizSVG;
             
-            treeProps.data = apiUtils.prepDataForViz(data);
+            treeProps.data = apiUtils.prepDataForViz(rootName, data);
             vizSVG         = d3Tree.renderTree(treeProps);
 
             while (theSVG.firstChild) {
@@ -39,7 +43,7 @@ var ThisPage = React.createClass ({
             theSVG.appendChild(vizSVG[0][0]);
         } 
 
-        apiUtils.getData(dataDict[this.state.entity].path, renderer);
+        apiUtils.getData(dataDict[this.state.entity].route, renderer);
     },
 
 
@@ -94,14 +98,14 @@ var ThisPage = React.createClass ({
                          className='col-md-12'
                          width={ this.state.width }
                          height={ this.state.height } >
-
-                        <svg width     = { this.state.width }
-                             height    = { this.state.height }
-                             ref       = 'theSVG'
-                             className = 'chart' >
-                        </svg>
                     </div>
                 
+                    <svg width     = { this.state.width }
+                         height    = { this.state.height }
+                         ref       = 'theSVG'
+                         className = 'chart' >
+                    </svg>
+
                     <div ref='sideBar' className='col-md-2 noWrap'>
                     </div>
                 </div>

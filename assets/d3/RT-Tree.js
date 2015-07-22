@@ -43,7 +43,9 @@ function renderTree (props) {
                   .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
     node.append("circle")
-        .attr("r", 4.5);
+        .attr("r", 4.5)
+        .on("mouseover", function(d){ console.log('OVER:'); console.log(d); })
+        .on("mouseout", function(d){ console.log('OUT:'); console.log(d); });
 
     node.append("text")
         .attr("dx", function(d) { return d.children ? -8 : 8; })
@@ -57,6 +59,6 @@ function renderTree (props) {
 }
 
 module.exports = {
-    renderTree : renderTree,
+    renderTree  : renderTree,
 };
 

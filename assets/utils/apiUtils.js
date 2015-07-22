@@ -12,14 +12,15 @@ function getData (route, callback) {
 
 function newMetadataObject () {
     return {
+        path        : '',
         description : '',
         mapping     : '',
         notes       : '',
     };
 }
 
-function prepDataForViz(data) {
-    var flare   = newFlareNode('NYCT_Subway_GTFS-R'),
+function prepDataForViz(rootName, data) {
+    var flare   = newFlareNode(rootName),
         isoTree = { '': flare },
         keys    = Object.keys(data).map(function (k) { return k.split(','); }),
         i;
