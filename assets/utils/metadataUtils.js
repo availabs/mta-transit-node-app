@@ -2,6 +2,7 @@
 
 
 var jsonfile       = require('jsonfile'),
+    apiUtils       = require('./apiUtils'),
     _              = require('lodash');
 
 
@@ -48,7 +49,7 @@ var updateMetaData = function (newData, metadataObject) {
     newMetaKeys = _.difference(metaDataKeyExtractor(newData), _.keys(metadataObject));
     
     newMetaData = newMetaKeys.reduce(function(pre, cur) { 
-                                        pre[cur] = ''; 
+                                        pre[cur] = apiUtils.newMetadataObject(); 
                                         return pre; 
                                      }, {});
 
@@ -56,7 +57,6 @@ var updateMetaData = function (newData, metadataObject) {
 
     return newMetaKeys;
 }
-
 
 
 function newMetaDataMaintainer (metaDataFilePath) {

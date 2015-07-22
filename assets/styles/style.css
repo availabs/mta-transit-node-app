@@ -1,5 +1,4 @@
 html, body {
-    overflow : hidden;
     margin   : 0;
     padding  : 0;
     height   : 100%;
@@ -9,9 +8,9 @@ html, body {
 
 body {
     background-color : rgba(74, 121, 147, 0.89);
-    background       : radial-gradient(farthest-side ellipse at 10% 0, rgba(25,25,25, 0.89), rgba(12, 12, 12, 0.87), rgba(5,5,5, 0.87)), url("../images/bgnoise_lg_dark.png");
-    background       : -webkit-radial-gradient(10% 0, farthest-side ellipse, rgba(25,25,25, 0.89), rgba(12, 12, 12, 0.87), rgba(5,5,5, 0.87)), url("../images/bgnoise_lg_dark.png");
-    background       : -moz-radial-gradient(10% 0, farthest-side ellipse, rgba(25,25,25, 0.89), rgba(12, 12, 12, 0.87), rgba(5,5,5, 0.87)), url("../images/bgnoise_lg_dark.png");
+    background       : radial-gradient(farthest-side ellipse at 10% 0, rgba(25,25,25, 0.89), rgba(25,25,25,0.89), rgba(25,25,25, 0.89)), url("../images/bgnoise_lg_dark.png");
+    background       : -webkit-radial-gradient(10% 0, farthest-side ellipse, rgba(25,25,25, 0.89), rgba(25,25,25,0.89), rgba(25,25,25, 0.89)), url("../images/bgnoise_lg_dark.png");
+    background       : -moz-radial-gradient(10% 0, farthest-side ellipse, rgba(25,25,25, 0.89), rgba(25,25,25,0.89), rgba(25,25,25, 0.89)), url("../images/bgnoise_lg_dark.png");
     color            : black;
 }
 
@@ -66,3 +65,27 @@ div {
     width   : 96%;
 }
 
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.title {
+  color: #E8C558;
+}
+
+.link {
+  fill: none;
+  stroke: #68696C;
+  stroke-width: 1.5px;
+}
+
+.label {
+    color: #E55D38;
+    fill: #34ACCB;
+}

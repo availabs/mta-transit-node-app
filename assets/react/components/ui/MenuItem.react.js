@@ -25,11 +25,9 @@ var MenuItem = React.createClass ({
                 key       = { this.props.key } >
 
                     <a role="menuitem" 
-                       tabindex="-1" 
+                       tabIndex="-1" 
                        href={ undefined }> 
-                        
                             { this.props.label }
-
                     </a>
             </li>
         );

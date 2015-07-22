@@ -19,7 +19,7 @@ var DropdownMenu = React.createClass ({
     _generateMenuItems: function () {
         var props = this.props;
 
-        return Object.keys(props.selection).map(function (item, i) {
+        return props.selection.map(function (item, i) {
 
             var isSelected = props.selected.indexOf(item) !== -1;
 
@@ -27,7 +27,7 @@ var DropdownMenu = React.createClass ({
                         key        = { i }
                         toggle     = { isSelected ? props.deselect : props.select }
                         item       = { item }
-                        label      = { props.selection[item] }
+                        label      = { item }
                         isSelected = { isSelected }
                     />);
         });
@@ -36,7 +36,7 @@ var DropdownMenu = React.createClass ({
     render: function () {
 
         return (<ul className = { 'dropdown-menu ' +
-                                  'dropdown-menu-' + (this.props.alignRight ? 'right ' : 'left ') +
+                                  'dropdown-menu-right ' +
                                   'scrollable-menu ' }
 
                     role      = 'menu' > 
