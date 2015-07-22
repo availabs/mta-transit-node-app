@@ -66,6 +66,6 @@ module.exports = {
     newMetadataObject : newMetadataObject,
     getData           : getData,
     prepDataForViz    : prepDataForViz,
-}
+};
 
 

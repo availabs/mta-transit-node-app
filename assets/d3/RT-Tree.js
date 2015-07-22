@@ -40,7 +40,7 @@ function renderTree (props) {
                   .data(nodes)
                   .enter().append("g")
                   .attr("class", "node")
-                  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+                  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
     node.append("circle")
         .attr("r", 4.5);

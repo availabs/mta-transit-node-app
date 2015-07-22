@@ -23,5 +23,5 @@ module.exports = function (toMonitor) {
             var msg = JSON.parse(data.join(''));
             console.log(JSON.stringify(msg, null, 4));
         }); 
-    };
+    }
 };

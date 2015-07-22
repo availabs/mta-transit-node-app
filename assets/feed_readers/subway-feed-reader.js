@@ -4,8 +4,7 @@
 
 var ProtoBuf = require('protobufjs'),
     http     = require("http"),
-    key      = require('../keys/SUBWAY-API-KEY'),
-    _        = require('lodash');
+    key      = require('../keys/SUBWAY-API-KEY');
 
 var nyctSubwayProtoFile = __dirname + '/../proto_files/nyct-subway.proto';
 
@@ -35,6 +34,6 @@ function parse(res) {
         // do whatever with the object
         console.log(JSON.stringify(msg, null, 4));
     }); 
-};
+}
 
 module.exports = readFeed;

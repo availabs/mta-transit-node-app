@@ -46,8 +46,7 @@ var ThisPage = React.createClass ({
     '_savePng': function () {
         var theSVG       = React.findDOMNode(this.refs.theSVG),
             theClone     = theSVG.cloneNode(true),
-            fileName     = dataDict[this.state.entity].title.replace(/\s+/g, '_'),
-            rightPadding = 5;
+            fileName     = dataDict[this.state.entity].title.replace(/\s+/g, '_');
 
         saveSvgAsPng(theClone, fileName);
     },
@@ -64,7 +63,7 @@ var ThisPage = React.createClass ({
             width     : 1200,
             height    : 2000,
             selection : entities,
-        }
+        };
     },
 
 

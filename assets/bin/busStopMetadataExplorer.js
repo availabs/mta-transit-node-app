@@ -7,8 +7,8 @@ var newMetaDataMaintainer = require('../utils/metadataUtils').newMetaDataMaintai
     jsonfile              = require('jsonfile');
 
 
-var metaDataMaintainer = newMetaDataMaintainer(__dirname + '/../metadata/mta-bus-stop-metadata.js'),
-    msg                = jsonfile.readFileSync(__dirname + '/../sample_messages/mta-bus-stop-monitoring-message.js');
+var metaDataMaintainer = newMetaDataMaintainer(__dirname + '/../metadata/mta-bus-stop-metadata.json'),
+    msg                = jsonfile.readFileSync(__dirname + '/../sample_messages/mta-bus-stop-monitoring-message.json');
 
 
 metaDataMaintainer.update(msg);

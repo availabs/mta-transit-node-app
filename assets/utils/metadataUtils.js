@@ -56,7 +56,7 @@ var updateMetaData = function (newData, metadataObject) {
     _.defaults(metadataObject, newMetaData);
 
     return newMetaKeys;
-}
+};
 
 
 function newMetaDataMaintainer (metaDataFilePath) {
@@ -90,13 +90,13 @@ function newMetaDataMaintainer (metaDataFilePath) {
 
             jsonfile.writeFile(metaDataFilePath, metaData, {spaces: 4}, function(err) {
                 if (err) {
-                    console.error(err)
+                    console.error(err);
                 }
             });
         }
 
         return newKeys;
-    }
+    };
 
     return maintainer;
 }
