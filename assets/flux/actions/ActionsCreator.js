@@ -43,9 +43,10 @@ module.exports = {
     },
 
 
-    'changeMessageMetadata' : function () {
+    'changeMessageMetadata' : function (newMetadata) {
         AppDispatcher.dispatch( { 
-            'type' : ActionTypes.CHANGE_MESSAGE_METADATA,
+            'type'        : ActionTypes.CHANGE_MESSAGE_METADATA,
+            'newMetadata' : newMetadata,
         });
     },
 

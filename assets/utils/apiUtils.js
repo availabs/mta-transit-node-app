@@ -15,12 +15,12 @@ messageTypeToName[MTA_MessageTypes.MTA_BUS_VEHICLE_SIRI] = 'MTA Bus Vehicle SIRI
 messageNameToType = _.invert(messageTypeToName);
 
 
-function newMetadataObject () {
+function newMetadataObject (path) {
     return {
-        path        : '',
-        description : '',
-        mapping     : '',
-        notes       : '',
+        path        : path || '' ,
+        description : ''         ,
+        mapping     : ''         ,
+        notes       : ''         ,
     };
 }
 

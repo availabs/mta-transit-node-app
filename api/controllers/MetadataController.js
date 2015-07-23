@@ -20,4 +20,16 @@ module.exports = {
         res.json(jsonfile.readFileSync(busVehicleMetadataFilePath));
     },
 
+    'updateSubway': function (req) {
+        console.log(req.body);
+    },
+
+    'updateBusStop': function (req) {
+        console.log(req.body);
+    },
+
+    'updateBusVehicle': function (req) {
+        console.log(req.body);
+    },
+
 };

@@ -42,7 +42,7 @@ var thisStore = assign({}, EventEmitter.prototype, {
         this.on(STATE_CHANGED, callback);
     },
 
-    'removeDataReadyListener': function(callback) {
+    'removeStateChangedListener': function(callback) {
         this.removeListener(STATE_CHANGED, callback);
     },
 
@@ -60,7 +60,6 @@ var thisStore = assign({}, EventEmitter.prototype, {
 
 
     '_handleSelectMessageType': function (messageType) {
-        //console.log('Store _handleSelectMessageType');
         _selectedMessageType = messageType;
 
         if (_messageMetadata[messageType]) {
@@ -72,7 +71,6 @@ var thisStore = assign({}, EventEmitter.prototype, {
 
 
     '_handleMouseoverNode' : function (mouseoveredNode) {
-        //console.log('Store _handleMouseoverNode');
         if(_treeStates[_selectedMessageType].mouseoveredNode !== mouseoveredNode) {
             _treeStates[_selectedMessageType].mouseoveredNode = mouseoveredNode;
             this._emitStateChangedEvent();
@@ -80,42 +78,45 @@ var thisStore = assign({}, EventEmitter.prototype, {
     },
 
     '_handleMouseoutNode' : function () {
-        //console.log('Store _handleMouseoutNode');
         _treeStates[_selectedMessageType].mouseoveredNode = null;
+        
         this._emitStateChangedEvent();
     },
 
     '_handleSelectNode' : function (node) {
-        //console.log('Store _handleSelectNode');
         _treeStates[_selectedMessageType].selectedNode = node;
+        
         this._emitStateChangedEvent();
     },
 
     '_handleDeselectNode' : function () {
-        //console.log('Store _handleDeselectNode');
         _treeStates[_selectedMessageType].selectedNode = undefined;
+        
         this._emitStateChangedEvent();
     },
 
 
-    '_handleChangeMessageMetadata' : function () {
-        console.log('Store _handleChangeMessageMetadata');
+    '_handleChangeMessageMetadata' : function (newMetadata) {
+        _.assign(_treeStates[_selectedMessageType].selectedNode.metadata, newMetadata);
 
         markTreeNodeDirty();
-        this._emitStateChangedEvent();
-    },
 
-    '_handleCommitMetadataChanges' : function () {
-        //TODO: Implement
-        console.log('Store _handleCommitMetadataChanges');
-
-        _treeStates[_selectedMessageType].dirtyNodes.length = 0;
         this._emitStateChangedEvent();
     },
 
     '_handleServerResponse' : function (messageType, data) {
         _messageMetadata[messageType] = data;
+
         _flaredMessageMetadata[messageType] = toFlare(_messageTypeToName[messageType], data); 
+
+        this._emitStateChangedEvent();
+    },
+
+    '_handleCommitMetadataChanges' : function () {
+        sailsWebApi.postMetadataUpdate(_selectedMessageType, _messageMetadata[_selectedMessageType]);
+
+        _treeStates[_selectedMessageType].dirtyNodes.length = 0;
+
         this._emitStateChangedEvent();
     },
 
@@ -148,7 +149,7 @@ thisStore.dispatchToken = AppDispatcher.register(function(payload) {
         break;
 
     case ActionTypes.CHANGE_MESSAGE_METADATA:
-        thisStore._handleChangeMessageMetadata();
+        thisStore._handleChangeMessageMetadata(payload.newMetadata);
         break;
 
     case ActionTypes.COMMIT_METADATA_CHANGES:
@@ -203,21 +204,22 @@ function toFlare (rootName, data) {
 
     for (i=0; i<keys.length; ++i) {
         var thisName   = keys[i].join(','),
-            thisNode   = newFlareNode(keys[i][keys[i].length - 1], data[thisName]),
+            thisNode   = newFlareNode(keys[i][keys[i].length - 1], data[thisName], thisName),
             parentName = keys[i].slice(0, -1).join(','),
             parentNode = isoTree[parentName];
 
         isoTree[thisName] = thisNode;
+        data[thisName]    = thisNode.metadata;  // Link for easy shared mutations.
 
         parentNode.children = parentNode.children || [];
         parentNode.children.push(thisNode);
     }
 
 
-    function newFlareNode (name, metadata) {
+    function newFlareNode (name, metadata, path) {
         return {
             name       : name,
-            metadata   : metadata ? metadata : utils.newMetadataObject(),
+            metadata   : metadata ? metadata : utils.newMetadataObject(path),
         };
     }
 

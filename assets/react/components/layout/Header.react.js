@@ -3,6 +3,7 @@
 
 
 var React                = require('react'),
+    ActionsCreator       = require('../../../flux/actions/ActionsCreator'),
     Logo                 = require('./Logo.react'),
     SingleButtonDropdown = require('../ui/SingleButtonDropdown.react');
 
@@ -18,7 +19,18 @@ var Header = React.createClass({
                 ( <button className={'btn btn-default '}
                           onClick={this.props.savePng}>
                               'Save Image'
+                  </button> ),
+
+            commitButton  = (!this.props.showLogo) ? (<div/>) : 
+                ( <button className={'btn btn-default' + 
+                                        ((this.props.hasDirtyNodes) ? '' : ' disabled') }
+                          onClick={ ActionsCreator.commitMetadataChanges }>
+                              'Commit Changes'
                   </button> );
+
+
+
+                
 
         return (
             <div className='page-header noWrap'>
@@ -42,7 +54,9 @@ var Header = React.createClass({
                             selected  = { this.props.selected  }
                             select    = { this.props.select    } />
 
-                            { savePngButton }
+                        { savePngButton }
+
+                        { commitButton  }
 
                     </div>
 

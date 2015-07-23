@@ -10,12 +10,12 @@ var getRoutes  = {},
     postRoutes = {};
 
 getRoutes[messageTypes.NYCT_SUBWAY_GTFSR]    = '/subway/metadata';
-getRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = 'bus/stop/metadata/';
-getRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = 'bus/vehicle/metadata';
+getRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = '/bus/stop/metadata/';
+getRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = '/bus/vehicle/metadata';
 
-postRoutes[messageTypes.NYCT_SUBWAY_GTFSR]    = 'update/subway/metadata';
-postRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = 'update/bus/stop/metadata/';
-postRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = 'update/bus/vehicle/metadata';
+postRoutes[messageTypes.NYCT_SUBWAY_GTFSR]    = '/update/subway/metadata';
+postRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = '/update/bus/stop/metadata/';
+postRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = '/update/bus/vehicle/metadata';
 
 
 function sendServerGetRequest (messageType) {
@@ -26,8 +26,15 @@ function sendServerGetRequest (messageType) {
     });
 }
 
-function sendServerPostRequest () {
-    //TODO: Implement
+function sendServerPostRequest (messageType, metadata) {
+    d3.xhr(postRoutes[messageType])
+        .header("Content-Type", "application/json")
+        .post(
+            JSON.stringify(metadata),
+            function(err){
+                console.log("Metadata commit err", err);
+            }
+        );
 }
 
 
@@ -38,7 +45,7 @@ module.exports = {
     },
 
     'postMetadataUpdate' : function (messageType, metadata) {
-        sendServerPostRequest(messageType, postRoutes[messageType], metadata);
+        sendServerPostRequest(messageType, metadata);
     },
 
 };
