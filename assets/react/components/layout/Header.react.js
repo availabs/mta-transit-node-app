@@ -4,8 +4,8 @@
 
 var React                = require('react'),
     ActionsCreator       = require('../../../flux/actions/ActionsCreator'),
-    Logo                 = require('./Logo.react'),
-    SingleButtonDropdown = require('../ui/SingleButtonDropdown.react');
+    Logo                 = require('./Logo'),
+    SingleButtonDropdown = require('../ui/SingleButtonDropdown');
 
 
 

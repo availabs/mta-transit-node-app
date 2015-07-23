@@ -51,6 +51,8 @@ var thisStore = assign({}, EventEmitter.prototype, {
         var state = {
             selectedMessageType : _selectedMessageType,
             data                : _flaredMessageMetadata[_selectedMessageType],
+            selectedNode        : null, // Reset for _.assign
+            mouseoveredNode     : null,
         };
 
         _.assign(state, _treeStates[_selectedMessageType]);
@@ -83,6 +85,7 @@ var thisStore = assign({}, EventEmitter.prototype, {
         this._emitStateChangedEvent();
     },
 
+
     '_handleSelectNode' : function (node) {
         _treeStates[_selectedMessageType].selectedNode = node;
         
@@ -90,7 +93,7 @@ var thisStore = assign({}, EventEmitter.prototype, {
     },
 
     '_handleDeselectNode' : function () {
-        _treeStates[_selectedMessageType].selectedNode = undefined;
+        _treeStates[_selectedMessageType].selectedNode = null;
         
         this._emitStateChangedEvent();
     },
@@ -168,8 +171,8 @@ thisStore.dispatchToken = AppDispatcher.register(function(payload) {
 
 function newTreeState () {
     return {
-        mouseoveredNode : undefined,
-        selectededNode  : undefined,
+        mouseoveredNode : null,
+        selectededNode  : null,
         dirtyNodes      : [],
     };
 }

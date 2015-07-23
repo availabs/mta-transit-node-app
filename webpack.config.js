@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
           new webpack.optimize.OccurenceOrderPlugin(),
         ],
         resolve: {
-          extensions: ['', '.js', '.jsx']
+          extensions: ['', '.js', '.jsx', '.react.js']
         },
         watch:true,
         module: {
@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === 'development') {
             new webpack.optimize.DedupePlugin(),
         ],
         resolve: {
-          extensions: ['', '.js', '.jsx']
+          extensions: ['', '.js', '.jsx', '.react.js']
         },
         module: {
           loaders: [{

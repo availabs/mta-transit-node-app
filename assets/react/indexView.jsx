@@ -8,7 +8,7 @@ var React             = require('react'),
     theStore          = require('../flux/stores/Store'),
     ActionsCreator    = require('../flux/actions/ActionsCreator'),
     d3Tree            = require('../d3/RT-Tree'),
-    Header            = require('./components/layout/Header.react'),
+    Header            = require('./components/layout/Header'),
     messageTypeToName = require('../utils/apiUtils').messageTypeToName;
 
 

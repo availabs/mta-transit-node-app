@@ -73,9 +73,9 @@ function renderTree (props) {
     node.append("circle")
         .attr("r", 7.5)
         .style('fill', getColor)
-        .on({ "click"      : onClick,
-              "mouseenter" : ActionsCreator.mouseoverNode,
-              "mouseout"   : ActionsCreator.mouseoutNode, });
+        .on({ "click"     : onClick,
+              "mouseover" : ActionsCreator.mouseoverNode,
+              "mouseout"  : ActionsCreator.mouseoutNode, });
 
     node.append("text")
         .attr("dx", function(d) { return d.children ? -8 : 8; })

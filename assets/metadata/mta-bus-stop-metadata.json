@@ -1,45 +1,260 @@
 {
-    "Siri": "",
-    "Siri,ServiceDelivery": "",
-    "Siri,ServiceDelivery,ResponseTimestamp": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,LineRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DirectionRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DataFrameRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DatedVehicleJourneyRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,JourneyPatternRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,PublishedLineName": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OperatorRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationName": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,SituationRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Monitored": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Longitude": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Latitude": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Bearing": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressRate": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,BlockRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,PresentableDistance": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,DistanceFromCall": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,StopsFromCall": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,CallDistanceAlongRoute": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointRef": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,VisitNumber": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointName": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OnwardCalls": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,RecordedAtTime": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginAimedDepartureTime": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressStatus": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,ResponseTimestamp": "",
-    "Siri,ServiceDelivery,StopMonitoringDelivery,ValidUntil": "",
-    "Siri,ServiceDelivery,SituationExchangeDelivery": ""
+    "Siri": {
+        "path": "Siri",
+        "description": "",
+        "mapping": "",
+        "notes": "Test"
+    },
+    "Siri,ServiceDelivery": {
+        "path": "Siri,ServiceDelivery",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,ResponseTimestamp": {
+        "path": "Siri,ServiceDelivery,ResponseTimestamp",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,LineRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,LineRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DirectionRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DirectionRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DataFrameRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DataFrameRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DatedVehicleJourneyRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,FramedVehicleJourneyRef,DatedVehicleJourneyRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,JourneyPatternRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,JourneyPatternRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,PublishedLineName": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,PublishedLineName",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OperatorRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OperatorRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationName": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,DestinationName",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,SituationRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,SituationRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Monitored": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Monitored",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Longitude": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Longitude",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Latitude": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleLocation,Latitude",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Bearing": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,Bearing",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressRate": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressRate",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,BlockRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,BlockRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,VehicleRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,PresentableDistance": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,PresentableDistance",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,DistanceFromCall": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,DistanceFromCall",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,StopsFromCall": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,StopsFromCall",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,CallDistanceAlongRoute": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,CallDistanceAlongRoute",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointRef": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointRef",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,VisitNumber": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,VisitNumber",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointName": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,MonitoredCall,StopPointName",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OnwardCalls": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OnwardCalls",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,RecordedAtTime": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,RecordedAtTime",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginAimedDepartureTime": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,OriginAimedDepartureTime",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressStatus": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,MonitoredStopVisit,MonitoredVehicleJourney,ProgressStatus",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,ResponseTimestamp": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,ResponseTimestamp",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,StopMonitoringDelivery,ValidUntil": {
+        "path": "Siri,ServiceDelivery,StopMonitoringDelivery,ValidUntil",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    },
+    "Siri,ServiceDelivery,SituationExchangeDelivery": {
+        "path": "Siri,ServiceDelivery,SituationExchangeDelivery",
+        "description": "",
+        "mapping": "",
+        "notes": ""
+    }
 }

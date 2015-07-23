@@ -2,7 +2,7 @@
 
 
 var React    = require('react'),
-    MenuItem = require('./MenuItem.react');
+    MenuItem = require('./MenuItem');
 
 
 /*=====================================================

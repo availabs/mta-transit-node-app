@@ -2,7 +2,7 @@
 
 
 var React        = require('react'),
-    DropdownMenu = require('./DropdownMenu.react');
+    DropdownMenu = require('./DropdownMenu');
 
 
 /*=====================================================
