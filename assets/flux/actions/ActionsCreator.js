@@ -30,9 +30,6 @@ module.exports = {
     },
 
     'selectNode' : function (node) {
-        //console.log('============');
-        //console.log(node);
-        //console.log('============');
         AppDispatcher.dispatch( { 
             'type' : ActionTypes.SELECT_NODE,
             'node' : node,
