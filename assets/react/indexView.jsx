@@ -58,10 +58,13 @@ var ThisPage = React.createClass ({
 
 
     getInitialState: function () {
+        var ed = document.createElement('div');
+
         return {
-            width  : window.innerWidth * 1.5,
-            height : window.innerHeight * 1.5,
-            editorContainer : document.createElement('div'),
+            width           : window.innerWidth * 1.5,
+            height          : window.innerHeight * 1.5,
+            editorContainer : ed,
+            editor          : new jsoneditor(ed),
         };
     },
 
@@ -70,6 +73,7 @@ var ThisPage = React.createClass ({
         var ed = this.state.editorContainer;
 
         document.body.appendChild(ed);
+
         ed.style.position        = 'fixed';
         ed.style.backgroundColor = 'white';
         ed.style.height          = '400px';
@@ -87,18 +91,12 @@ var ThisPage = React.createClass ({
         var metadata = (this.state.selectedNode && this.state.selectedNode.metadata) || (this.state.mouseoveredNode && this.state.mouseoveredNode.metadata),
             ed       = this.state.editorContainer;
 
-
-        //FIXME: Not very elegant, though state will be preserved in store, not editor.
-        while (ed.firstChild) {
-            ed.removeChild(this.state.editorContainer.firstChild);
-        }
-
         this._renderTree();
 
         if (metadata) {
             ed.style.top  = '100px';
             ed.style.left = '10px';
-            new jsoneditor(ed).set(metadata);
+            this.state.editor.set(metadata);
         } else {
             ed.style.top  = '-1000px';
             ed.style.left = '-1000px';
