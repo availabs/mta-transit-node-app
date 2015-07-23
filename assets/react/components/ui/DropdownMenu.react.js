@@ -9,9 +9,8 @@ var React    = require('react'),
 *
 * Props: 
 *       select    : Function to select item
-*       deselect  : Function to deselect item
 *       selection : The set of selectable items. ({item: label})
-*       selected  : Array of selected items. (The keys from 'selection'.)
+*       selected  : The selected item.
 *
 *=====================================================*/
 var DropdownMenu = React.createClass ({
@@ -19,29 +18,28 @@ var DropdownMenu = React.createClass ({
     _generateMenuItems: function () {
         var props = this.props;
 
-        return props.selection.map(function (item, i) {
+        return props.selection.map(function (itemName, i) {
 
-            var isSelected = props.selected.indexOf(item) !== -1;
+            var isSelected = props.selected === itemName;
 
             return (<MenuItem
-                        key        = { i }
-                        toggle     = { isSelected ? props.deselect : props.select }
-                        item       = { item }
-                        label      = { item }
-                        isSelected = { isSelected }
+                        key        = { i            }
+                        select     = { props.select }
+                        itemName   = { itemName     }
+                        isSelected = { isSelected   }
                     />);
         });
     },
 
     render: function () {
 
-        return (<ul className = { 'dropdown-menu ' +
+        return (<ul role = 'menu'
+                    className = { 'dropdown-menu ' +
                                   'dropdown-menu-right ' +
-                                  'scrollable-menu ' }
-
-                    role      = 'menu' > 
+                                  'scrollable-menu ' } > 
 
                         { this._generateMenuItems() } 
+
                 </ul> );
     },
 });

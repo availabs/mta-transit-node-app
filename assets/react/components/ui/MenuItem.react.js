@@ -14,20 +14,22 @@ var React = require('react');
 *=====================================================*/
 var MenuItem = React.createClass ({
 
-    toggleItem: function () { this.props.toggle(this.props.item); },
-
     render: function () {
+
+        var _this = this;
+
+        function selectItem () { _this.props.select(_this.props.itemName); }
 
         return (
             <li className = { this.props.isSelected ? 'disabled' : '' }
-                onClick   = { this.toggleItem }
-                role      = "presentation"
-                key       = { this.props.key } >
+                onClick   = { selectItem                              }
+                key       = { this.props.key                          } 
+                role      =   "presentation"                          >
 
                     <a role="menuitem" 
                        tabIndex="-1" 
                        href={ undefined }> 
-                            { this.props.label }
+                            { this.props.itemName }
                     </a>
             </li>
         );

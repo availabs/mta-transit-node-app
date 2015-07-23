@@ -1,78 +1,70 @@
 'use strict';
 
 
-var React        = require('react'),
-    apiUtils     = require('../utils/apiUtils'),
-    d3Tree       = require('../d3/RT-Tree'),
-    Header       = require('./components/layout/Header.react'),
-    saveSvgAsPng = require('save-svg-as-png').saveSvgAsPng;
-
-
-var dataDict = {
-        'nyct_gtfsr_metadata'           : { title : 'NYCT Subway GTFS-R Metadata'   ,
-                                            route : '/subway/metadata'     }        ,
-        'mta_bus_stop_siri_metadata'    : { title : 'MTA Bus Stop SIRI Metadata'    ,
-                                            route : 'bus/stop/metadata/'   }        ,
-        'mta_bus_vehicle_siri_metadata' : { title : 'MTA Bus Vehicle SIRI Metadata' ,
-                                            route : 'bus/vehicle/metadata' }        ,
-    },
-
-    entities = Object.keys(dataDict);
-
+var React             = require('react'),
+    _                 = require('lodash'),
+    saveSvgAsPng      = require('save-svg-as-png').saveSvgAsPng,
+    theStore          = require('../flux/stores/Store'),
+    ActionsCreator    = require('../flux/actions/ActionsCreator'),
+    d3Tree            = require('../d3/RT-Tree'),
+    Header            = require('./components/layout/Header.react'),
+    messageTypeToName = require('../utils/apiUtils').messageTypeToName;
 
 var ThisPage = React.createClass ({
 
+    _handleStateChange : function () {
+        this.setState(theStore.getState());
+    },
+
+
     _renderTree : function () {
-        var _this     = this,
-            theSVG    = React.findDOMNode(this.refs.theSVG),
-            treeProps = {
-                width  : this.state.width,
-                height : this.state.height,
-            };
+        var vizArea = React.findDOMNode(this.refs.vizArea),
+            vizSVG  = d3Tree.renderTree(this.state)[0][0];
 
-        function renderer (data) {
-            var rootName = dataDict[_this.state.entity].title,
-                vizSVG;
-            
-            treeProps.data = apiUtils.prepDataForViz(rootName, data);
-            vizSVG         = d3Tree.renderTree(treeProps);
+        vizSVG.id = 'theTree';
 
-            while (theSVG.firstChild) {
-                theSVG.removeChild(theSVG.firstChild);
-            }
-            theSVG.appendChild(vizSVG[0][0]);
-        } 
+        //FIXME: Use selection.enter/exit
+        while (vizArea.firstChild) {
+            vizArea.removeChild(vizArea.firstChild);
+        }
 
-        apiUtils.getData(dataDict[this.state.entity].route, renderer);
+
+        vizArea.appendChild(vizSVG);
+    },
+
+
+    '_showLogo' : function () {
+        var img = document.createElement('img');
+
+        img.src             = '../images/logo.png';
+        img.alt             = 'AVAIL Logo';
+        img.className       = 'img-responsive center-block';
+        img.style.marginTop = '100px';
+
+        React.findDOMNode(this.refs.vizArea).appendChild(img);
     },
 
 
     '_savePng': function () {
-        var theSVG       = React.findDOMNode(this.refs.theSVG),
-            theClone     = theSVG.cloneNode(true),
-            fileName     = dataDict[this.state.entity].title.replace(/\s+/g, '_');
+        var vizSVG   = document.getElementById('theTree'),
+            theClone = vizSVG.cloneNode(true),
+            fileName = messageTypeToName[this.state.selectedMessageType].replace(/\s+/g, '_');
 
         saveSvgAsPng(theClone, fileName);
     },
 
 
-    _selectEntity : function (entity) {
-        this.setState({ entity: entity });
-    },
-
-
     getInitialState: function () {
         return {
-            entity    : 'nyct_gtfsr_metadata',
-            width     : 1200,
-            height    : 2000,
-            selection : entities,
+            width  : window.innerWidth * 1.5,
+            height : window.innerHeight * 1.5,
         };
     },
 
 
     componentDidMount: function () {
-        this._renderTree();
+        theStore.registerStateChangedListener(this._handleStateChange);
+        this._showLogo();
     },
 
     
@@ -84,30 +76,23 @@ var ThisPage = React.createClass ({
     render : function () {
 
         return (
-            <div>
+            <div className='dontcollapse' >
                 <Header 
-                        title     = { dataDict[this.state.entity].title }
-                        selection = { this.state.selection              }
-                        selected  = { this.state.entity                 }
-                        select    = { this._selectEntity                } 
-                        savePng   = { this._savePng                     } />
+                        selected  = { messageTypeToName[this.state.selectedMessageType] }
+                        selection = { _.values(messageTypeToName)                       }
+                        select    = { ActionsCreator.selectMessageTypeByName            }
+                        savePng   = { this._savePng                                     } 
+                        showLogo  = { !!this.state.selectedMessageType                  }/>
                         
-                <div className='container'>
+                <div className='container dontcollapse' >
 
                     <div ref='vizArea' 
-                         className='col-md-12'
+                         className='col-md-12 dontcollapse'
+                         display =  'block'
                          width={ this.state.width }
                          height={ this.state.height } >
                     </div>
-                
-                    <svg width     = { this.state.width }
-                         height    = { this.state.height }
-                         ref       = 'theSVG'
-                         className = 'chart' >
-                    </svg>
 
-                    <div ref='sideBar' className='col-md-2 noWrap'>
-                    </div>
                 </div>
             </div>
         );

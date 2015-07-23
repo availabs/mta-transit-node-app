@@ -89,3 +89,7 @@ div {
     color: #E55D38;
     fill: #34ACCB;
 }
+
+.dontcollapse {
+    min-height : 1px;    
+}

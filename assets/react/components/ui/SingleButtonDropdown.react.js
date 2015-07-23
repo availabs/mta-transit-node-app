@@ -9,9 +9,8 @@ var React        = require('react'),
 *
 * Props: 
 *       select     : Function to select item
-*       deselect   : Function to deselect item
-*       selection  : The set of selectable items. ({item                   : label})
-*       selected   : Array of selected items. (The keys from 'selection'.)
+*       selection  : The set of selectable items.
+*       selected   : Array of selected items. 
 *       title      : The title of the selector.
 *       dropUp     : [optional]
 *       alignRight : [optional]
@@ -21,31 +20,25 @@ var SingleButtonDropdown = React.createClass ( {
 
     'render': function () {
         
-        var props    = this.props,
-            selected = props.selected ? 
-                            ((props.selected.constructor === Array) ? 
-                                props.selected : 
-                                [props.selected]) : 
-                            [];
+        var props    = this.props;
         
         return ( 
             <div className = {'btn-group ' + (props.dropUp ? ' dropup ' : '')} >
 
                 <button type          = 'button'
-                        className     = { 'btn btn-default dropdown-toggle' + 
-                                          (props.select ? '' : ' disabled') }
+                        className     = { 'btn btn-default dropdown-toggle' }
                         data-toggle   = 'dropdown'
                         aria-expanded = 'false' >
 
                             { props.title } 
+
                             <span className='caret'></span>
                 </button>
 
                 <DropdownMenu 
-                    select     = { props.select }
-                    deselect   = { props.deselect }
-                    selection  = { props.selection }
-                    selected   = { selected }
+                    select     = { props.select     }
+                    selection  = { props.selection  }
+                    selected   = { props.selected   }
                     alignRight = { props.alignRight }
                 />
             </div>

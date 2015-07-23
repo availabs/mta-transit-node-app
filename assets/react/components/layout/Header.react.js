@@ -12,17 +12,25 @@ var Header = React.createClass({
 
     render: function() {
 
+        var logoArea = (this.props.showLogo) ? (<Logo/>) : (<div/>),
+
+            savePngButton = (!this.props.showLogo) ? (<div/>) : 
+                ( <button className={'btn btn-default '}
+                          onClick={this.props.savePng}>
+                              'Save Image'
+                  </button> );
+
         return (
             <div className='page-header noWrap'>
                 <div className='row'>
 
                     <div className='col-sm-1'>
-                        <Logo />
+                        { logoArea }
                     </div>
 
                     <div className='col-sm-10'>
                         <h1 className='text-center title'>
-                            { this.props.title }
+                            { this.props.selected || 'MTA Transit Data Metadata Tool' }
                         </h1>
                     </div>
 
@@ -34,10 +42,8 @@ var Header = React.createClass({
                             selected  = { this.props.selected  }
                             select    = { this.props.select    } />
 
-                        <button className={'btn btn-default '}
-                                onClick={this.props.savePng}>
-                                    'Save Image'
-                        </button>
+                            { savePngButton }
+
                     </div>
 
                 </div>
