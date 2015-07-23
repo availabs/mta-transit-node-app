@@ -1,5 +1,12 @@
 'use strict';
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
+ *   This is early code. It should be safely tested to ensure it
+ *   doesn't clobber metadata created via the web app.
+ *
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
 
 var jsonfile       = require('jsonfile'),
     apiUtils       = require('./apiUtils'),
@@ -42,36 +49,19 @@ function metaDataKeyExtractor (jsValue) {
 }
 
 
-var updateMetaData = function (newData, metadataObject) {
-    var newMetaKeys,
-        newMetaData;
-
-    newMetaKeys = _.difference(metaDataKeyExtractor(newData), _.keys(metadataObject));
-    
-    newMetaData = newMetaKeys.reduce(function(pre, cur) { 
-                                        pre[cur] = apiUtils.newMetadataObject(); 
-                                        return pre; 
-                                     }, {});
-
-    _.defaults(metadataObject, newMetaData);
-
-    return newMetaKeys;
-};
-
-
 function newMetaDataMaintainer (metaDataFilePath) {
     var maintainer = {},
         metaData;
     
-    try {
-        metaData = jsonfile.readFileSync(metaDataFilePath);
-    } catch (err) {
-        if (err.code !== 'ENOENT') {
-            throw err;
-        } else {
-            metaData = {};
-        }
-    }
+    //try {
+        //metaData = jsonfile.readFileSync(metaDataFilePath);
+    //} catch (err) {
+        //if (err.code !== 'ENOENT') {
+            //throw err;
+        //} else {
+            //metaData = {};
+        //}
+    //}
 
     jsonfile.readFile(metaDataFilePath, function(err, obj) {
         metaData = obj || {};
@@ -100,6 +90,24 @@ function newMetaDataMaintainer (metaDataFilePath) {
 
     return maintainer;
 }
+
+
+var updateMetaData = function (newData, metadataObject) {
+    var newMetaKeys,
+        newMetaData;
+
+    newMetaKeys = _.difference(metaDataKeyExtractor(newData), _.keys(metadataObject));
+    
+    newMetaData = newMetaKeys.reduce(function(pre, cur) { 
+                                        pre[cur] = undefined;
+                                        return pre; 
+                                     }, {});
+
+    _.defaults(metadataObject, newMetaData);
+
+    return newMetaKeys;
+};
+
 
 module.exports = {
     metaDataBuilder       : metaDataKeyExtractor,

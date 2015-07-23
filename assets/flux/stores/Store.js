@@ -191,6 +191,8 @@ function toFlare (rootName, data) {
         keys    = Object.keys(data).map(function (k) { return k.split(','); }),
         i;
 
+    flare.metadata.notes = 'Changes to the root are not persisted.';
+
     keys = keys.sort(function(a,b) {
         var i, comp;
 
