@@ -30,7 +30,7 @@ var Header = React.createClass({
 
                     <div className='col-sm-10'>
                         <h1 className='text-center title'>
-                            { this.props.selected || 'MTA Transit Data Metadata Tool' }
+                            { this.props.selected || 'MTA Transit Metadata Tool' }
                         </h1>
                     </div>
 

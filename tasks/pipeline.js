@@ -1,3 +1,4 @@
+'use strict';
 /**
  * grunt/pipeline.js
  *
