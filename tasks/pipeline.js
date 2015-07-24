@@ -16,7 +16,10 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-   'styles/white/application.css',
+    'styles/white/application.css',
+    'styles/jsoneditor.css',
+    'bower_components/jquery-ui/themes/ui-darkness/jquery-ui.css',
+    'bower_components/jquery-ui/themes/ui-darkness/theme.css',
     'styles/**/*.css',
 ];
 
@@ -30,7 +33,9 @@ var jsFilesToInject = [
   // Dependencies like jQuery, or Angular are brought in here
   //'js/dependencies/**/*.js',
 
+  // Moved into views/home/index.ejs
   'bower_components/jquery/dist/jquery.js',
+  'bower_components/jquery-ui/jquery-ui.js',
   'bower_components/bootstrap/dist/js/bootstrap.js',
 
   // All of the rest of your client-side js files

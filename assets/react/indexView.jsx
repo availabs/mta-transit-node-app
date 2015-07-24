@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 var React             = require('expose?React!react'),
     saveSvgAsPng      = require('save-svg-as-png').saveSvgAsPng,
     jsoneditor        = require('jsoneditor'),
@@ -92,8 +94,9 @@ var ThisPage = React.createClass ({
         ed.style.backgroundColor = 'white';
         ed.style.height          = '300px';
         ed.style.width           = '485px';
-        ed.style.top             = '-1000px';
-        ed.style.left            = '-1000px';
+        ed.style.top             = '100px';
+        ed.style.left            = '10px';
+        ed.style.display         = 'none';
 
         theStore.registerStateChangedListener(this._handleStateChange);
 
@@ -109,15 +112,17 @@ var ThisPage = React.createClass ({
 
         this._renderTree();
 
+        if (! window.$(ed).data('draggable') ) {
+            window.$(ed).draggable().resizable();
+        }
+
         if (metadata) {
-            ed.style.top  = '100px';
-            ed.style.left = '10px';
+            ed.style.display = 'inline-block';
             if (!state.selectedNode || (state.selectedNode !== prevState.selectedNode)) {
                 this._editor.set(metadata);
             }
         } else {
-            ed.style.top  = '-1000px';
-            ed.style.left = '-1000px';
+            ed.style.display = 'none';
         }
     },
 
