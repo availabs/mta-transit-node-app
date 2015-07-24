@@ -244,7 +244,7 @@
         "description": "",
         "mapping": "",
         "notes": "",
-        "linkTo": "",
+        "linkTo": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,direction\n",
         "docLinks": ""
     },
     "entity,trip_update,vehicle": {
@@ -770,27 +770,27 @@
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,train_id": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,train_id",
-        "description": "",
+        "description": "This field is meant for internal use only. It provides\nan easy way to associated GTFS-RT trip identifiers\nwith NYCT rail operations identifier.\n\nThe ATS office system assigns unique train\nidentification (Train ID) to each train operating\nwithin or ready to enter the mainline of the\nmonitored territory. An example of this is 06 0123+\nPEL/BBR and is decoded as follows: \n\nThe first character represents the trip type\ndesignator. 0 identifies a scheduled revenue trip.\nOther revenue trip values that are a result of a\nchange to the base schedule include; [= reroute], [/\nskip stop], [$ turn train] also known as shortly lined\nservice.\n\nThe second character 6 represents the trip line i.e.\nnumber 6 train.\n\nThe third set of characters identify the decoded\norigin time. The last character may be blank “on\nthe whole minute” or + “30 seconds”\nNote: Origin times will not change when there is a\ntrip type change.\nThis is followed by a three character “Origin\nLocation” / “Destination Location”",
         "mapping": "",
         "notes": "",
         "linkTo": "",
-        "docLinks": ""
+        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=7"
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,is_assigned": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,is_assigned",
-        "description": "",
+        "description": "This trip has been assigned to a physical train. If\ntrue, this trip is already underway or most likely will\ndepart shortly. See the discussion of the assigned\nstatus at TripUpdate for more details.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
-        "docLinks": ""
+        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=7"
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,direction": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,direction",
-        "description": "",
+        "description": "enum\n\nThe direction the train is moving to. Only NORTH and SOUTH are used.",
         "mapping": "",
-        "notes": "",
+        "notes": "NORTH\n   * Uptown and Bronx-bound trains.\n   * Times Square Shuttle to Grand Central.\n\nEAST\n   * Not used.\nSOUTH\n   * Downtown and Brooklyn-bound trains\n   * Times Square Shuttle to Times Square.\n\nWEST \n   * Not used.",
         "linkTo": "",
-        "docLinks": ""
+        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=8"
     },
     "entity,alert,informed_entity,stop_id": {
         "path": "entity,alert,informed_entity,stop_id",

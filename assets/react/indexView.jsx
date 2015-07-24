@@ -69,9 +69,10 @@ var ThisPage = React.createClass ({
                 change   : this._getNewMetadata,
                 search   : false,
                 editable : function(node) { return {field:false, value:(node.field !== 'path')}; },
+                modes    : ['form', 'tree', 'view'],
             };
 
-        this._editor = new jsoneditor(ed, config );
+        this._editor = new jsoneditor(ed, config);
 
         return {
             width           : window.innerWidth * 1.5,
