@@ -9,7 +9,6 @@
 
 
 var jsonfile       = require('jsonfile'),
-    apiUtils       = require('./apiUtils'),
     _              = require('lodash');
 
 
@@ -44,33 +43,31 @@ function recursiveExaminer (value, name, path, acc) {
 }
 
 
-function metaDataKeyExtractor (jsValue) {
+function metadataKeyExtractor (jsValue) {
     return _.uniq(recursiveExaminer(jsValue));
 }
 
 
-function newMetaDataMaintainer (metaDataFilePath) {
+function newMetadataMaintainer (metadataFilePath) {
     var maintainer = {},
-        metaData;
+        metadata;
     
-    //try {
-        //metaData = jsonfile.readFileSync(metaDataFilePath);
-    //} catch (err) {
-        //if (err.code !== 'ENOENT') {
-            //throw err;
-        //} else {
-            //metaData = {};
-        //}
-    //}
+    try {
+        metadata = jsonfile.readFileSync(metadataFilePath);
+    } catch (err) {
+        if (err.code !== 'ENOENT') {
+            throw err;
+        } else {
+            metadata = {};
+        }
+    }
 
-    jsonfile.readFile(metaDataFilePath, function(err, obj) {
-        metaData = obj || {};
-    });
+    maintainer.metadata = metadata; 
 
-    maintainer.metaData = metaData; 
-
-    maintainer.update = function (newData) {
-        var newKeys = updateMetaData(newData, metaData);
+    // Takes the newly scraped data.
+    // Extracts unseen fields. Adds these to metadata file.
+    maintainer.update = function (newMetadata) {
+        var newKeys = updateMetadata(newMetadata, metadata);
 
         if (newKeys.length) {
 
@@ -78,7 +75,7 @@ function newMetaDataMaintainer (metaDataFilePath) {
             console.log(newKeys);
             console.log();
 
-            jsonfile.writeFile(metaDataFilePath, metaData, {spaces: 4}, function(err) {
+            jsonfile.writeFile(metadataFilePath, metadata, {spaces: 4}, function(err) {
                 if (err) {
                     console.error(err);
                 }
@@ -92,25 +89,25 @@ function newMetaDataMaintainer (metaDataFilePath) {
 }
 
 
-var updateMetaData = function (newData, metadataObject) {
+var updateMetadata = function (newMetadata, oldMetadata) {
     var newMetaKeys,
-        newMetaData;
+        newMetadata;
 
-    newMetaKeys = _.difference(metaDataKeyExtractor(newData), _.keys(metadataObject));
+    newMetaKeys = _.difference(metadataKeyExtractor(newMetadata), _.keys(oldMetadata));
     
-    newMetaData = newMetaKeys.reduce(function(pre, cur) { 
-                                        pre[cur] = undefined;
+    newMetadata = newMetaKeys.reduce(function(pre, cur) { 
+                                        pre[cur] = null;
                                         return pre; 
                                      }, {});
 
-    _.defaults(metadataObject, newMetaData);
+    _.defaults(oldMetadata, newMetadata);
 
     return newMetaKeys;
 };
 
 
 module.exports = {
-    metaDataBuilder       : metaDataKeyExtractor,
-    updateMetaData        : updateMetaData,
-    newMetaDataMaintainer : newMetaDataMaintainer,
+    metadataBuilder       : metadataKeyExtractor,
+    updateMetadata        : updateMetadata,
+    newMetadataMaintainer : newMetadataMaintainer,
 };

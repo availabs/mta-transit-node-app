@@ -1,25 +1,25 @@
 {
     "header": {
         "path": "header",
-        "description": "",
+        "description": "header information",
         "mapping": "",
         "notes": ""
     },
     "header,gtfs_realtime_version": {
         "path": "header,gtfs_realtime_version",
-        "description": "",
+        "description": "version of speed specification.",
         "mapping": "",
         "notes": ""
     },
     "header,incrementality": {
         "path": "header,incrementality",
-        "description": "",
+        "description": "determines whether dataset is incremental or full",
         "mapping": "",
         "notes": ""
     },
     "header,timestamp": {
         "path": "header,timestamp",
-        "description": "",
+        "description": "the moment where this dataset was generated on server",
         "mapping": "",
         "notes": ""
     },
@@ -103,13 +103,13 @@
     },
     "entity": {
         "path": "entity",
-        "description": "",
+        "description": "multiple entities can be included in the feed.",
         "mapping": "",
-        "notes": "Test"
+        "notes": ""
     },
     "entity,id": {
         "path": "entity,id",
-        "description": "",
+        "description": "unique identifier for the entity",
         "mapping": "",
         "notes": ""
     },
@@ -295,7 +295,7 @@
     },
     "entity,alert": {
         "path": "entity,alert",
-        "description": "",
+        "description": "\"type\" of the entity",
         "mapping": "",
         "notes": ""
     },
@@ -457,43 +457,43 @@
     },
     "entity,alert,active_period": {
         "path": "entity,alert,active_period",
-        "description": "",
+        "description": "multiple periods can be defined when alert is active",
         "mapping": "",
         "notes": ""
     },
     "entity,alert,informed_entity": {
         "path": "entity,alert,informed_entity",
-        "description": "",
+        "description": "selects which GTFS entities will be affected",
         "mapping": "",
-        "notes": ""
+        "notes": "valid parameters: agency_id, route_id, route_type, stop_id, trip (see TripDescriptor)\n\nmultiple selectors (informed_entity) can be given"
     },
     "entity,alert,cause": {
         "path": "entity,alert,cause",
-        "description": "",
+        "description": "cause of the alert",
         "mapping": "",
-        "notes": ""
+        "notes": "see gtfs-realtime.proto for valid values"
     },
     "entity,alert,effect": {
         "path": "entity,alert,effect",
-        "description": "",
+        "description": "effect of the alert",
         "mapping": "",
-        "notes": ""
+        "notes": "see gtfs-realtime.proto for valid values"
     },
     "entity,alert,url": {
         "path": "entity,alert,url",
-        "description": "",
+        "description": "the given url provides additional information",
         "mapping": "",
         "notes": ""
     },
     "entity,alert,header_text": {
         "path": "entity,alert,header_text",
-        "description": "",
+        "description": "header for the alert will be highlighted",
         "mapping": "",
         "notes": ""
     },
     "entity,alert,header_text,translation": {
         "path": "entity,alert,header_text,translation",
-        "description": "",
+        "description": "multiple languages/translations supported\n\n",
         "mapping": "",
         "notes": ""
     },
@@ -501,7 +501,8 @@
         "path": "entity,alert,header_text,translation,text",
         "description": "",
         "mapping": "",
-        "notes": ""
+        "notes": "Example: \"Stop at Elm street is closed, temporary stop at Oak street\"",
+        "": ""
     },
     "entity,alert,header_text,translation,language": {
         "path": "entity,alert,header_text,translation,language",
@@ -511,7 +512,7 @@
     },
     "entity,alert,description_text": {
         "path": "entity,alert,description_text",
-        "description": "",
+        "description": "Alert description. Additional info to the header text",
         "mapping": "",
         "notes": ""
     },
