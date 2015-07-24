@@ -46,12 +46,15 @@ function renderTree (props) {
         var isDirty    = _.includes(props.dirtyNodes, d),
             isSelected = (d === props.selectedNode);
 
+
         if (isDirty && isSelected) {
             return '#E8C558';
         } else if (isSelected) {
             return '#50BB75';
         } else if (isDirty) {
             return '#E45C37';
+        } else if (_.values(_.omit(d.metadata, 'path')).filter(function(v) { return !!v; }).length) {
+            return '#B9B9BE';
         }
         
         return 'white';
