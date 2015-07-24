@@ -1,6 +1,6 @@
 'use strict';
 
-var React             = require('react'),
+var React             = require('expose?React!react'),
     saveSvgAsPng      = require('save-svg-as-png').saveSvgAsPng,
     jsoneditor        = require('jsoneditor'),
     _                 = require('lodash'),
@@ -9,7 +9,9 @@ var React             = require('react'),
     ActionsCreator    = require('../flux/actions/ActionsCreator'),
     d3Tree            = require('../d3/RT-Tree'),
     Header            = require('./components/layout/Header'),
-    messageTypeToName = require('../utils/apiUtils').messageTypeToName;
+    messageTypeToName = require('../utils/apiUtils').messageTypeToName,
+
+    ExposedUtils      = require('expose?ExposedUtils!../utils/exposedUtils'); // jshint ignore:line
 
 
 

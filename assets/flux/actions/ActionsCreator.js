@@ -50,6 +50,13 @@ module.exports = {
         });
     },
 
+    'addNewDefaultsToAllMetadata' : function (newDefaultsObject) {
+        AppDispatcher.dispatch( { 
+            'type'              : ActionTypes.ADD_NEW_DEFAULTS_TO_ALL_METADATA,
+            'newDefaultsObject' : newDefaultsObject,
+        });
+    },
+
     'commitMetadataChanges' : function () {
         AppDispatcher.dispatch( { 
             'type' : ActionTypes.COMMIT_METADATA_CHANGES,

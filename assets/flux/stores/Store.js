@@ -20,11 +20,13 @@ var ActionTypes   = Constants.ActionTypes,
 
 var _selectedMessageType,
 
-    _messageMetadata       = {},
+    _messageMetadata = {},
 
-    _flaredMessageMetadata = {},
+    _flaredMessageMetadataTrees = {},
 
-    _messageTypeToName     = utils.messageTypeToName,
+    _treeNodeMap = {}, // Easier way to get around the flared trees' nodes. 
+
+    _messageTypeToName = utils.messageTypeToName,
 
     _treeStates = _.mapValues(Constants.MTA_MessageTypes, function() { return newTreeState(); });
 
@@ -50,9 +52,9 @@ var thisStore = assign({}, EventEmitter.prototype, {
     'getState' : function () {
         var state = {
             selectedMessageType : _selectedMessageType,
-            data                : _flaredMessageMetadata[_selectedMessageType],
-            selectedNode        : null, // Reset for _.assign
-            mouseoveredNode     : null,
+            data                : _flaredMessageMetadataTrees[_selectedMessageType],
+            selectedNode        : null, // FIXME: Reset for _.assign. 
+            mouseoveredNode     : null, // Shouldn't need this. Figure out...
         };
 
         _.assign(state, _treeStates[_selectedMessageType]);
@@ -99,6 +101,27 @@ var thisStore = assign({}, EventEmitter.prototype, {
     },
 
 
+    '_handleAddNewDefaultsToAllMetadataObjets' : function (newDefaultsObject) {
+
+        _.forOwn(_messageMetadata, function(metadataMap, messageType) {
+            var dirtyNodes = _treeStates[messageType].dirtyNodes;
+
+            _.forOwn(metadataMap, function (metadata, path) {
+                var newProperties = _.omit(newDefaultsObject, _.keys(metadata));
+
+                if (! _.isEmpty(newProperties)) {
+                    dirtyNodes.push(_treeNodeMap[messageType][path]);
+                    _.assign(metadata, newProperties);
+                }
+            });
+
+            dirtyNodes = _.uniq(dirtyNodes);
+        }); 
+
+        this._emitStateChangedEvent();
+    },
+
+
     '_handleChangeMessageMetadata' : function (newMetadata) {
         _.assign(_treeStates[_selectedMessageType].selectedNode.metadata, newMetadata);
 
@@ -110,7 +133,7 @@ var thisStore = assign({}, EventEmitter.prototype, {
     '_handleServerResponse' : function (messageType, data) {
         _messageMetadata[messageType] = data;
 
-        _flaredMessageMetadata[messageType] = toFlare(_messageTypeToName[messageType], data); 
+        _flaredMessageMetadataTrees[messageType] = toFlare(messageType, data); 
 
         this._emitStateChangedEvent();
     },
@@ -155,6 +178,10 @@ thisStore.dispatchToken = AppDispatcher.register(function(payload) {
         thisStore._handleChangeMessageMetadata(payload.newMetadata);
         break;
 
+    case ActionTypes.ADD_NEW_DEFAULTS_TO_ALL_METADATA:
+        thisStore._handleAddNewDefaultsToAllMetadataObjets(payload.newDefaultsObject);
+        break;
+
     case ActionTypes.COMMIT_METADATA_CHANGES:
         thisStore._handleCommitMetadataChanges();
         break;
@@ -185,13 +212,15 @@ function markTreeNodeDirty () {
 }
 
 
-function toFlare (rootName, data) {
-    var flare   = newFlareNode(rootName),
+function toFlare (messageType, data) {
+    var flare   = newFlareNode(_messageTypeToName[messageType]),
         isoTree = { '': flare },
         keys    = Object.keys(data).map(function (k) { return k.split(','); }),
         i;
 
     flare.metadata.notes = 'Changes to the root are not persisted.';
+
+    _treeNodeMap[messageType] = {};
 
     keys = keys.sort(function(a,b) {
         var i, comp;
@@ -214,6 +243,9 @@ function toFlare (rootName, data) {
             parentNode = isoTree[parentName];
 
         isoTree[thisName] = thisNode;
+
+        _treeNodeMap[messageType][thisName] = thisNode;
+
         data[thisName]    = thisNode.metadata;  // Link for easy shared mutations.
 
         parentNode.children = parentNode.children || [];
