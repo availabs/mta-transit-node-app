@@ -16,9 +16,22 @@ module.exports = {
     },
 
 
-    'mouseoverNode' : function (node) {
+    'mouseenterEditor' : function () {
         AppDispatcher.dispatch( { 
-            'type' : ActionTypes.MOUSEOVER_NODE,
+            'type' : ActionTypes.MOUSEENTER_EDITOR,
+        });
+    },
+
+    'mouseleaveEditor' : function () {
+        AppDispatcher.dispatch( { 
+            'type' : ActionTypes.MOUSELEAVE_EDITOR,
+        });
+    },
+
+
+    'mouseenterNode' : function (node) {
+        AppDispatcher.dispatch( { 
+            'type' : ActionTypes.MOUSEENTER_NODE,
             'node' : node,
         });
     },
@@ -29,19 +42,12 @@ module.exports = {
         });
     },
 
-    'selectNode' : function (node) {
+    'mouseClick' : function () {
+        console.log('click');
         AppDispatcher.dispatch( { 
-            'type' : ActionTypes.SELECT_NODE,
-            'node' : node,
+            'type' : ActionTypes.MOUSE_CLICK,
         });
     },
-
-    'deselectNode' : function () {
-        AppDispatcher.dispatch( { 
-            'type' : ActionTypes.DESELECT_NODE,
-        });
-    },
-
 
     'changeMessageMetadata' : function (newMetadata) {
         AppDispatcher.dispatch( { 

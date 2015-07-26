@@ -34,18 +34,13 @@ function renderTree (props) {
     var nodes = tree.nodes(props.data),
         links = tree.links(nodes);
 
-    function onClick (d) {
-        if (d !== props.selectedNode) {
-           ActionsCreator.selectNode(d);
-        } else {
-           ActionsCreator.deselectNode();
-        }
-    }
+    var mouseActions = { "mouseenter" : ActionsCreator.mouseenterNode ,
+                         "mouseout"   : ActionsCreator.mouseoutNode   , };
+
 
     function getColor (d) {
-        var isDirty    = _.includes(props.dirtyNodes, d),
-            isSelected = (d === props.selectedNode);
-
+        var isSelected = (d === props.selectedNode),
+            isDirty    = _.includes(props.dirtyNodes, d);
 
         if (isDirty && isSelected) {
             return '#E8C558';
@@ -54,10 +49,10 @@ function renderTree (props) {
         } else if (isDirty) {
             return '#E45C37';
         } else if (_.values(_.omit(d.metadata, 'path')).filter(function(v) { return !!v; }).length) {
-            return '#B9B9BE';
+            return '#B9B9BE'; // Metadata has been added.
         }
         
-        return 'white';
+        return 'white'; // No metadata edits yet.
     }
 
     theG.selectAll("path.link")
@@ -76,9 +71,7 @@ function renderTree (props) {
     node.append("circle")
         .attr("r", 7.5)
         .style('fill', getColor)
-        .on({ "click"     : onClick,
-              "mouseover" : ActionsCreator.mouseoverNode,
-              "mouseout"  : ActionsCreator.mouseoutNode, });
+        .on(mouseActions);
 
     node.append("text")
         .attr("dx", function(d) { return d.children ? -8 : 8; })
@@ -86,8 +79,8 @@ function renderTree (props) {
         .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
         .style('font-size', '12px')
         .attr("class", "label")
-        .on( "click", onClick )
-        .text(function(d) { return d.name; });
+        .text(function(d) { return d.name; })
+        .on(mouseActions);
 
     return svg;
 }

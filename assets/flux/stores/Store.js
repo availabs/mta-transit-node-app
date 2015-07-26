@@ -20,6 +20,8 @@ var ActionTypes   = Constants.ActionTypes,
 
 var _selectedMessageType,
 
+    _mouseIsInEditor = false,
+
     _messageMetadata = {},
 
     _flaredMessageMetadataTrees = {},
@@ -29,7 +31,6 @@ var _selectedMessageType,
     _messageTypeToName = utils.messageTypeToName,
 
     _treeStates = _.mapValues(Constants.MTA_MessageTypes, function() { return newTreeState(); });
-
 
 
 
@@ -74,29 +75,44 @@ var thisStore = assign({}, EventEmitter.prototype, {
     },
 
 
-    '_handleMouseoverNode' : function (mouseoveredNode) {
-        if(_treeStates[_selectedMessageType].mouseoveredNode !== mouseoveredNode) {
-            _treeStates[_selectedMessageType].mouseoveredNode = mouseoveredNode;
-            this._emitStateChangedEvent();
-        }
+    '_handleMouseenterEditor' : function () {
+        _mouseIsInEditor = true;
+    },
+
+    '_handleMouseleaveEditor' : function () {
+        if (_treeStates[_selectedMessageType].mouseoveredNode) { return; } //FIXME: Not working as it should.
+
+        _mouseIsInEditor = false;
+    },
+
+
+    '_handleMouseenterNode' : function (mouseoveredNode) {
+        _treeStates[_selectedMessageType].mouseoveredNode = mouseoveredNode;
+        this._emitStateChangedEvent();
     },
 
     '_handleMouseoutNode' : function () {
+        if (!_selectedMessageType || _mouseIsInEditor) { return; }
+
         _treeStates[_selectedMessageType].mouseoveredNode = null;
         
         this._emitStateChangedEvent();
     },
 
 
-    '_handleSelectNode' : function (node) {
-        _treeStates[_selectedMessageType].selectedNode = node;
-        
-        this._emitStateChangedEvent();
-    },
+    '_handleMouseClick' : function () {
+        var treeState = _treeStates[_selectedMessageType];
 
-    '_handleDeselectNode' : function () {
-        _treeStates[_selectedMessageType].selectedNode = null;
-        
+        if (!treeState || (treeState.selectedNode && _mouseIsInEditor)) { return; }
+
+        if (_mouseIsInEditor) {
+            // editor is over the mouseovered node. FIXME: Not working as should.
+            treeState.selectedNode = treeState.mouseoveredNode;
+        } else {
+            // Toggle selected node.
+            treeState.selectedNode = (treeState.selectedNode === treeState.mouseoveredNode) ? null : treeState.mouseoveredNode;
+        }
+
         this._emitStateChangedEvent();
     },
 
@@ -145,7 +161,6 @@ var thisStore = assign({}, EventEmitter.prototype, {
 
         this._emitStateChangedEvent();
     },
-
 });
 
 
@@ -158,20 +173,24 @@ thisStore.dispatchToken = AppDispatcher.register(function(payload) {
         thisStore._handleSelectMessageType(payload.messageType);
         break;
 
-    case ActionTypes.MOUSEOVER_NODE:
-        thisStore._handleMouseoverNode(payload.node);
+    case ActionTypes.MOUSEENTER_EDITOR:
+        thisStore._handleMouseenterEditor();
+        break;
+
+    case ActionTypes.MOUSELEAVE_EDITOR:
+        thisStore._handleMouseleaveEditor();
+        break;
+
+    case ActionTypes.MOUSEENTER_NODE:
+        thisStore._handleMouseenterNode(payload.node);
         break;
 
     case ActionTypes.MOUSEOUT_NODE:
         thisStore._handleMouseoutNode();
         break;
 
-    case ActionTypes.SELECT_NODE:
-        thisStore._handleSelectNode(payload.node);
-        break;
-
-    case ActionTypes.DESELECT_NODE:
-        thisStore._handleDeselectNode();
+    case ActionTypes.MOUSE_CLICK:
+        thisStore._handleMouseClick();
         break;
 
     case ActionTypes.CHANGE_MESSAGE_METADATA:

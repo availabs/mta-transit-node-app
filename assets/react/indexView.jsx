@@ -29,11 +29,12 @@ var ThisPage = React.createClass ({
 
         vizSVG.id = 'theTree';
 
+        console.log('RENDER TREE');
+
         //FIXME: Use selection.enter/exit
         while (vizArea.firstChild) {
             vizArea.removeChild(vizArea.firstChild);
         }
-
 
         vizArea.appendChild(vizSVG);
     },
@@ -84,10 +85,9 @@ var ThisPage = React.createClass ({
     },
 
 
+    //TODO: 
     componentDidMount: function () {
         var ed = this.state.editorContainer;
-
-        document.body.appendChild(ed);
 
         ed.style.overflow        = 'hidden';
         ed.style.position        = 'fixed';
@@ -98,32 +98,49 @@ var ThisPage = React.createClass ({
         ed.style.left            = '10px';
         ed.style.display         = 'none';
 
+        // TODO: Move this to interval in didMount
+
+        var intervalID = setInterval (function () {
+            if (window.$ && window.$(ed).draggable) {
+                clearInterval(intervalID);
+                window.$(ed).draggable().resizable();
+            }
+        }, 100);
+
+        ed.addEventListener('mouseenter', ActionsCreator.mouseenterEditor ) ;
+        ed.addEventListener('mouseleave', ActionsCreator.mouseleaveEditor ) ;
+
+        document.body.appendChild(ed);
+        document.body.addEventListener('click', ActionsCreator.mouseClick);
+
         theStore.registerStateChangedListener(this._handleStateChange);
 
         this._showLogo();
     },
 
-    
-    componentDidUpdate: function (prevProps, prevState) {
-        var state    = this.state,
-            metadata = (state.selectedNode && state.selectedNode.metadata) || 
-                        (state.mouseoveredNode && state.mouseoveredNode.metadata),
-            ed       = state.editorContainer;
+    _updateEditor : function (prevState, nextState) {
+        var metadata = (nextState.selectedNode && nextState.selectedNode.metadata) || 
+                        (nextState.mouseoveredNode && nextState.mouseoveredNode.metadata),
+            ed       = nextState.editorContainer;
 
-        this._renderTree();
-
-        if (! window.$(ed).data('draggable') ) {
-            window.$(ed).draggable().resizable();
-        }
-
+        
         if (metadata) {
             ed.style.display = 'inline-block';
-            if (!state.selectedNode || (state.selectedNode !== prevState.selectedNode)) {
+            if (!nextState.selectedNode || (nextState.selectedNode !== prevState.selectedNode)) {
                 this._editor.set(metadata);
             }
         } else {
             ed.style.display = 'none';
         }
+    },
+    
+    componentDidUpdate: function () {
+        this._renderTree();
+    },
+
+    'shouldComponentUpdate' : function (nextProps, nextState) {
+        this._updateEditor(this.state, nextState);
+        return (this.state.selectedMessageType !== nextState.selectedMessageType);
     },
 
 

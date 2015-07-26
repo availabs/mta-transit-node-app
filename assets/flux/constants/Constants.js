@@ -9,7 +9,12 @@ module.exports = {
     ActionTypes : keyMirror({
         SELECT_MESSAGE_TYPE              : null,
 
-        MOUSEOVER_NODE                   : null,
+        MOUSE_CLICK                      : null,
+
+        MOUSEENTER_EDITOR                : null,
+        MOUSELEAVE_EDITOR                : null,
+
+        MOUSEENTER_NODE                  : null,
         MOUSEOUT_NODE                    : null,
 
         SELECT_NODE                      : null,
