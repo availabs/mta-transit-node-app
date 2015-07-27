@@ -84,7 +84,6 @@ var ThisPage = React.createClass ({
         };
     },
 
-
     //TODO: 
     componentDidMount: function () {
         var ed = this.state.editorContainer;
@@ -107,8 +106,8 @@ var ThisPage = React.createClass ({
             }
         }, 100);
 
-        ed.addEventListener('mouseenter', ActionsCreator.mouseenterEditor ) ;
-        ed.addEventListener('mouseleave', ActionsCreator.mouseleaveEditor ) ;
+        ed.addEventListener('mouseenter', ActionsCreator.mouseenterEditor );
+        ed.addEventListener('mouseleave', ActionsCreator.mouseleaveEditor );
 
         document.body.appendChild(ed);
         document.body.addEventListener('click', ActionsCreator.mouseClick);
@@ -134,13 +133,16 @@ var ThisPage = React.createClass ({
         }
     },
     
-    componentDidUpdate: function () {
-        this._renderTree();
-    },
+    componentDidUpdate: function (prevProps, prevState) {
+        this._updateEditor(prevState, this.state);
 
-    'shouldComponentUpdate' : function (nextProps, nextState) {
-        this._updateEditor(this.state, nextState);
-        return (this.state.selectedMessageType !== nextState.selectedMessageType);
+        // Ugh.... FIXME
+        if ((prevState.selectedMessageType !== this.state.selectedMessageType) ||
+            (prevState.dirtyNodes          !== this.state.dirtyNodes)          ||
+            (prevState.selectedNode        !== this.state.selectedNode)) {
+
+                this._renderTree();
+        }
     },
 
 

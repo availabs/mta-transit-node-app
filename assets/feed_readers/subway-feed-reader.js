@@ -42,4 +42,4 @@ function parse (callback) {
     };
 }
 
-module.exports = { readFeed: readFeed };
+module.exports = readFeed;

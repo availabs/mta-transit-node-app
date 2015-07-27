@@ -2,6 +2,11 @@
 
 'use strict';
 
-var feedReader = require('../feed_readers/bus-feed-reader');
+var feedReader = require('../feed_readers/bus-feed-reader'),
 
-feedReader('vehicle');
+    params     = { LineRef: 'MTA NYCT_B1' },
+                  
+    callback   = function (msg) { console.log(JSON.stringify(msg, null, 4)); };
+
+
+feedReader('vehicle', params, callback);

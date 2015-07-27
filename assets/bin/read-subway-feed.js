@@ -2,6 +2,8 @@
 
 'use strict';
 
-var feedReader = require('../feed_readers/subway-feed-reader');
+var feedReader = require('../feed_readers/subway-feed-reader'),
 
-feedReader();
+    callback   = function (msg) { console.log(JSON.stringify(msg, null, 4)); };
+
+feedReader(callback);

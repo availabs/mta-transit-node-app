@@ -17,7 +17,7 @@
     },
     "Siri,ServiceDelivery,ResponseTimestamp": {
         "path": "Siri,ServiceDelivery,ResponseTimestamp",
-        "description": "",
+        "description": "The timestamp on the MTA Bus Time server at the time the request was fulfilled",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -25,7 +25,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery",
-        "description": "",
+        "description": "SIRI container for VehicleMonitoring response data",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -33,7 +33,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity",
-        "description": "",
+        "description": "SIRI container for data about a particular vehicle",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -41,7 +41,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney",
-        "description": "",
+        "description": "A complete MonitoredVehicleJourney element. See the MonitoredVehicleJourney page for more information",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -49,7 +49,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,LineRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,LineRef",
-        "description": "",
+        "description": "The 'fully qualified' route name (GTFS agency ID + route ID) for the trip the vehicle is serving. Not intended to be customer-facing.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -57,7 +57,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DirectionRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DirectionRef",
-        "description": "",
+        "description": "The GTFS direction for the trip the vehicle is serving",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -65,7 +65,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef",
-        "description": "",
+        "description": "A compound element uniquely identifying the trip the vehicle is serving",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -73,7 +73,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef,DataFrameRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef,DataFrameRef",
-        "description": "",
+        "description": "The GTFS service date for the trip the vehicle is serving",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -81,7 +81,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef,DatedVehicleJourneyRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,FramedVehicleJourneyRef,DatedVehicleJourneyRef",
-        "description": "",
+        "description": "The GTFS trip ID for trip the vehicle is serving, prefixed by the GTFS agency ID",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -89,7 +89,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,JourneyPatternRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,JourneyPatternRef",
-        "description": "",
+        "description": "The GTFS Shape_ID, prefixed by GTFS Agency ID",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -97,7 +97,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,PublishedLineName": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,PublishedLineName",
-        "description": "",
+        "description": "The GTFS route_short_name",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -105,7 +105,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OperatorRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OperatorRef",
-        "description": "",
+        "description": "GTFS Agency_ID",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -113,15 +113,23 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OriginRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OriginRef",
-        "description": "",
+        "description": "The GTFS stop ID for the first stop on the trip the vehicle is serving, prefixed by Agency ID.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
+    "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OriginAimedDepartureTime": {
+        "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,OriginAimedDepartureTime",
+        "description": "If a bus has not yet departed, OriginAimedDepartureTime indicates the scheduled departure time of that bus from that terminal in ISO8601 format.",
+        "mapping": "",
+        "notes": "Manually added.",
+        "linkTo": "",
+        "docLinks": ""
+    },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DestinationRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DestinationRef",
-        "description": "",
+        "description": "The GTFS stop ID for the last stop on the trip the vehicle is serving, prefixed by Agency ID.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -129,7 +137,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DestinationName": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,DestinationName",
-        "description": "",
+        "description": "The GTFS trip_headsign for the trip the vehicle is serving.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -137,7 +145,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,SituationRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,SituationRef",
-        "description": "",
+        "description": "SituationRef, present only if there is an active service alert covering this call.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -145,7 +153,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,Monitored": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,Monitored",
-        "description": "",
+        "description": "Always true.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -153,7 +161,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,VehicleLocation": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,VehicleLocation",
-        "description": "",
+        "description": "The most recently recorded or inferred coordinates of this vehicle.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -177,31 +185,39 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,Bearing": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,Bearing",
-        "description": "",
+        "description": "Vehicle bearing: 0 is East, increments counter-clockwise.",
         "mapping": "",
-        "notes": "",
+        "notes": "example: <Bearing>345.7</Bearing>",
         "linkTo": "",
         "docLinks": ""
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,ProgressRate": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,ProgressRate",
+        "description": "Indicator of whether the bus is making progress (i.e. moving, generally), not moving (with value noProgress), laying over before beginning a trip (value layover), or serving a trip prior to one which will arrive (prevTrip).",
+        "mapping": "",
+        "notes": "Values: moving, noProgress, layover, prevTrip.",
+        "linkTo": "",
+        "docLinks": ""
+    },
+    "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,ProgressStatus": {
+        "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,ProgressStatus",
         "description": "",
         "mapping": "",
-        "notes": "",
+        "notes": "Manually added.",
         "linkTo": "",
         "docLinks": ""
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,BlockRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,BlockRef",
-        "description": "",
+        "description": "Depending on the system's level of confidence, the GTFS block_id the bus is serving. Please see \"Transparency of Block vs. Trip-Level Assignment\" section below.",
         "mapping": "",
-        "notes": "",
+        "notes": "MTA Bus Time tries to assign buses to blocks- a sequence of trips that start and end at a depot.  This allows the system to make a statement about what a bus will do after it reaches the end of its current trip.  \nHowever, there is not always enough affirmative and corresponding evidence to make such a strong statement.  In this case, MTA Bus Time falls back to a trip-level assignment, where it just picks a trip from the schedule that is representative of the route and stopping pattern that the bus is likely to pursue.\nThe SIRI API now reflects this distinction as described here and in other items below.  If the assignment is block-level, the new BlockReffield of the MonitoredVehicleJourney is present, and populated with the assigned block id.",
         "linkTo": "",
         "docLinks": ""
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,VehicleRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,VehicleRef",
-        "description": "",
+        "description": "The vehicle ID, preceded by the GTFS agency ID.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -209,15 +225,15 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall",
-        "description": "",
+        "description": "Call data about a particular stop.",
         "mapping": "",
-        "notes": "",
+        "notes": "In StopMonitoring, it is the stop of interest; in VehicleMonitoring it is the next stop the bus will make.",
         "linkTo": "",
         "docLinks": ""
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions",
-        "description": "",
+        "description": "SIRI container for extensions to the standard",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -225,7 +241,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances",
-        "description": "",
+        "description": "The MTA Bus Time extensions to show distance of the vehicle from the stop",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -233,7 +249,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,StopsFromCall": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,StopsFromCall",
-        "description": "",
+        "description": "The number of stops on the vehicle's current trip until the stop in question, starting from 0",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -241,7 +257,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,CallDistanceAlongRoute": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,CallDistanceAlongRoute",
-        "description": "",
+        "description": "The distance of the stop from the beginning of the trip/route.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -249,7 +265,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,DistanceFromCall": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,DistanceFromCall",
-        "description": "",
+        "description": "The distance from the vehicle to the stop along the route, in meters.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -257,15 +273,15 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,PresentableDistance": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,Extensions,Distances,PresentableDistance",
-        "description": "",
+        "description": "The distance displayed in the UI",
         "mapping": "",
-        "notes": "",
+        "notes": "The PresentableDistance field:\nThe logic that determines whether stops or miles are shown in the PresentableDistance field is below:\nshow distance in miles if and only if:\n   (distance in miles to _immediate next stop_ is > D) OR (distance in stops to current stop is > N AND distance in miles to current stop > E)\nin other words, show distance in stops if and only if (the below is just the inverse of the above, according to DeMorgan's law):\n   (distance in miles to _immediate next stop_ is <= D) AND (distance in stops to current stop <= N OR distance in miles to current stop <= E)\nShow \"approaching\" if and only if:\n  distance_in_miles to immediate next stop < P\nshow \"at stop\" if and only if:\n  distance_in_miles to immediate next stop < T\nCurrent Parameter Values:\nParameterValue    D .5 milesN 3 stopsE .5 milesP 500 feetT 100 feet\n",
         "linkTo": "",
-        "docLinks": ""
+        "docLinks": "https://bustime.mta.info/wiki/Developers/SIRIMonitoredVehicleJourney#HThePresentableDistancefield:"
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,StopPointRef": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,StopPointRef",
-        "description": "",
+        "description": "The GTFS stop ID of the stop prefixed by agency_id.",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -273,15 +289,31 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,VisitNumber": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,VisitNumber",
-        "description": "",
+        "description": "The ordinal value of the visit of this vehicle to this stop, always 1 in this implementation ",
         "mapping": "",
         "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
+    "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,ExpectedArrivalTime": {
+        "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,ExpectedArrivalTime",
+        "description": "Predicted arrival times in ISO8601 format",
+        "mapping": "",
+        "notes": "Manually added.",
+        "linkTo": "",
+        "docLinks": ""
+    },
+    "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,ExpectedDepartureTime": {
+        "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,ExpectedDepartureTime",
+        "description": "Predicted departure times in ISO8601 format",
+        "mapping": "",
+        "notes": "Manually added.",
+        "linkTo": "",
+        "docLinks": ""
+    },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,StopPointName": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,VehicleActivity,MonitoredVehicleJourney,MonitoredCall,StopPointName",
-        "description": "",
+        "description": "The GTFS stop name of the stop",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -305,7 +337,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,ResponseTimestamp": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,ResponseTimestamp",
-        "description": "",
+        "description": "The timestamp of the last real-time update from the particular vehicle",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -313,7 +345,7 @@
     },
     "Siri,ServiceDelivery,VehicleMonitoringDelivery,ValidUntil": {
         "path": "Siri,ServiceDelivery,VehicleMonitoringDelivery,ValidUntil",
-        "description": "",
+        "description": "The time until which the response data is valid until.",
         "mapping": "",
         "notes": "",
         "linkTo": "",

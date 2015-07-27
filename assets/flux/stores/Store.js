@@ -157,7 +157,7 @@ var thisStore = assign({}, EventEmitter.prototype, {
     '_handleCommitMetadataChanges' : function () {
         sailsWebApi.postMetadataUpdate(_selectedMessageType, _messageMetadata[_selectedMessageType]);
 
-        _treeStates[_selectedMessageType].dirtyNodes.length = 0;
+        _treeStates[_selectedMessageType].dirtyNodes = [];
 
         this._emitStateChangedEvent();
     },
