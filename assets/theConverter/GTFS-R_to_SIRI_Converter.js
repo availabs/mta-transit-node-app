@@ -1,10 +1,10 @@
 'use strict';
 
-
-
 //TODO: Remove next line
 /* jshint unused: false */
 
+
+var GTFS_Data = require('./GTFS_Data');
 
 
 function getStopMonitoringResponse () {
@@ -27,7 +27,7 @@ function getVehicleMonitoringResponse () {
 
 function getStopMonitoringServiceDelivery () {
     return {
-        "ResponseTimestamp"         : getBusMonitoringServiceDeliveryResponseTimestamp() ,
+        "ResponseTimestamp"         : getStopMonitoringServiceDeliveryResponseTimestamp() ,
         "StopMonitoringDelivery"    : getStopMonitoringDelivery()                        ,
         "SituationExchangeDelivery" : getSituationExchangeDelivery()                     ,
     };
@@ -43,7 +43,7 @@ function getVehicleMonitoringServiceDelivery () {
 
 
 
-function getBusMonitoringServiceDeliveryResponseTimestamp () {
+function getStopMonitoringServiceDeliveryResponseTimestamp () {
     //TODO: Implement;
     return null;
 }
@@ -378,8 +378,9 @@ function convertToVehicleMonitoringResponse (gtfsr_msg) {}
 
 
 function test () {
+    console.log(GTFS_Data.agency);
     console.log(JSON.stringify(getStopMonitoringResponse(), null, '\t'));
-    console.log(JSON.stringify(getVehicleMonitoringResponse(), null, '\t'));
+    //console.log(JSON.stringify(getVehicleMonitoringResponse(), null, '\t'));
 }
 
 
