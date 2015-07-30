@@ -5,38 +5,47 @@
 
 
 var GTFS_Data  = require('./GTFS_Data'),
-    GTFSr_Data = require('./GTFS-R_Data');
+    GTFSr_Data = require('./GTFS-R_Data'),
+    utils      = require('./utils');
 
 
 function getStopMonitoringResponse (getParams) {
-    return {
+    var response = {
         "Siri" : {
             "ServiceDelivery" : getStopMonitoringServiceDelivery(getParams),
         },
     };
+
+    response.Siri.ServiceDelivery.ResponseTimestamp = utils.getTimestamp();
+
+    return response;
 }
 
 function getVehicleMonitoringResponse (getParams) {
-    return {
+    var response = {
         "Siri" : {
             "ServiceDelivery" : getVehicleMonitoringServiceDelivery(getParams),
         },
     };
+
+    response.Siri.ServiceDelivery.ResponseTimestamp = utils.getTimestamp();
+
+    return response;
 }
 
 
 
 function getStopMonitoringServiceDelivery (getParams) {
     return {
-        "ResponseTimestamp"         : getStopMonitoringServiceDeliveryResponseTimestamp(getParams) ,
-        "StopMonitoringDelivery"    : getStopMonitoringDelivery(getParams)                         ,
-        "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams)                      ,
+        // "ResponseTimestamp" applied in caller.
+        "StopMonitoringDelivery"    : getStopMonitoringDelivery(getParams)    ,
+        "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams) ,
     };
 }
 
 function getVehicleMonitoringServiceDelivery (getParams) {
     return {
-        "ResponseTimestamp"         : getVehicleMonitoringServiceDeliveryResponseTimestamp(getParams) ,
+        // "ResponseTimestamp" applied in caller
         "VehicleMonitoringDelivery" : getVehicleMonitoringDelivery(getParams)                         ,
         "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams)                         ,
     };
@@ -119,6 +128,21 @@ function getSituationExchangeDelivery (getParams) {
     return null;
 }
 
+function getStopMonitoringMonitoredVehicleJourney (getParams) {
+    var mvj = getMonitoredVehicleJourney();
+
+    mvj.MonitoredCall = getStopMonitoringMonitoredCall();
+
+    return mvj;
+}
+
+function getVehicleMonitoringMonitoredVehicleJourney (getParams) {
+    var mvj = getMonitoredVehicleJourney();
+
+    mvj.MonitoredCall = getVehicleMonitoringMonitoredCall();
+
+    return mvj;
+}
 
 function getMonitoredVehicleJourney (getParams) {
     return {
@@ -140,7 +164,7 @@ function getMonitoredVehicleJourney (getParams) {
         "ProgressStatus"           : getProgressStatus(getParams)           ,
         "BlockRef"                 : getBlockRef(getParams)                 ,
         "VehicleRef"               : getVehicleRef(getParams)               ,
-        "MonitoredCall"            : getMonitoredCall(getParams)            ,
+        //"MonitoredCall"            Filled in by caller for stop or vehicle reponse.
         "OnwardCalls"              : getOnwardCalls(getParams)              ,
     };
 }
@@ -168,17 +192,29 @@ function getVehicleLocation (getParams) {
 }
 
 
-function getMonitoredCall (getParams) {
+function getStopMonitoringMonitoredCall (stop_id) {
+    // TODO: Implement.
+    return null;
+}
+
+
+function getVehicleMonitoringMonitoredCall (train_id) {
+    //TODO: Implement;
+    return null;
+}
+
+
+function getCall (stop_time_update) {
     return {
-        "Extensions"            : { "Distances" : getDistances(getParams), },
+        "Extensions"            : { "Distances" : getDistances(stop_time_update), },
 
-        "ExpectedArrivalTime"   : getExpectedArrivalTime(getParams)   ,
-        "ExpectedDepartureTime" : getExpectedDepartureTime(getParams) ,
+        "ExpectedArrivalTime"   : getExpectedArrivalTime(stop_time_update)   ,
+        "ExpectedDepartureTime" : getExpectedDepartureTime(stop_time_update) ,
 
-        "StopPointRef"          : getStopPointRef(getParams)          ,
-        "StopPointName"         : getStopPointName(getParams)         ,
+        "StopPointRef"          : getStopPointRef(stop_time_update)          ,
+        "StopPointName"         : getStopPointName(stop_time_update)         ,
 
-        "VisitNumber"           : getVisitNumber(getParams)           ,
+        "VisitNumber"           : getVisitNumber(stop_time_update)           ,
     };
 }
 
@@ -272,15 +308,17 @@ function getBlockRef (getParams) {
 }
 
 
-function getVehicleRef (getParams) {
-    //TODO: Implement
+function getVehicleRef (getParams) { //TODO: Implement
     return null;
 }
 
 
-function getOnwardCalls (getParams) {
-    //TODO: Implement
-    return null;
+function getOnwardCalls (getParams) { //TODO: Implement
+    var train_id = getParams.train_id;
+
+    var stop_time_updates = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.stop_time_update;
+
+    return stop_time_updates.map(getCall);
 }
 
 
@@ -318,33 +356,33 @@ function getDistances (getParams) {
 }
 
 
-function getExpectedArrivalTime (getParams) {
-    //TODO: Implement
+function getExpectedArrivalTime (stop_time_update) { // Note: in docs, but not in actual SIRI.
+    console.log(stop_time_update);
+    return utils.getTimestampFromPosix(stop_time_update.arrival.time.low);
+}
+
+
+function getExpectedDepartureTime (stop_time_update) {
+    if (stop_time_update.departure) {
+        return utils.getTimestampFromPosix(stop_time_update.departure.time.low);
+    }
+
     return null;
 }
 
 
-function getExpectedDepartureTime (getParams) {
-    //TODO: Implement
-    return null;
-}
-
-
-function getStopPointRef (getParams) {
-    //TODO: Implement
-    return null;
+function getStopPointRef (stop_time_update) {
+    return 'MTA_' + stop_time_update.stop_id;
 }
 
 
 function getVisitNumber (getParams) {
-    //TODO: Implement
-    return null;
+    return 1;
 }
 
 
-function getStopPointName (getParams) {
-    //TODO: Implement
-    return null;
+function getStopPointName (stop_time_update) {
+    return GTFS_Data.stops[stop_time_update.stop_id].stop_name;
 }
 
 
@@ -373,16 +411,10 @@ function getCallDistanceAlongRoute (getParams) {
 
 
 
-function convertToStopMonitoringResponse (gtfsr_msg) {}
-
-function convertToVehicleMonitoringResponse (gtfsr_msg) {}
-
-
 function test (getParams) {
-    console.log(GTFS_Data.agency);
-    console.log(GTFSr_Data.vehicleIndex);
-    console.log(JSON.stringify(getStopMonitoringResponse(getParams), null, '\t'));
-    //console.log(JSON.stringify(getVehicleMonitoringResponse(getParams), null, '\t'));
+    console.log(getParams);
+    //console.log(JSON.stringify(getStopMonitoringResponse(getParams), null, '\t'));
+    console.log(JSON.stringify(getVehicleMonitoringResponse(getParams), null, '\t'));
 }
 
 

@@ -7,20 +7,32 @@
 
 
 
-function zeroPadded(num, len) {
+function padLeft(num, len) {
    return ('0000' + num).slice(-len);
 }
 
+function getTimestampFromPosix (posixTime) {
+    return getTimestamp(new Date(posixTime * 1000));
+}
 
-function getTimeStringFromPosix (posixTime) {
-    var jsDate    = new Date(posixTime * 1000),
-        year      = jsDate.getFullYear(),
-        month     = zeroPadded(jsDate.getMonth() + 1, 2),
-        date      = zeroPadded(jsDate.getDate(), 2),
-        hours     = zeroPadded(jsDate.getHours(), 2),
-        minutes   = zeroPadded(jsDate.getMinutes(), 2),
-        seconds   = zeroPadded(jsDate.getSeconds(), 2),
-        millisecs = zeroPadded(jsDate.getMilliseconds(), 3);
+function getTimestamp (jsDate) {
+    var year,
+        month,
+        date,
+        hours,
+        minutes,
+        seconds,
+        millisecs;
+
+    jsDate    = jsDate || new Date();
+
+    year      = jsDate.getFullYear();
+    month     = padLeft(jsDate.getMonth() + 1, 2);
+    date      = padLeft(jsDate.getDate(), 2);
+    hours     = padLeft(jsDate.getHours(), 2);
+    minutes   = padLeft(jsDate.getMinutes(), 2);
+    seconds   = padLeft(jsDate.getSeconds(), 2);
+    millisecs = padLeft(jsDate.getMilliseconds(), 3);
 
     return [year, month, date].join('-') +
            'T'   +
@@ -30,7 +42,7 @@ function getTimeStringFromPosix (posixTime) {
 
 
 
-function getLineRef (route_id) {
+function getLineRefFromRouteID (route_id) {
     /* The 'fully qualified' route name (GTFS agency ID + route ID) for the trip the vehicle is serving. */
     return 'MTA NYCT_' + route_id;
 }
@@ -99,4 +111,7 @@ function alertToProgressRate (alert) {
     
 }
 
-module.exports = {};
+module.exports = {
+    getTimestamp          : getTimestamp,
+    getTimestampFromPosix : getTimestampFromPosix,
+};
