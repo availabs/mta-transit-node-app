@@ -229,15 +229,17 @@ function getCall (stop_time_update) {
 }
 
 
-function getLineRef (getParams) {
-    //TODO: Implement
-    return null;
+function getLineRef (train_id) {
+    return 'MTA_' + GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip.route_id;
 }
 
 
-function getDirectionRef (getParams) {
-    //TODO: Implement
-    return null;
+function getDirectionRef (train_id) {
+    var trip_id = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip.trip_id;
+
+    var direction = trip_id.charAt(trip_id.lastIndexOf('.') + 1);
+
+    return (direction === 'N') ? 1 : 3;
 }
 
 
@@ -247,9 +249,8 @@ function getJourneyPatternRef (getParams) {
 }
 
 
-function getPublishedLineName (getParams) {
-    //TODO: Implement
-    return null;
+function getPublishedLineName (train_id) {
+    return GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip.route_id;
 }
 
 
@@ -264,9 +265,10 @@ function getOriginRef (getParams) {
 }
 
 
-function getDestinationRef (getParams) {
-    //TODO: Implement
-    return null;
+function getDestinationRef (train_id) {
+    var stop_time_updates = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.stop_time_update;
+
+    return 'MTA_' + stop_time_updates[stop_time_updates.length - 1].stop_id;
 }
 
 
@@ -287,9 +289,8 @@ function getSituationRef (getParams) {
 }
 
 
-function getMonitored (getParams) {
-    //TODO: Implement
-    return null;
+function getMonitored () {
+    return true;
 }
 
 
@@ -311,6 +312,14 @@ function getProgressStatus (getParams) {
 }
 
 
+/*  PJT: I don't think this applies....
+    
+    From https://developers.google.com/transit/gtfs/reference#trips_block_id_field
+    The block_id field identifies the block to which the trip belongs. 
+    A block consists of two or more sequential trips made using the same vehicle, 
+    where a passenger can transfer from one trip to the next just by staying in the vehicle. 
+    The block_id must be referenced by two or more trips in trips.txt.
+ */
 function getBlockRef (getParams) {
     //TODO: Implement
     return null;
