@@ -4,368 +4,369 @@
 /* jshint unused: false */
 
 
-var GTFS_Data = require('./GTFS_Data');
+var GTFS_Data  = require('./GTFS_Data'),
+    GTFSr_Data = require('./GTFS-R_Data');
 
 
-function getStopMonitoringResponse () {
+function getStopMonitoringResponse (getParams) {
     return {
         "Siri" : {
-            "ServiceDelivery" : getStopMonitoringServiceDelivery(),
+            "ServiceDelivery" : getStopMonitoringServiceDelivery(getParams),
         },
     };
 }
 
-function getVehicleMonitoringResponse () {
+function getVehicleMonitoringResponse (getParams) {
     return {
         "Siri" : {
-            "ServiceDelivery" : getVehicleMonitoringServiceDelivery(),
+            "ServiceDelivery" : getVehicleMonitoringServiceDelivery(getParams),
         },
     };
 }
 
 
 
-function getStopMonitoringServiceDelivery () {
+function getStopMonitoringServiceDelivery (getParams) {
     return {
-        "ResponseTimestamp"         : getStopMonitoringServiceDeliveryResponseTimestamp() ,
-        "StopMonitoringDelivery"    : getStopMonitoringDelivery()                        ,
-        "SituationExchangeDelivery" : getSituationExchangeDelivery()                     ,
+        "ResponseTimestamp"         : getStopMonitoringServiceDeliveryResponseTimestamp(getParams) ,
+        "StopMonitoringDelivery"    : getStopMonitoringDelivery(getParams)                         ,
+        "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams)                      ,
     };
 }
 
-function getVehicleMonitoringServiceDelivery () {
+function getVehicleMonitoringServiceDelivery (getParams) {
     return {
-        "ResponseTimestamp"         : getVehicleMonitoringServiceDeliveryResponseTimestamp() ,
-        "VehicleMonitoringDelivery" : getVehicleMonitoringDelivery()                         ,
-        "SituationExchangeDelivery" : getSituationExchangeDelivery()                         ,
+        "ResponseTimestamp"         : getVehicleMonitoringServiceDeliveryResponseTimestamp(getParams) ,
+        "VehicleMonitoringDelivery" : getVehicleMonitoringDelivery(getParams)                         ,
+        "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams)                         ,
     };
 }
 
 
 
-function getStopMonitoringServiceDeliveryResponseTimestamp () {
+function getStopMonitoringServiceDeliveryResponseTimestamp (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getVehicleMonitoringServiceDeliveryResponseTimestamp () {
+function getVehicleMonitoringServiceDeliveryResponseTimestamp (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getStopMonitoringDelivery () {
+function getStopMonitoringDelivery (getParams) {
     return {
-        "MonitoredStopVisit" : getMonitoredStopVisit()                      ,
-        "ResponseTimestamp"  : getStopMonitoringDeliveryResponseTimestamp() ,
-        "ValidUntil"         : getStopMonitoringDeliveryValidUntil()        ,
+        "MonitoredStopVisit" : getMonitoredStopVisit(getParams)                      ,
+        "ResponseTimestamp"  : getStopMonitoringDeliveryResponseTimestamp(getParams) ,
+        "ValidUntil"         : getStopMonitoringDeliveryValidUntil(getParams)        ,
    };
 }
 
 
-function getVehicleMonitoringDelivery () {
+function getVehicleMonitoringDelivery (getParams) {
     return {
-        "VehicleActivity"   : getVehicleActivity()                                   ,
-        "ResponseTimestamp" : getVehicleMonitoringServiceDeliveryResponseTimestamp() ,
-        "ValidUntil"        : getVehicleMonitoringDeliveryValidUntil()               ,
+        "VehicleActivity"   : getVehicleActivity(getParams)                                   ,
+        "ResponseTimestamp" : getVehicleMonitoringServiceDeliveryResponseTimestamp(getParams) ,
+        "ValidUntil"        : getVehicleMonitoringDeliveryValidUntil(getParams)               ,
     };
 }
 
 
-function getSituationExchangeDelivery () {
+function getSituationExchangeDelivery (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getMonitoredStopVisit () {
+function getMonitoredStopVisit (getParams) {
     return {
-        "MonitoredVehicleJourney" : getMonitoredVehicleJourney()          ,
-        "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime() ,
+        "MonitoredVehicleJourney" : getMonitoredVehicleJourney(getParams)          ,
+        "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams) ,
     };
 }
 
 
-function getVehicleActivity () {
+function getVehicleActivity (getParams) {
     return {
-        "MonitoredVehicleJourney" : getMonitoredVehicleJourney()          ,
-        "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime() ,
+        "MonitoredVehicleJourney" : getMonitoredVehicleJourney(getParams)          ,
+        "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams) ,
     };
 }
 
 
-function getStopMonitoringDeliveryResponseTimestamp () {
+function getStopMonitoringDeliveryResponseTimestamp (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getStopMonitoringDeliveryValidUntil () {
+function getStopMonitoringDeliveryValidUntil (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getVehicleMonitoringDeliveryValidUntil () {
+function getVehicleMonitoringDeliveryValidUntil (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getSituationExchangeDelivery () {
+function getSituationExchangeDelivery (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getMonitoredVehicleJourney () {
+function getMonitoredVehicleJourney (getParams) {
     return {
-        "LineRef"                  : getLineRef()                  ,
-        "DirectionRef"             : getDirectionRef()             ,
-        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef()  ,
-        "JourneyPatternRef"        : getJourneyPatternRef()        ,
-        "PublishedLineName"        : getPublishedLineName()        ,
-        "OperatorRef"              : getOperatorRef()              ,
-        "OriginRef"                : getOriginRef()                ,
-        "DestinationRef"           : getDestinationRef()           ,
-        "DestinationName"          : getDestinationName()          ,
-        "OriginAimedDepartureTime" : getOriginAimedDepartureTime() ,
-        "SituationRef"             : getSituationRef()             ,
-        "Monitored"                : getMonitored()                ,
-        "VehicleLocation"          : getVehicleLocation()          ,
-        "Bearing"                  : getBearing()                  ,
-        "ProgressRate"             : getProgressRate()             ,
-        "ProgressStatus"           : getProgressStatus()           ,
-        "BlockRef"                 : getBlockRef()                 ,
-        "VehicleRef"               : getVehicleRef()               ,
-        "MonitoredCall"            : getMonitoredCall()            ,
-        "OnwardCalls"              : getOnwardCalls()              ,
+        "LineRef"                  : getLineRef(getParams)                  ,
+        "DirectionRef"             : getDirectionRef(getParams)             ,
+        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(getParams)  ,
+        "JourneyPatternRef"        : getJourneyPatternRef(getParams)        ,
+        "PublishedLineName"        : getPublishedLineName(getParams)        ,
+        "OperatorRef"              : getOperatorRef(getParams)              ,
+        "OriginRef"                : getOriginRef(getParams)                ,
+        "DestinationRef"           : getDestinationRef(getParams)           ,
+        "DestinationName"          : getDestinationName(getParams)          ,
+        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(getParams) ,
+        "SituationRef"             : getSituationRef(getParams)             ,
+        "Monitored"                : getMonitored(getParams)                ,
+        "VehicleLocation"          : getVehicleLocation(getParams)          ,
+        "Bearing"                  : getBearing(getParams)                  ,
+        "ProgressRate"             : getProgressRate(getParams)             ,
+        "ProgressStatus"           : getProgressStatus(getParams)           ,
+        "BlockRef"                 : getBlockRef(getParams)                 ,
+        "VehicleRef"               : getVehicleRef(getParams)               ,
+        "MonitoredCall"            : getMonitoredCall(getParams)            ,
+        "OnwardCalls"              : getOnwardCalls(getParams)              ,
     };
 }
 
 
-function getMonitoredStopVisitRecordedAtTime () {
+function getMonitoredStopVisitRecordedAtTime (getParams) {
     //TODO: Implement;
     return null;
 }
 
 
-function getFramedVehicleJourneyRef () {
+function getFramedVehicleJourneyRef (getParams) {
     return {
-        "DataFrameRef"           : getDataFrameRef()           ,
-        "DatedVehicleJourneyRef" : getDatedVehicleJourneyRef() ,
+        "DataFrameRef"           : getDataFrameRef(getParams)           ,
+        "DatedVehicleJourneyRef" : getDatedVehicleJourneyRef(getParams) ,
     };
 }
 
 
-function getVehicleLocation () {
+function getVehicleLocation (getParams) {
     return {
-        "Longitude" : getLongitude() ,
-        "Latitude"  : getLatitude()  ,
+        "Longitude" : getLongitude(getParams) ,
+        "Latitude"  : getLatitude(getParams)  ,
     };
 }
 
 
-function getMonitoredCall () {
+function getMonitoredCall (getParams) {
     return {
-        "Extensions"            : { "Distances" : getDistances(), },
+        "Extensions"            : { "Distances" : getDistances(getParams), },
 
-        "ExpectedArrivalTime"   : getExpectedArrivalTime()   ,
-        "ExpectedDepartureTime" : getExpectedDepartureTime() ,
+        "ExpectedArrivalTime"   : getExpectedArrivalTime(getParams)   ,
+        "ExpectedDepartureTime" : getExpectedDepartureTime(getParams) ,
 
-        "StopPointRef"          : getStopPointRef()          ,
-        "StopPointName"         : getStopPointName()         ,
+        "StopPointRef"          : getStopPointRef(getParams)          ,
+        "StopPointName"         : getStopPointName(getParams)         ,
 
-        "VisitNumber"           : getVisitNumber()           ,
+        "VisitNumber"           : getVisitNumber(getParams)           ,
     };
 }
 
 
-function getLineRef () {
+function getLineRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDirectionRef() {
+function getDirectionRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getJourneyPatternRef() {
+function getJourneyPatternRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getPublishedLineName() {
+function getPublishedLineName (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getOperatorRef() {
+function getOperatorRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getOriginRef() {
+function getOriginRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDestinationRef() {
+function getDestinationRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDestinationName() {
+function getDestinationName (getParams) {
     //TODO: Implement
     return null;
 }
 
-function getOriginAimedDepartureTime() {
-    //TODO: Implement
-    return null;
-}
-
-
-function getSituationRef() {
+function getOriginAimedDepartureTime (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getMonitored() {
+function getSituationRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getBearing() {
+function getMonitored (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getProgressRate() {
+function getBearing (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getProgressStatus() {
+function getProgressRate (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getBlockRef() {
+function getProgressStatus (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getVehicleRef() {
+function getBlockRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getOnwardCalls() {
+function getVehicleRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDataFrameRef() {
+function getOnwardCalls (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDatedVehicleJourneyRef() {
+function getDataFrameRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getLongitude() {
+function getDatedVehicleJourneyRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getLatitude() {
+function getLongitude (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDistances () {
+function getLatitude (getParams) {
+    //TODO: Implement
+    return null;
+}
+
+
+function getDistances (getParams) {
     return {
-        "PresentableDistance"    : getPresentableDistance()    ,
-        "DistanceFromCall"       : getDistanceFromCall()       ,
-        "StopsFromCall"          : getStopsFromCall()          ,
-        "CallDistanceAlongRoute" : getCallDistanceAlongRoute() ,
+        "PresentableDistance"    : getPresentableDistance(getParams)    ,
+        "DistanceFromCall"       : getDistanceFromCall(getParams)       ,
+        "StopsFromCall"          : getStopsFromCall(getParams)          ,
+        "CallDistanceAlongRoute" : getCallDistanceAlongRoute(getParams) ,
     };
 }
 
 
-function getExpectedArrivalTime () {
+function getExpectedArrivalTime (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getExpectedDepartureTime () {
+function getExpectedDepartureTime (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getStopPointRef() {
+function getStopPointRef (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getVisitNumber() {
+function getVisitNumber (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getStopPointName() {
+function getStopPointName (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getPresentableDistance() {
+function getPresentableDistance (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getDistanceFromCall() {
+function getDistanceFromCall (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getStopsFromCall() {
+function getStopsFromCall (getParams) {
     //TODO: Implement
     return null;
 }
 
 
-function getCallDistanceAlongRoute() {
+function getCallDistanceAlongRoute (getParams) {
     //TODO: Implement
     return null;
 }
@@ -377,10 +378,11 @@ function convertToStopMonitoringResponse (gtfsr_msg) {}
 function convertToVehicleMonitoringResponse (gtfsr_msg) {}
 
 
-function test () {
+function test (getParams) {
     console.log(GTFS_Data.agency);
-    console.log(JSON.stringify(getStopMonitoringResponse(), null, '\t'));
-    //console.log(JSON.stringify(getVehicleMonitoringResponse(), null, '\t'));
+    console.log(GTFSr_Data.vehicleIndex);
+    console.log(JSON.stringify(getStopMonitoringResponse(getParams), null, '\t'));
+    //console.log(JSON.stringify(getVehicleMonitoringResponse(getParams), null, '\t'));
 }
 
 
