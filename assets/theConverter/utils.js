@@ -40,6 +40,35 @@ function getTimestamp (jsDate) {
            '-'   + '04:00';
 }
 
+function dateToString (date) {
+    var offsetDate = getOffsetDate(date);
+
+    return offsetDate.getFullYear()              + '-' +
+           padLeft(offsetDate.getMonth() + 1, 2) + '-' +
+           padLeft(offsetDate.getDate(), 2)            ;
+}
+
+
+function getOffsetDate (date) {
+    var offsetDate = new Date(date);
+
+    offsetDate.setTime(offsetDate.getTime() + (offsetDate.getTimezoneOffset() * 60 * 1000));
+
+    return offsetDate;
+}
+
+
+//FIXME: Rename
+function getDateFromDateString(dateString) {
+    var date;
+
+    dateString = dateString.substring(0,4) + '/' + 
+                 dateString.substring(4,6) + '/' + 
+                 dateString.substring(6);
+    
+    return new Date(dateString);
+}
+
 
 
 function getLineRefFromRouteID (route_id) {
@@ -112,6 +141,9 @@ function alertToProgressRate (alert) {
 }
 
 module.exports = {
+    padLeft               : padLeft,
+    getDateFromDateString : getDateFromDateString,
+    dateToString          : dateToString,
     getTimestamp          : getTimestamp,
     getTimestampFromPosix : getTimestampFromPosix,
 };

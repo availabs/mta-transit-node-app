@@ -91,7 +91,7 @@ function getSituationExchangeDelivery (getParams) {
 
 function getMonitoredStopVisit (getParams) {
     return {
-        "MonitoredVehicleJourney" : getMonitoredVehicleJourney(getParams)          ,
+        "MonitoredVehicleJourney" : getStopMonitoringMonitoredVehicleJourney(getParams)          ,
         "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams) ,
     };
 }
@@ -99,7 +99,7 @@ function getMonitoredStopVisit (getParams) {
 
 function getVehicleActivity (getParams) {
     return {
-        "MonitoredVehicleJourney" : getMonitoredVehicleJourney(getParams)          ,
+        "MonitoredVehicleJourney" : getVehicleMonitoringMonitoredVehicleJourney(getParams)          ,
         "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams) ,
     };
 }
@@ -137,35 +137,35 @@ function getStopMonitoringMonitoredVehicleJourney (getParams) {
 }
 
 function getVehicleMonitoringMonitoredVehicleJourney (getParams) {
-    var mvj = getMonitoredVehicleJourney();
+    var mvj = getMonitoredVehicleJourney(getParams.vehicleRef);
 
-    mvj.MonitoredCall = getVehicleMonitoringMonitoredCall();
+    mvj.MonitoredCall = getVehicleMonitoringMonitoredCall(getParams.vehicleRef);
 
     return mvj;
 }
 
-function getMonitoredVehicleJourney (getParams) {
+function getMonitoredVehicleJourney (train_id) {
     return {
-        "LineRef"                  : getLineRef(getParams)                  ,
-        "DirectionRef"             : getDirectionRef(getParams)             ,
-        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(getParams)  ,
-        "JourneyPatternRef"        : getJourneyPatternRef(getParams)        ,
-        "PublishedLineName"        : getPublishedLineName(getParams)        ,
-        "OperatorRef"              : getOperatorRef(getParams)              ,
-        "OriginRef"                : getOriginRef(getParams)                ,
-        "DestinationRef"           : getDestinationRef(getParams)           ,
-        "DestinationName"          : getDestinationName(getParams)          ,
-        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(getParams) ,
-        "SituationRef"             : getSituationRef(getParams)             ,
-        "Monitored"                : getMonitored(getParams)                ,
-        "VehicleLocation"          : getVehicleLocation(getParams)          ,
-        "Bearing"                  : getBearing(getParams)                  ,
-        "ProgressRate"             : getProgressRate(getParams)             ,
-        "ProgressStatus"           : getProgressStatus(getParams)           ,
-        "BlockRef"                 : getBlockRef(getParams)                 ,
-        "VehicleRef"               : getVehicleRef(getParams)               ,
+        "LineRef"                  : getLineRef(train_id)                  ,
+        "DirectionRef"             : getDirectionRef(train_id)             ,
+        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(train_id)  ,
+        "JourneyPatternRef"        : getJourneyPatternRef(train_id)        ,
+        "PublishedLineName"        : getPublishedLineName(train_id)        ,
+        "OperatorRef"              : getOperatorRef(train_id)              ,
+        "OriginRef"                : getOriginRef(train_id)                ,
+        "DestinationRef"           : getDestinationRef(train_id)           ,
+        "DestinationName"          : getDestinationName(train_id)          ,
+        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(train_id) ,
+        "SituationRef"             : getSituationRef(train_id)             ,
+        "Monitored"                : getMonitored(train_id)                ,
+        "VehicleLocation"          : getVehicleLocation(train_id)          ,
+        "Bearing"                  : getBearing(train_id)                  ,
+        "ProgressRate"             : getProgressRate(train_id)             ,
+        "ProgressStatus"           : getProgressStatus(train_id)           ,
+        "BlockRef"                 : getBlockRef(train_id)                 ,
+        "VehicleRef"               : getVehicleRef(train_id)               ,
         //"MonitoredCall"            Filled in by caller for stop or vehicle reponse.
-        "OnwardCalls"              : getOnwardCalls(getParams)              ,
+        "OnwardCalls"              : getOnwardCalls(train_id)              ,
     };
 }
 
@@ -176,18 +176,28 @@ function getMonitoredStopVisitRecordedAtTime (getParams) {
 }
 
 
-function getFramedVehicleJourneyRef (getParams) {
+function getFramedVehicleJourneyRef (train_id) {
+    var trip             = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip,
+        trip_id          = trip.trip_id,
+
+        dateString       = trip.start_date,
+        startDate        = utils.getDateFromDateString(dateString),
+
+        origin_time      = parseInt(trip_id.substring(0, trip_id.indexOf('_'))),
+
+        dataFrameRefDate = getDataFrameRefDate(startDate, origin_time);
+
     return {
-        "DataFrameRef"           : getDataFrameRef(getParams)           ,
-        "DatedVehicleJourneyRef" : getDatedVehicleJourneyRef(getParams) ,
+        "DataFrameRef"           : utils.dateToString(dataFrameRefDate),
+        "DatedVehicleJourneyRef" : getDatedVehicleJourneyRef(dataFrameRefDate, trip_id),
     };
 }
 
 
-function getVehicleLocation (getParams) {
+function getVehicleLocation (train_id) {
     return {
-        "Longitude" : getLongitude(getParams) ,
-        "Latitude"  : getLatitude(getParams)  ,
+        "Longitude" : getLongitude(train_id) ,
+        "Latitude"  : getLatitude(train_id)  ,
     };
 }
 
@@ -244,8 +254,7 @@ function getPublishedLineName (getParams) {
 
 
 function getOperatorRef (getParams) {
-    //TODO: Implement
-    return null;
+    return 'MTA';
 }
 
 
@@ -313,24 +322,38 @@ function getVehicleRef (getParams) { //TODO: Implement
 }
 
 
-function getOnwardCalls (getParams) { //TODO: Implement
-    var train_id = getParams.train_id;
-
+function getOnwardCalls (train_id) { //TODO: Implement
     var stop_time_updates = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.stop_time_update;
 
     return stop_time_updates.map(getCall);
 }
 
 
-function getDataFrameRef (getParams) {
-    //TODO: Implement
-    return null;
+function getDataFrameRefDate (schedule_date, origin_time) {
+    var refDate = new Date(schedule_date);
+
+    if      ( origin_time < 0)      { refDate.setDate(refDate.getDate() + 1); }
+    else if ( origin_time > 144000) { refDate.setDate(refDate.getDate() - 1); }
+
+    return refDate;
 }
 
 
-function getDatedVehicleJourneyRef (getParams) {
-    //TODO: Implement
-    return null;
+function getDatedVehicleJourneyRef (date, trip_id) {
+    var day = date.getDay(),
+        serviceCode,
+        tripKey,
+        trip;
+    
+    if      (day === 0) { serviceCode = 'SUN'; } 
+    else if (day === 6) { serviceCode = 'SAT'; }
+    else                { serviceCode = 'WKD'; }
+
+    tripKey = serviceCode + '_' + trip_id;
+
+    trip = GTFS_Data.trips[tripKey];
+
+    return (trip) ? trip.trip_id : null;
 }
 
 
@@ -357,7 +380,7 @@ function getDistances (getParams) {
 
 
 function getExpectedArrivalTime (stop_time_update) { // Note: in docs, but not in actual SIRI.
-    console.log(stop_time_update);
+    //console.log(stop_time_update);
     return utils.getTimestampFromPosix(stop_time_update.arrival.time.low);
 }
 
@@ -411,9 +434,10 @@ function getCallDistanceAlongRoute (getParams) {
 
 
 
+
 function test (getParams) {
-    console.log(getParams);
     //console.log(JSON.stringify(getStopMonitoringResponse(getParams), null, '\t'));
+    //getVehicleMonitoringResponse(getParams);
     console.log(JSON.stringify(getVehicleMonitoringResponse(getParams), null, '\t'));
 }
 

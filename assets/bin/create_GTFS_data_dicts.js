@@ -43,7 +43,15 @@ var fs           = require('fs'),
     fileStream = fs.createReadStream(filePath);
 
     converter.on("end_parsed", function (parsedTable) {
-        dataDict[tableName] = _.indexBy(parsedTable, tablePKs[tableName]);
+        dataDict[tableName] = _.indexBy(parsedTable, function (rowObj) {
+            var keyName = tablePKs[tableName];
+
+            if (tableName === 'trips') {
+                return rowObj[keyName].substring(9);
+            }
+
+            return rowObj[keyName];
+        });
         iterateAndParse(++i); 
     });
 
