@@ -110,7 +110,7 @@ function extractIndexKeysFromTrip (trip) {
     return {
         train_id  : trip['.nyct_trip_descriptor'].train_id ,
         route_id  : 'MTA ' + trip.route_id                 ,
-        //direction : direction                              ,
+        //direction : direction                               ,
     };
 }
 

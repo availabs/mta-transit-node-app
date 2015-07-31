@@ -98,7 +98,7 @@ function getMonitoredStopVisit (getParams) {
 
 
 function getVehicleActivity (getParams) {
-    var requestedTrains = (getParams && getParams.vehicleRef) ? [getParams.vehicleRef] : Object.keys(GTFSr_Data.vehicleIndex),
+    var requestedTrains = (getParams && getParams.vehicleRef) ? [getParams.vehicleRef.replace('MTA ', '')] : Object.keys(GTFSr_Data.vehicleIndex),
         routeTrains;
         
     // FIXME: ??? Perhaps better to just create an array of trains serving the route in GTFS-R_Data ???
@@ -107,10 +107,10 @@ function getVehicleActivity (getParams) {
                                 .trip_update.map(function (update) { 
                                                     return update.trip_update.trip[".nyct_trip_descriptor"].train_id;
                                                 });
+
         requestedTrains = _.intersection(requestedTrains, routeTrains);
     }
 
-    console.log(routeTrains);
 
    //if (getParams && getParams.directionRef) {
        //requestedTrains = _.intersection(requestedTrains, Object.keys(GTFSr_Data.directionIndex));
