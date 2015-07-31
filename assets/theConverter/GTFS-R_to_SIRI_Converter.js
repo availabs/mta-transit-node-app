@@ -4,7 +4,9 @@
 /* jshint unused: false */
 
 
-var GTFS_Data  = require('./GTFS_Data'),
+var _          = require('lodash'),
+
+    GTFS_Data  = require('./GTFS_Data'),
     GTFSr_Data = require('./GTFS-R_Data'),
     utils      = require('./utils');
 
@@ -96,10 +98,28 @@ function getMonitoredStopVisit (getParams) {
 
 
 function getVehicleActivity (getParams) {
-    var requestedTrains = (getParams && getParams.vehicleRef) ? [getParams.vehicleRef] : Object.keys(GTFSr_Data.vehicleIndex);
+    var requestedTrains = (getParams && getParams.vehicleRef) ? [getParams.vehicleRef] : Object.keys(GTFSr_Data.vehicleIndex),
+        routeTrains;
+        
+    // FIXME: ??? Perhaps better to just create an array of trains serving the route in GTFS-R_Data ???
+    if (getParams && getParams.lineRef) {
+        routeTrains = GTFSr_Data.routeIndex[getParams.lineRef]
+                                .trip_update.map(function (update) { 
+                                                    return update.trip_update.trip[".nyct_trip_descriptor"].train_id;
+                                                });
+        requestedTrains = _.intersection(requestedTrains, routeTrains);
+    }
+
+    console.log(routeTrains);
+
+   //if (getParams && getParams.directionRef) {
+       //requestedTrains = _.intersection(requestedTrains, Object.keys(GTFSr_Data.directionIndex));
+   //}
 
     //FIXME: Handle trains with only alerts.
-    requestedTrains = requestedTrains.filter(function (train_id) { return !!(GTFSr_Data.vehicleIndex[train_id].trip_update); });
+    requestedTrains = requestedTrains.filter(function (train_id) { 
+        return !!(GTFSr_Data.vehicleIndex[train_id].trip_update); 
+    });
 
     return requestedTrains.map(function (train_id) {
         return {

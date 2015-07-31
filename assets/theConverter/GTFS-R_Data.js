@@ -6,10 +6,8 @@ var jsonfile = require('jsonfile'),
 var GTFSr_JSON = jsonfile.readFileSync(filePath);
 
 var vehicleIndex   = {},
-    routeIndex     = {},
-    directionIndex = {};
-
-
+    routeIndex     = {};
+    //directionIndex = {};
 
 
 (function () {
@@ -59,7 +57,7 @@ function indexEntity (indicesKeys, entityType, entity) {
     for (i=0; i < indicesKeys.length; ++i) {
         addEntityToVehicleIndex(indicesKeys[i].train_id    , entityType , entity);
         addEntityToRouteIndex(indicesKeys[i].route_id      , entityType , entity);
-        addEntityToDirectionIndex(indicesKeys[i].direction , entityType , entity);
+        //addEntityToDirectionIndex(indicesKeys[i].direction , entityType , entity);
     }
 }
 
@@ -90,9 +88,9 @@ function addEntityToRouteIndex (key, entityType, entity) {
     addEntityToMultiUpdateIndex(routeIndex, key, entityType, entity);
 }
 
-function addEntityToDirectionIndex (key, entityType, entity) {
-    addEntityToMultiUpdateIndex(directionIndex, key, entityType, entity);
-}
+//function addEntityToDirectionIndex (key, entityType, entity) {
+    //addEntityToMultiUpdateIndex(directionIndex, key, entityType, entity);
+//}
 
 
 function addEntityToMultiUpdateIndex (index, key, entityType, entity) {
@@ -106,13 +104,13 @@ function addEntityToMultiUpdateIndex (index, key, entityType, entity) {
 
 
 function extractIndexKeysFromTrip (trip) {
-    var trip_id   = trip.trip_id,
-        direction = trip_id.charAt(trip_id.lastIndexOf('.') + 1);
+    //var trip_id   = trip.trip_id;
+        //direction = trip_id.charAt(trip_id.lastIndexOf('.') + 1);
 
     return {
         train_id  : trip['.nyct_trip_descriptor'].train_id ,
-        route_id  : trip.route_id                          ,
-        direction : direction                              ,
+        route_id  : 'MTA ' + trip.route_id                 ,
+        //direction : direction                              ,
     };
 }
 
@@ -136,5 +134,5 @@ module.exports = {
     GTFSr_JSON     : GTFSr_JSON,
     vehicleIndex   : vehicleIndex,
     routeIndex     : routeIndex,
-    directionIndex : directionIndex,
+    //directionIndex : directionIndex,
 };
