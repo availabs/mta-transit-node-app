@@ -44,10 +44,12 @@ var fs           = require('fs'),
 
     converter.on("end_parsed", function (parsedTable) {
         dataDict[tableName] = _.indexBy(parsedTable, function (rowObj) {
-            var keyName = tablePKs[tableName];
+            var keyName = tablePKs[tableName],
+                key;
 
             if (tableName === 'trips') {
-                return rowObj[keyName].substring(9);
+                key = rowObj[keyName];
+                return key.substring(9, key.lastIndexOf('.') + 2);
             }
 
             return rowObj[keyName];
