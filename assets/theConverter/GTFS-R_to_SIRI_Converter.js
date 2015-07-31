@@ -104,10 +104,12 @@ function getVehicleActivity (getParams) {
                                 Object.keys(GTFSr_Data.vehicleIndex),
         routeTrains,
         
-        maxOnwardCalls  = getParams.MaximumNumberOfCallsOnwards;
+        maxOnwardCalls               = getParams.MaximumNumberOfCallsOnwards,
+        vehicleMonitoringDetailLevel = getParams.VehicleMonitoringDetailLevel;
         
     
-    // FIXME: ??? Perhaps better to just create an array of trains serving the route in GTFS-R_Data ???
+    // FIXME: ??? Perhaps better to just create an array of trains 
+    //            serving the route in GTFS-R_Data ???
     if (getParams && getParams.LineRef) {
         routeTrains = GTFSr_Data.routeIndex[getParams.LineRef]
                                 .trip_update.map(function (update) { 
@@ -122,13 +124,14 @@ function getVehicleActivity (getParams) {
         return !!(GTFSr_Data.vehicleIndex[train_id].trip_update); 
     });
 
-    console.log(requestedTrains);
-
     return requestedTrains.map(function (train_id) {
         return {
-            "MonitoredVehicleJourney" : getVehicleMonitoringMonitoredVehicleJourney(train_id, 
-                                                                                    maxOnwardCalls) ,
-            "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams)        ,
+            "MonitoredVehicleJourney" : 
+                getVehicleMonitoringMonitoredVehicleJourney(train_id, 
+                                                            maxOnwardCalls,
+                                                            vehicleMonitoringDetailLevel) ,
+            "RecordedAtTime" : 
+                getMonitoredStopVisitRecordedAtTime(getParams) ,
         };
     });
 }
@@ -165,15 +168,15 @@ function getStopMonitoringMonitoredVehicleJourney (getParams) {
     return mvj;
 }
 
-function getVehicleMonitoringMonitoredVehicleJourney (train_id, maxOnwardCalls) {
-    var mvj = getMonitoredVehicleJourney(train_id, maxOnwardCalls);
+function getVehicleMonitoringMonitoredVehicleJourney (train_id, maxOnwardCalls, detailLevel) {
+    var mvj = getMonitoredVehicleJourney(train_id, maxOnwardCalls, detailLevel);
 
     mvj.MonitoredCall = getVehicleMonitoringMonitoredCall(train_id);
 
     return mvj;
 }
 
-function getMonitoredVehicleJourney (train_id, maxOnwardCalls) {
+function getMonitoredVehicleJourney (train_id, maxOnwardCalls, detailLevel) {
     var trip             = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip,
         trip_id          = trip.trip_id,
         route_id         = trip.route_id,
@@ -187,31 +190,33 @@ function getMonitoredVehicleJourney (train_id, maxOnwardCalls) {
 
         tripKey          = getScheduledTripKey(dataFrameRefDate, trip_id),
 
-        destination_id   = getDestinationID(train_id);
+        destination_id   = getDestinationID(train_id),
+
+        includeCalls     = (detailLevel === 'calls');
 
 
     return {
-        "LineRef"                  : getLineRef(route_id)                                  ,
-        "DirectionRef"             : getDirectionRef(trip_id)                              ,
-        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(dataFrameRefDate, tripKey) ,
-        "JourneyPatternRef"        : getJourneyPatternRef(tripKey)                         ,
-        "PublishedLineName"        : getPublishedLineName(tripKey)                         ,
-        "OperatorRef"              : getOperatorRef()                                      ,
-        "OriginRef"                : getOriginRef(train_id)                                ,
-        "DestinationRef"           : getDestinationRef(destination_id)                     ,
-        "DestinationName"          : getDestinationName(destination_id)                    ,
+        "LineRef"                  : getLineRef(route_id)                                    ,
+        "DirectionRef"             : getDirectionRef(trip_id)                                ,
+        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(dataFrameRefDate, tripKey)   ,
+        "JourneyPatternRef"        : getJourneyPatternRef(tripKey)                           ,
+        "PublishedLineName"        : getPublishedLineName(tripKey)                           ,
+        "OperatorRef"              : getOperatorRef()                                        ,
+        "OriginRef"                : getOriginRef(train_id)                                  ,
+        "DestinationRef"           : getDestinationRef(destination_id)                       ,
+        "DestinationName"          : getDestinationName(destination_id)                      ,
 
-        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(train_id)                 ,
-        "SituationRef"             : getSituationRef(train_id)                             ,
-        "Monitored"                : getMonitored(train_id)                                ,
-        "VehicleLocation"          : getVehicleLocation(train_id)                          ,
-        "Bearing"                  : getBearing(train_id)                                  ,
-        "ProgressRate"             : getProgressRate(train_id)                             ,
-        "ProgressStatus"           : getProgressStatus(train_id)                           ,
-        "BlockRef"                 : getBlockRef(train_id)                                 ,
-        "VehicleRef"               : getVehicleRef(train_id)                               ,
+        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(train_id)                   ,
+        "SituationRef"             : getSituationRef(train_id)                               ,
+        "Monitored"                : getMonitored(train_id)                                  ,
+        "VehicleLocation"          : getVehicleLocation(train_id)                            ,
+        "Bearing"                  : getBearing(train_id)                                    ,
+        "ProgressRate"             : getProgressRate(train_id)                               ,
+        "ProgressStatus"           : getProgressStatus(train_id)                             ,
+        "BlockRef"                 : getBlockRef(train_id)                                   ,
+        "VehicleRef"               : getVehicleRef(train_id)                                 ,
         //"MonitoredCall"            Filled in by caller for stop or vehicle reponse.
-        "OnwardCalls"              : getOnwardCalls(train_id, maxOnwardCalls)              ,
+        "OnwardCalls"       : (includeCalls) ? getOnwardCalls(train_id, maxOnwardCalls) : {} ,
     };
 }
 
