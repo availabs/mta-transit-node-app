@@ -5,9 +5,9 @@ var jsonfile = require('jsonfile'),
 
 var GTFSr_JSON = jsonfile.readFileSync(filePath);
 
-var vehicleIndex   = {},
-    routeIndex     = {};
-    //directionIndex = {};
+var vehicleIndex = {},
+    routeIndex   = {},
+    stopsIndex   = {};
 
 
 (function () {
@@ -18,6 +18,11 @@ var vehicleIndex   = {},
         indicesKeys,
 
         informed_entity,
+
+        stop_time_updates,
+        stop_id,
+
+        train_id,
 
         i, ii;
 
@@ -45,19 +50,35 @@ var vehicleIndex   = {},
             indicesKeys.push(extractIndexKeysFromTrip(trip)); 
         }
 
+        
+        addEntityToVehicleAndRouteIndices(indicesKeys, entityType, entity);
 
-        indexEntity(indicesKeys, entityType, entity);
+        // If entity is a TripUpdate, scan the stop_time_update array and 
+        // add the vehicle to the to the stopsIndex;
+        if ( (stop_time_updates = (entity.trip_update && entity.trip_update.stop_time_update)) ) {
+
+            train_id = entity.trip_update.trip['.nyct_trip_descriptor'].train_id;
+
+            for (ii=0; ii <stop_time_updates.length; ++ii) {
+                stop_id = stop_time_updates[ii].stop_id;
+
+                if (!stopsIndex[stop_id]) {
+                    stopsIndex[stop_id] = newStopIndexNode();
+                }
+
+                stopsIndex[stop_id].vehicles.push([train_id, ii]);
+            }
+        } 
     }
 }());
 
 
-function indexEntity (indicesKeys, entityType, entity) {
+function addEntityToVehicleAndRouteIndices (indicesKeys, entityType, entity) {
     var i;
 
     for (i=0; i < indicesKeys.length; ++i) {
-        addEntityToVehicleIndex(indicesKeys[i].train_id    , entityType , entity);
-        addEntityToRouteIndex(indicesKeys[i].route_id      , entityType , entity);
-        //addEntityToDirectionIndex(indicesKeys[i].direction , entityType , entity);
+        addEntityToVehicleIndex(indicesKeys[i].train_id, entityType , entity);
+        addEntityToRouteIndex(indicesKeys[i].route_id  , entityType , entity);
     }
 }
 
@@ -88,10 +109,6 @@ function addEntityToRouteIndex (key, entityType, entity) {
     addEntityToMultiUpdateIndex(routeIndex, key, entityType, entity);
 }
 
-//function addEntityToDirectionIndex (key, entityType, entity) {
-    //addEntityToMultiUpdateIndex(directionIndex, key, entityType, entity);
-//}
-
 
 function addEntityToMultiUpdateIndex (index, key, entityType, entity) {
     if (!index[key]) {
@@ -104,13 +121,9 @@ function addEntityToMultiUpdateIndex (index, key, entityType, entity) {
 
 
 function extractIndexKeysFromTrip (trip) {
-    //var trip_id   = trip.trip_id;
-        //direction = trip_id.charAt(trip_id.lastIndexOf('.') + 1);
-
     return {
         train_id  : trip['.nyct_trip_descriptor'].train_id ,
         route_id  : 'MTA ' + trip.route_id                 ,
-        //direction : direction                               ,
     };
 }
 
@@ -129,10 +142,18 @@ function newMultiUpdateIndexNode () {
     };
 }
 
+function newStopIndexNode () {
+    return {
+        vehicles : [],    // We are going to want to sort this one, lazily.
+        routes   : {},    // Generate this index lazily (When a route parameter passed in request).
+        isSorted : false, // Lazy sorting
+    };
+}
+
 
 module.exports = {
-    GTFSr_JSON     : GTFSr_JSON,
-    vehicleIndex   : vehicleIndex,
-    routeIndex     : routeIndex,
-    //directionIndex : directionIndex,
+    GTFSr_JSON   : GTFSr_JSON,
+    vehicleIndex : vehicleIndex,
+    routeIndex   : routeIndex,
+    stopsIndex   : stopsIndex,
 };

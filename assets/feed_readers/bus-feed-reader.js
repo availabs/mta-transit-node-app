@@ -90,7 +90,7 @@ function readFeed (entityToMonitor, getParams, callback) {
 
     feedUrl = feedUrl.replace(' ', '%20');
 
-    console.log(feedUrl);
+    console.log('// ' + feedUrl);
 
 
     function parse(res) {

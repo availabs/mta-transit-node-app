@@ -3,6 +3,8 @@
 //TODO: Remove next line
 /* jshint unused: false */
 
+// TODO: make simple getters for indexed GTFSr data.
+
 
 var _          = require('lodash'),
 
@@ -91,10 +93,55 @@ function getSituationExchangeDelivery (getParams) {
 
 
 function getMonitoredStopVisit (getParams) {
-    return {
-        "MonitoredVehicleJourney" : getStopMonitoringMonitoredVehicleJourney(getParams) ,
-        "RecordedAtTime"          : getMonitoredStopVisitRecordedAtTime(getParams)      ,
-    };
+    var stop_id                      = getParams.MonitoringRef,
+        route_id                     = getParams.LineRef,
+        maxOnwardCalls               = getParams.MaximumNumberOfCallsOnwards,
+        vehicleMonitoringDetailLevel = getParams.VehicleMonitoringDetailLevel,
+
+        stopsIndexNode = GTFSr_Data.stopsIndex[stop_id],
+        train_id,
+        updateOffset,
+
+        requestedTrains;
+
+
+    // Move this into GTFS-R_Data as a getter.
+    if (!stopsIndexNode.isSorted) {
+        _.sortBy(stopsIndexNode.vehicles, function (vehicleOffsetPair) {
+            train_id = vehicleOffsetPair[0];
+            updateOffset = vehicleOffsetPair[1];
+            return GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.stop_time_update[updateOffset].arrival.time.low;
+        });
+
+        stopsIndexNode.isSorted = true;
+    }
+
+
+    if(route_id) {
+        if (!stopsIndexNode.routes[route_id]) {
+            stopsIndexNode.routes[route_id] = stopsIndexNode.vehicles.filter(function (vehicleOffsetPair) {
+                                                                                return (GTFSr_Data.vehicleIndex[vehicleOffsetPair[0]].trip_update.trip_update.trip.route_id === route_id);
+                                                                             });
+        }
+        requestedTrains = stopsIndexNode.routes[route_id];
+
+    } else {
+        requestedTrains = stopsIndexNode.vehicles;
+    }
+
+
+    return  requestedTrains.map(function (vehicleOffsetPair) {
+        return {
+            "MonitoredVehicleJourney" : 
+                getStopMonitoringMonitoredVehicleJourney(vehicleOffsetPair[0], 
+                                                         vehicleOffsetPair[1],
+                                                         stop_id,
+                                                         maxOnwardCalls,
+                                                         vehicleMonitoringDetailLevel),
+            "RecordedAtTime" : 
+                getMonitoredStopVisitRecordedAtTime(getParams) ,
+        };
+    });
 }
 
 
@@ -160,63 +207,64 @@ function getSituationExchangeDelivery (getParams) {
     return null;
 }
 
-function getStopMonitoringMonitoredVehicleJourney (getParams) {
-    var mvj = getMonitoredVehicleJourney();
-
-    mvj.MonitoredCall = getStopMonitoringMonitoredCall();
-
-    return mvj;
+function getStopMonitoringMonitoredVehicleJourney (train_id, stopOffset, stop_id, maxOnwardCalls, detailLevel) {
+    return getMonitoredVehicleJourney(train_id, stopOffset, stop_id,  maxOnwardCalls, detailLevel);
 }
 
 function getVehicleMonitoringMonitoredVehicleJourney (train_id, maxOnwardCalls, detailLevel) {
-    var mvj = getMonitoredVehicleJourney(train_id, maxOnwardCalls, detailLevel);
-
-    mvj.MonitoredCall = getVehicleMonitoringMonitoredCall(train_id);
-
-    return mvj;
+    return getMonitoredVehicleJourney(train_id, null, null, maxOnwardCalls, detailLevel);
 }
 
-function getMonitoredVehicleJourney (train_id, maxOnwardCalls, detailLevel) {
-    var trip             = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip,
-        trip_id          = trip.trip_id,
-        route_id         = trip.route_id,
+function getMonitoredVehicleJourney (train_id, stopOffset, stop_id, maxOnwardCalls, detailLevel) {
+    var trip               = GTFSr_Data.vehicleIndex[train_id].trip_update.trip_update.trip,
+        trip_id            = trip.trip_id,
+        route_id           = trip.route_id,
 
-        startDateStr     = trip.start_date,
-        startDate        = utils.getDateFromDateString(startDateStr),
+        startDateStr       = trip.start_date,
+        startDate          = utils.getDateFromDateString(startDateStr),
 
-        origin_time      = parseInt(trip_id.substring(0, trip_id.indexOf('_'))),
+        origin_time        = parseInt(trip_id.substring(0, trip_id.indexOf('_'))),
 
-        dataFrameRefDate = getDataFrameRefDate(startDate, origin_time),
+        dataFrameRefDate   = getDataFrameRefDate(startDate, origin_time),
 
-        tripKey          = getScheduledTripKey(dataFrameRefDate, trip_id),
+        tripKey            = getScheduledTripKey(dataFrameRefDate, trip_id),
 
-        destination_id   = getDestinationID(train_id),
+        destination_id     = getDestinationID(train_id),
 
-        includeCalls     = (detailLevel === 'calls');
+        includeCalls       = (detailLevel === 'calls'),
+
+        onwardCalls        = (includeCalls) ? getOnwardCalls(train_id, maxOnwardCalls) : {},
+
+        monitoredCallIndex = stopOffset || 0,
+
+        monitoredCall      = onwardCalls[monitoredCallIndex] || 
+                                getCall(GTFSr_Data.vehicleIndex[train_id]
+                                                  .trip_update
+                                                  .trip_update
+                                                  .stop_time_update[monitoredCallIndex]);
 
 
     return {
-        "LineRef"                  : getLineRef(route_id)                                    ,
-        "DirectionRef"             : getDirectionRef(trip_id)                                ,
-        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(dataFrameRefDate, tripKey)   ,
-        "JourneyPatternRef"        : getJourneyPatternRef(tripKey)                           ,
-        "PublishedLineName"        : getPublishedLineName(tripKey)                           ,
-        "OperatorRef"              : getOperatorRef()                                        ,
-        "OriginRef"                : getOriginRef(train_id)                                  ,
-        "DestinationRef"           : getDestinationRef(destination_id)                       ,
-        "DestinationName"          : getDestinationName(destination_id)                      ,
-
-        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(train_id)                   ,
-        "SituationRef"             : getSituationRef(train_id)                               ,
-        "Monitored"                : getMonitored(train_id)                                  ,
-        "VehicleLocation"          : getVehicleLocation(train_id)                            ,
-        "Bearing"                  : getBearing(train_id)                                    ,
-        "ProgressRate"             : getProgressRate(train_id)                               ,
-        "ProgressStatus"           : getProgressStatus(train_id)                             ,
-        "BlockRef"                 : getBlockRef(train_id)                                   ,
-        "VehicleRef"               : getVehicleRef(train_id)                                 ,
-        //"MonitoredCall"            Filled in by caller for stop or vehicle reponse.
-        "OnwardCalls"       : (includeCalls) ? getOnwardCalls(train_id, maxOnwardCalls) : {} ,
+        "LineRef"                  : getLineRef(route_id)                                  ,
+        "DirectionRef"             : getDirectionRef(trip_id)                              ,
+        "FramedVehicleJourneyRef"  : getFramedVehicleJourneyRef(dataFrameRefDate, tripKey) ,
+        "JourneyPatternRef"        : getJourneyPatternRef(tripKey)                         ,
+        "PublishedLineName"        : getPublishedLineName(tripKey)                         ,
+        "OperatorRef"              : getOperatorRef()                                      ,
+        "OriginRef"                : getOriginRef(train_id)                                ,
+        "DestinationRef"           : getDestinationRef(destination_id)                     ,
+        "DestinationName"          : getDestinationName(destination_id)                    ,
+        "OriginAimedDepartureTime" : getOriginAimedDepartureTime(train_id)                 ,
+        "SituationRef"             : getSituationRef(train_id)                             ,
+        "Monitored"                : getMonitored(train_id)                                ,
+        "VehicleLocation"          : getVehicleLocation(train_id)                          ,
+        "Bearing"                  : getBearing(train_id)                                  ,
+        "ProgressRate"             : getProgressRate(train_id)                             ,
+        "ProgressStatus"           : getProgressStatus(train_id)                           ,
+        "BlockRef"                 : getBlockRef(train_id)                                 ,
+        "VehicleRef"               : getVehicleRef(train_id)                               ,
+        "MonitoredCall"            : monitoredCall                                         ,
+        "OnwardCalls"              : onwardCalls                                           ,
     };
 }
 
@@ -243,14 +291,7 @@ function getVehicleLocation (train_id) {
 }
 
 
-function getStopMonitoringMonitoredCall (stop_id) {
-    // TODO: Implement.
-    return null;
-}
-
-
-function getVehicleMonitoringMonitoredCall (train_id) {
-    //TODO: Implement;
+function getMonitoredCall (train_id, stopIndex) {
     return null;
 }
 
@@ -417,7 +458,6 @@ function getScheduledTripKey (tripDate, trip_id) {
 }
 
 function getDatedVehicleJourneyRef (tripKey) {
-    console.log(tripKey);
     var tripID = GTFS_Data.trips[tripKey];
 
     return (tripID) ? GTFS_Data.trips[tripKey].trip_id : null;
@@ -521,16 +561,22 @@ function getTimestampForTestOutput () {
 
 
 function test (getParams) {
-    var fs    = require('fs'),
-        stamp = getTimestampForTestOutput();
+    //var fs    = require('fs'),
+        //stamp = getTimestampForTestOutput();
 
-    var siriOutput = JSON.stringify(getVehicleMonitoringResponse(getParams), null, '  ');
+    //var siriOutput = JSON.stringify(getVehicleMonitoringResponse(getParams), null, '  ');
 
 
-    fs.writeFileSync(__dirname + '/' + 'siri_test_' + stamp + '.json', siriOutput);
+    //fs.writeFileSync(__dirname + '/' + 'siri_test_' + stamp + '.json', siriOutput);
 
     //console.log(JSON.stringify(getStopMonitoringResponse(getParams), null, '\t'));
     //getVehicleMonitoringResponse(getParams);
+    //
+    //console.log(GTFSr_Data.stopsIndex);
+    
+
+    var siriOutput = JSON.stringify(getStopMonitoringResponse(getParams), null, '  ');
+    console.log(siriOutput);
 }
 
 

@@ -4,9 +4,13 @@
 
 var feedReader = require('../feed_readers/bus-feed-reader'),
 
-    params     = {  OperatorRef   : 'MTA',
-                    MonitoringRef : 308209,
-                    LineRef       : 'MTA NYCT_B63', },
+    //params     = {  OperatorRef   : 'MTA',
+                    //MonitoringRef : 308209,
+                    //LineRef       : 'MTA NYCT_B63', },
+
+    params     = {  OperatorRef               : 'MTA',
+                    MonitoringRef             : 308209,
+                    StopMonitoringDetailLevel : 'calls', },
 
     callback   = function (msg) { console.log(JSON.stringify(msg, null, 4)); };
 
