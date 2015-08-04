@@ -95,8 +95,13 @@ function indexVehiclePostion (vehiclePositionMessage) {
 //========================= The API =========================\\
 // TODO: put all external facing functions in an object, 
 //       set module.exports equal to that object
+//
 
-function getAllMonitoredTrains() {
+function getTimestamp () {
+    return GTFSr_JSON.header.timestamp.low;
+}
+
+function getAllMonitoredTrains () {
     return _.keys(trainsIndex);
 }
 
@@ -324,6 +329,7 @@ module.exports = {
     trainsIndex                             : trainsIndex                             ,
     routesIndex                             : routesIndex                             ,
     stopsIndex                              : stopsIndex                              ,
+    getTimestamp                            : getTimestamp                            ,
     getAllMonitoredTrains                   : getAllMonitoredTrains                   ,
     getTrainsServicingRoute                 : getTrainsServicingRoute                 ,
     getTripUpdateForTrain                   : getTripUpdateForTrain                   ,

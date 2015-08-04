@@ -13,75 +13,83 @@ var _     = require('lodash'),
     utils = require('./utils');
 
 
-// Prob should index timestamps, and set all at end of response.
-
 function getStopMonitoringResponse (getParams) {
-    var response = {
-        "Siri" : {
-            "ServiceDelivery" : getStopMonitoringServiceDelivery(getParams),
-        },
-    };
+    var timestamper = _newResponseTimestamper(),
+
+        response = {
+            "Siri" : {
+                "ServiceDelivery" : getStopMonitoringServiceDelivery(getParams, timestamper),
+            },
+        };
+
+    timestamper.stamp();
 
     return response;
 }
 
 function getVehicleMonitoringResponse (getParams) {
-    var response = {
+    var timestamper = _newResponseTimestamper(),
+        response = {
         "Siri" : {
-            "ServiceDelivery" : getVehicleMonitoringServiceDelivery(getParams),
+            "ServiceDelivery" : getVehicleMonitoringServiceDelivery(getParams, timestamper),
         },
     };
+
+    timestamper.stamp();
 
     return response;
 }
 
 
 
-function getStopMonitoringServiceDelivery (getParams) {
-    return {
-        "ResponseTimestamp"         : utils.getTimestamp()                    ,
+function getStopMonitoringServiceDelivery (getParams, timestamper) {
+    var delivery = {
+        //"ResponseTimestamp" handled by the timestamper.
         "StopMonitoringDelivery"    : getStopMonitoringDelivery(getParams)    ,
         "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams) ,
     };
+
+    timestamper.push(delivery);
+
+    return delivery;
 }
 
-function getVehicleMonitoringServiceDelivery (getParams) {
-    
-    return {
-        "ResponseTimestamp"         : utils.getTimestamp()                    , 
-        "VehicleMonitoringDelivery" : getVehicleMonitoringDelivery(getParams) ,
+function getVehicleMonitoringServiceDelivery (getParams, timestamper) {
+    var delivery = {
+        //"ResponseTimestamp" handled by the timestamper.
+        "VehicleMonitoringDelivery" : getVehicleMonitoringDelivery(getParams, timestamper) ,
         "SituationExchangeDelivery" : getSituationExchangeDelivery(getParams) ,
     };
+
+    timestamper.push(delivery);
+
+    return delivery;
 }
 
 
-function getStopMonitoringServiceDeliveryResponseTimestamp (getParams) {
-    //TODO: Implement;
-    return null;
-}
-
-
-function getVehicleMonitoringServiceDeliveryResponseTimestamp (getParams) {
-    //TODO: Implement;
-    return null;
-}
-
-
-function getStopMonitoringDelivery (getParams) {
-    return {
-        "MonitoredStopVisit" : getMonitoredStopVisit(getParams)                      ,
-        "ResponseTimestamp"  : getStopMonitoringDeliveryResponseTimestamp(getParams) ,
-        "ValidUntil"         : getStopMonitoringDeliveryValidUntil(getParams)        ,
-   };
-}
-
-
-function getVehicleMonitoringDelivery (getParams) {
-    return {
-        "VehicleActivity"   : getVehicleActivity(getParams)                                   ,
-        "ResponseTimestamp" : getVehicleMonitoringServiceDeliveryResponseTimestamp(getParams) ,
-        "ValidUntil"        : getVehicleMonitoringDeliveryValidUntil(getParams)               ,
+function getStopMonitoringDelivery (getParams, timestamper) {
+    var delivery = {
+        //"ResponseTimestamp" handled by the timestamper.
+        "MonitoredStopVisit" : getMonitoredStopVisit(getParams, timestamper)                      ,
+        "ValidUntil"         : getValidUntil()                                       ,
     };
+
+    timestamper.push(delivery);
+
+    return delivery;
+}
+
+
+function getVehicleMonitoringDelivery (getParams, timestamper) {
+    var delivery = {
+        //"ResponseTimestamp" handled by the timestamper.
+        "VehicleActivity"   : getVehicleActivity(getParams, timestamper)                                   ,
+        "ValidUntil"        : getValidUntil()                                                 ,
+    };
+
+    timestamper.push(delivery);
+
+    return delivery;
 }
 
 
@@ -124,6 +132,8 @@ function getVehicleActivity (getParams) {
             
     if (trainID && routeID) {
        requestedTrains = _.intersection(GTFSr.getTrainsServicingRoute(routeID), [trainID]);
+    } else if (trainID) {
+        requestedTrains = [trainID];
     } else if (routeID) {
         requestedTrains = GTFSr.getTrainsServicingRoute(routeID);
     } else {
@@ -139,7 +149,7 @@ function getVehicleActivity (getParams) {
             "MonitoredVehicleJourney" : 
                 getVehicleMonitoringMonitoredVehicleJourney(trainID, 
                                                             maxOnwardCalls,
-                                                            vehicleMonitoringDetailLevel) ,
+                                                            vehicleMonitoringDetailLevel),
             "RecordedAtTime" : 
                 getMonitoredStopVisitRecordedAtTime(getParams) ,
         };
@@ -147,21 +157,12 @@ function getVehicleActivity (getParams) {
 }
 
 
-function getStopMonitoringDeliveryResponseTimestamp (getParams) {
-    //TODO: Implement;
-    return null;
-}
+function getValidUntil (getParams) {
+    // ??? Should we account for processing the GTFSr feed? ???
+    // Or, block requests after GTFSr update until the new data is processed ???
+    var posixTimestamp = GTFSr.getTimestamp() + 30; 
 
-
-function getStopMonitoringDeliveryValidUntil (getParams) {
-    //TODO: Implement;
-    return null;
-}
-
-
-function getVehicleMonitoringDeliveryValidUntil (getParams) {
-    //TODO: Implement;
-    return null;
+    return utils.getTimestampFromPosix(posixTimestamp);
 }
 
 
@@ -471,6 +472,25 @@ function getTimestampForTestOutput () {
  
     return stamp;
 }
+
+
+var _newResponseTimestamper = (function () {
+
+    function _stamper (objList) {
+        var timestamp = utils.getTimestamp();
+
+       _.forEach(objList, function(obj) { obj.ResponseTimestamp = timestamp; });
+    }
+
+    return function () {
+        var toStamp = [];
+
+        return {
+            push  : function(obj) { toStamp.push(obj); },
+            stamp : _stamper.bind(null, toStamp),
+        };
+    };
+}());
 
 
 function test (getParams) {
