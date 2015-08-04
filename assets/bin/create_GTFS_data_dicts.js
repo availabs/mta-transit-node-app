@@ -23,12 +23,10 @@ var fs           = require('fs'),
         trips    : 'trip_id'    ,
     },
 
-    tables = Object.keys(tablePKs),
-
-    i = 0;
+    tables = Object.keys(tablePKs);
 
 
-(function iterateAndParse () {
+(function iterateAndParse (i) {
     var tableName = tables[i],
         filePath  = gtfsDataDir + tableName + '.txt',
         converter,
@@ -58,4 +56,4 @@ var fs           = require('fs'),
     });
 
     fileStream.pipe(converter);
-}());
+}(0));
