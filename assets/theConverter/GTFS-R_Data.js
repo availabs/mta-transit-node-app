@@ -12,8 +12,9 @@ var jsonfile = require('jsonfile'),
 
 var utils      = require('./utils'),
     filePath   = __dirname + '/../sample_messages/nyct-subway-message.json',
+
     GTFSr_JSON = jsonfile.readFileSync(filePath),
-    GTFS_JSON  = require('./GTFS_Data');
+    GTFS       = require('./GTFS_Data');
 
 
 var trainsIndex = {},
@@ -125,17 +126,15 @@ function getAlertsForRoute (routeID) {
     return routesIndex.alerts;
 }
 
-
 function getStopTimeUpdatesForTrain (trainID) {
     return trainsIndex[trainID].tripUpdate.stop_time_update;
 }
-        //tripKey            = getScheduledTripKey(dataFrameRefDate, tripID),
 
 function getTripForTrain (trainID) {
     return trainsIndex[trainID].tripUpdate.trip;
 }
 
-function getTripIDForTrain (trainID) {
+function getGTFSrTripIDForTrain (trainID) {
     return getTripForTrain(trainID).trip_id;
 }
 
@@ -150,13 +149,18 @@ function getStartDateForTrain (trainID) {
 }
 
 function getOriginTimeForTrain (trainID) {
-    var tripID = getTripIDForTrain(trainID);
+    var tripID = getGTFSrTripIDForTrain(trainID);
 
     return parseInt(tripID.substring(0, tripID.indexOf('_')));
 }
 
 function getOnwardCallsForTrain (trainID, maxOnwardCalls) {
     return trainsIndex[trainID].tripUpdate.stop_time_update;
+}
+
+function getIDOfNextStopForTrain (trainID) {
+    var nextStop = _.first(getOnwardCallsForTrain(trainID));
+    return (nextStop) ? nextStop.stop_id : null;
 }
 
 function getFirstOnwardCallForTrain (trainID) {
@@ -195,33 +199,33 @@ function getTripScheduleDateForTrain (trainID) {
     return scheduleDate;
 }
 
-function getGTFSTripIDForTrain (trainID) {
-    var tripKey = getPartialGTFSTripNameForTrain(trainID);
 
-    return (GTFS_JSON.trips[tripKey]) ? GTFS_JSON.trips[tripKey].trip_id : null;
+function getGTFSTripIDForTrain (trainID) {
+    var partialTripName = getPartialGTFSTripNameForTrain(trainID);
+
+    return GTFS.getTripIDForPartialTripName(partialTripName);
 }
 
 function getGTFSTripHeadsignForTrain (trainID) {
-    var tripKey = getPartialGTFSTripNameForTrain(trainID);
+    var partialTripName = getPartialGTFSTripNameForTrain(trainID);
 
-    return (GTFS_JSON.trips[tripKey]) ? GTFS_JSON.trips[tripKey].trip_headsign : null;
+    return GTFS.getTripHeadsignForPartialTripName(partialTripName);
 }
 
 function getGTFSShapeIDForTrain (trainID) {
-    var tripKey = getPartialGTFSTripNameForTrain(trainID);
+    var partialTripName = getPartialGTFSTripNameForTrain(trainID);
 
-    return (GTFS_JSON.trips[tripKey]) ? GTFS_JSON.trips[tripKey].shape_id : null;
+    return GTFS.getShapeIDForPartialTripName(partialTripName);
 }
 
 function getGTFSRouteShortNameForTrain (trainID) {
-    var tripKey = getPartialGTFSTripNameForTrain(trainID);
-
-    return (GTFS_JSON.trips[tripKey]) ? GTFS_JSON.trips[tripKey].route_short_name : null;
+    return trainsIndex[trainID].tripUpdate.trip.route_id;
 }
 
-function getPartialGTFSTripNameForTrain (trainID) {
+
+var getPartialGTFSTripNameForTrain = _.memoize(function (trainID) {
     var tripDate     = getTripScheduleDateForTrain(trainID),
-        tripID       = getTripIDForTrain(trainID),
+        tripID       = getGTFSrTripIDForTrain(trainID),
         day          = tripDate.getDay(),
         serviceCode,
         coreTripID,
@@ -235,7 +239,7 @@ function getPartialGTFSTripNameForTrain (trainID) {
     coreTripID = tripID.substring(0, tripID.lastIndexOf('.') + 2);
 
     return serviceCode + '_' + coreTripID;
-}
+});
 
 
 function getTrainsServicingStop (stopID) {
@@ -268,9 +272,20 @@ function convertStopIndexNodeObjectToSortedArray (stopID) {
 
 
 function getTrainArrivalTimeForStop (trainID, stopID) {
-    //
-    //return trainsIndex[trainID]tripUpdate.stop_time_update[stopTimeUpdateIndex].arrival.time.low;
+    var stopTimeUpdate    = trainsIndex[trainID].stops[stopID],
+        arrivalTimeUpdate = stopTimeUpdate && stopTimeUpdate.arrival;
+
+    return (arrivalTimeUpdate && arrivalTimeUpdate.time.low) || null;
 }
+
+
+function getTrainDepartureTimeForStop (trainID, stopID) {
+    var stopTimeUpdate      = trainsIndex[trainID].stops[stopID],
+        departureTimeUpdate = stopTimeUpdate && stopTimeUpdate.departure;
+
+    return (departureTimeUpdate && departureTimeUpdate.time.low) || null;
+}
+
 
 function getDestinationIDForTrain (trainID) { //FIXME: Mess. At least make more defensively coded.
     var lastStop = _.last(getStopTimeUpdatesForTrain(trainID));
@@ -319,11 +334,13 @@ module.exports = {
     getAlertsForRoute                       : getAlertsForRoute                       ,
     getStopTimeUpdatesForTrain              : getStopTimeUpdatesForTrain              ,
     getTripForTrain                         : getTripForTrain                         ,
-    getTripIDForTrain                       : getTripIDForTrain                       ,
+    getGTFSTripIDForTrain                   : getGTFSTripIDForTrain                   ,
+    getGTFSrTripIDForTrain                  : getGTFSrTripIDForTrain                  ,
     getRouteIDForTrain                      : getRouteIDForTrain                      ,
     getStartDateForTrain                    : getStartDateForTrain                    ,
     getOriginTimeForTrain                   : getOriginTimeForTrain                   ,
     getOnwardCallsForTrain                  : getOnwardCallsForTrain                  ,
+    getIDOfNextStopForTrain                 : getIDOfNextStopForTrain                 ,
     getFirstOnwardCallForTrain              : getFirstOnwardCallForTrain              ,
     getFirstNOnwardCallsForTrain            : getFirstNOnwardCallsForTrain            ,
     getNthOnwardCallForTrain                : getNthOnwardCallForTrain                ,
@@ -331,7 +348,6 @@ module.exports = {
     getDestinationStopTimeUpdateForTrain    : getDestinationStopTimeUpdateForTrain    ,
     getDestinationIDForTrain                : getDestinationIDForTrain                ,
     getTripScheduleDateForTrain             : getTripScheduleDateForTrain             ,
-    getGTFSTripIDForTrain                   : getGTFSTripIDForTrain                   ,
     getGTFSTripHeadsignForTrain             : getGTFSTripHeadsignForTrain             ,
     getGTFSShapeIDForTrain                  : getGTFSShapeIDForTrain                  ,
     getPartialGTFSTripNameForTrain          : getPartialGTFSTripNameForTrain          ,
@@ -340,4 +356,5 @@ module.exports = {
     getTrainsServicingStopForRoute          : getTrainsServicingStopForRoute          ,
     convertStopIndexNodeObjectToSortedArray : convertStopIndexNodeObjectToSortedArray ,
     getTrainArrivalTimeForStop              : getTrainArrivalTimeForStop              ,
+    getTrainDepartureTimeForStop            : getTrainDepartureTimeForStop            ,
 };
