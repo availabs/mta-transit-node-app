@@ -159,26 +159,41 @@ function getOriginTimeForTrain (trainID) {
     return parseInt(tripID.substring(0, tripID.indexOf('_')));
 }
 
-function getOnwardCallsForTrain (trainID, maxOnwardCalls) {
+function getOnwardCallsForTrain (trainID) {
     return trainsIndex[trainID].tripUpdate.stop_time_update;
 }
 
-function getIDOfNextStopForTrain (trainID) {
-    var nextStop = _.first(getOnwardCallsForTrain(trainID));
-    return (nextStop) ? nextStop.stop_id : null;
+function getOnwardStopIDsForTrain (trainID) {
+    return _.pluck(getOnwardCallsForTrain(trainID), 'stop_id');
 }
+
 
 function getFirstOnwardCallForTrain (trainID) {
     return _.first(getOnwardCallsForTrain(trainID));
 }
 
+function getIDOfNextStopForTrain (trainID) {
+    return getFirstOnwardCallForTrain(trainID).stop_id;
+}
+
+
 function getFirstNOnwardCallsForTrain (trainID, n) {
     return _.take(getOnwardCallsForTrain(trainID), n);
 }
 
+function getFirstNOnwardStopIDsForTrain (trainID, n) {
+    return _.pluck(getFirstNOnwardCallsForTrain(trainID), 'stop_id');
+}
+
+
 function getNthOnwardCallForTrain (trainID, n) {
     return getOnwardCallsForTrain(trainID)[n];
 }
+
+function getNthOnwardStopIDForTrain (trainID, n) {
+    return getOnwardCallsForTrain(trainID)[n].stop_id;
+}
+
 
 function getStopTimeUpdateForStopForTrain (stopID, trainID) {
     return trainsIndex[trainID].stops[stopID];
@@ -324,43 +339,60 @@ function newTrainIndexNode () {
 
 //========================= Export the API =========================\\
 
-
 module.exports = { 
     trainsIndex                             : trainsIndex                             ,
     routesIndex                             : routesIndex                             ,
     stopsIndex                              : stopsIndex                              ,
+
     getTimestamp                            : getTimestamp                            ,
+
     getAllMonitoredTrains                   : getAllMonitoredTrains                   ,
     getTrainsServicingRoute                 : getTrainsServicingRoute                 ,
+
     getTripUpdateForTrain                   : getTripUpdateForTrain                   ,
     getVehiclePositionUpdateForTrain        : getVehiclePositionUpdateForTrain        ,
     getAlertsForTrain                       : getAlertsForTrain                       ,
+
     getTripUpdatesForRoute                  : getTripUpdatesForRoute                  ,
     getVehiclePositionUpdatesForRoute       : getVehiclePositionUpdatesForRoute       ,
     getAlertsForRoute                       : getAlertsForRoute                       ,
+
     getStopTimeUpdatesForTrain              : getStopTimeUpdatesForTrain              ,
     getTripForTrain                         : getTripForTrain                         ,
     getGTFSTripIDForTrain                   : getGTFSTripIDForTrain                   ,
     getGTFSrTripIDForTrain                  : getGTFSrTripIDForTrain                  ,
     getRouteIDForTrain                      : getRouteIDForTrain                      ,
+
     getStartDateForTrain                    : getStartDateForTrain                    ,
     getOriginTimeForTrain                   : getOriginTimeForTrain                   ,
+
     getOnwardCallsForTrain                  : getOnwardCallsForTrain                  ,
-    getIDOfNextStopForTrain                 : getIDOfNextStopForTrain                 ,
     getFirstOnwardCallForTrain              : getFirstOnwardCallForTrain              ,
     getFirstNOnwardCallsForTrain            : getFirstNOnwardCallsForTrain            ,
     getNthOnwardCallForTrain                : getNthOnwardCallForTrain                ,
+
+    getOnwardStopIDsForTrain                : getOnwardStopIDsForTrain                ,
+    getIDOfNextStopForTrain                 : getIDOfNextStopForTrain                 ,
+    getFirstNOnwardStopIDsForTrain          : getFirstNOnwardStopIDsForTrain          ,
+    getNthOnwardStopIDForTrain              : getNthOnwardStopIDForTrain              ,
+
     getStopTimeUpdateForStopForTrain        : getStopTimeUpdateForStopForTrain        ,
     getDestinationStopTimeUpdateForTrain    : getDestinationStopTimeUpdateForTrain    ,
+
     getDestinationIDForTrain                : getDestinationIDForTrain                ,
+
     getTripScheduleDateForTrain             : getTripScheduleDateForTrain             ,
+
     getGTFSTripHeadsignForTrain             : getGTFSTripHeadsignForTrain             ,
     getGTFSShapeIDForTrain                  : getGTFSShapeIDForTrain                  ,
+
     getPartialGTFSTripNameForTrain          : getPartialGTFSTripNameForTrain          ,
-    getGTFSRouteShortNameForTrain           : getGTFSRouteShortNameForTrain           ,    
+
+    getGTFSRouteShortNameForTrain           : getGTFSRouteShortNameForTrain           ,
+
     getTrainsServicingStop                  : getTrainsServicingStop                  ,
     getTrainsServicingStopForRoute          : getTrainsServicingStopForRoute          ,
-    convertStopIndexNodeObjectToSortedArray : convertStopIndexNodeObjectToSortedArray ,
+
     getTrainArrivalTimeForStop              : getTrainArrivalTimeForStop              ,
     getTrainDepartureTimeForStop            : getTrainDepartureTimeForStop            ,
 };

@@ -3,7 +3,7 @@
 //TODO: Remove next line
 /* jshint unused: false */
 
-// TODO: make simple getters for indexed GTFSr data.
+// TODO: Should not return a response whose ResponseTimeStamp > ValidUntil.
 
 
 var _     = require('lodash'),
@@ -22,7 +22,7 @@ function getStopMonitoringResponse (getParams) {
             },
         };
 
-    timestamper.stamp();
+    timestamper.stamp(); 
 
     return response;
 }
@@ -241,8 +241,8 @@ function getCall (trainID, stopID) {
         "ExpectedArrivalTime"   : getExpectedArrivalTime(trainID, stopID)   ,
         "ExpectedDepartureTime" : getExpectedDepartureTime(trainID, stopID) ,
 
-        "StopPointRef"          : getStopPointRef(trainID, stopID)          ,
-        "StopPointName"         : getStopPointName(trainID, stopID)         ,
+        "StopPointRef"          : getStopPointRef(stopID)                   ,
+        "StopPointName"         : getStopPointName(stopID)                  ,
 
         "VisitNumber"           : getVisitNumber(trainID, stopID)           ,
     };
@@ -352,13 +352,11 @@ function getVehicleRef (trainID) { //TODO: Implement
 
 
 function getOnwardCalls (trainID, maxOnwardCalls) { //TODO: Implement
-    var stopTimeUpdates = GTFSr.getStopTimeUpdatesForTrain(trainID);
+    var onwardStopIDs = (maxOnwardCalls) ?
+                            GTFSr.getFirstNOnwardStopIDsForTrain(trainID, maxOnwardCalls) :
+                            GTFSr.getOnwardStopIDsForTrain(trainID)                       ;
 
-    if (maxOnwardCalls) {
-        stopTimeUpdates = _.take(stopTimeUpdates, maxOnwardCalls);
-    }
-
-    return stopTimeUpdates.map(getCall);
+    return onwardStopIDs.map(_.partial(getCall, trainID));
 }
 
 
@@ -409,7 +407,7 @@ function getExpectedArrivalTime (trainID, stopID) { // Note: in docs, but not in
 
 
 function getExpectedDepartureTime (trainID, stopID) { // Note: in docs, but not in actual SIRI.
-    var departureTime = GTFSr.getTrainArrivalTimeForStop(trainID, stopID);
+    var departureTime = GTFSr.getTrainDepartureTimeForStop(trainID, stopID);
 
     return (departureTime) ? utils.getTimestampFromPosix(departureTime) : null;
 }
@@ -509,7 +507,7 @@ function test (getParams) {
     
 
     var siriOutput = JSON.stringify(getVehicleMonitoringResponse(getParams), null, '  ');
-    console.log(siriOutput);
+    //console.log(siriOutput);
 }
 
 
