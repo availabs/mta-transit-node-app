@@ -67,7 +67,7 @@ function indexTripUpdate (tripUpdateMessage) {
 
     (routesIndex[routeID] || (routesIndex[routeID] = {}))[trainID] = 1;
 
-    _.forEach(_.values(tripUpdateMessage.stop_time_update), function (stopTimeUpdate) {
+    _.forEach(_.values(tripUpdateMessage.stop_time_update), function (stopTimeUpdate, index) {
         var stopID     = stopTimeUpdate.stop_id,
 
             timeAtStop = (stopTimeUpdate.arrival   && stopTimeUpdate.arrival.time.low)   ||
@@ -75,7 +75,7 @@ function indexTripUpdate (tripUpdateMessage) {
                          Number.POSITIVE_INFINITY;
 
                         
-        trainsIndex[trainID].stops[stopID] = stopTimeUpdate; 
+        trainsIndex[trainID].stops[stopID] = index; 
         (stopsIndex[stopID] || (stopsIndex[stopID] = {}))[trainID] = timeAtStop;
     });
 }
@@ -159,6 +159,10 @@ function getOriginTimeForTrain (trainID) {
     return parseInt(tripID.substring(0, tripID.indexOf('_')));
 }
 
+function getStopsFromCallForTrain (trainID, stopID) {
+    return trainsIndex[trainID].stops[stopID];
+}
+
 function getOnwardCallsForTrain (trainID) {
     return trainsIndex[trainID].tripUpdate.stop_time_update;
 }
@@ -196,7 +200,14 @@ function getNthOnwardStopIDForTrain (trainID, n) {
 
 
 function getStopTimeUpdateForStopForTrain (stopID, trainID) {
-    return trainsIndex[trainID].stops[stopID];
+    var tripUpdate = trainsIndex[trainID].tripUpdate,
+        stopIndex;
+    
+    if ( ! tripUpdate) { return; }
+
+    stopIndex = trainsIndex[trainID].stops[stopID];
+
+    return tripUpdate.stop_time_update[stopIndex];
 }
 
 function getDestinationStopTimeUpdateForTrain (trainID) {
@@ -292,16 +303,24 @@ function convertStopIndexNodeObjectToSortedArray (stopID) {
 
 
 function getTrainArrivalTimeForStop (trainID, stopID) {
-    var stopTimeUpdate    = trainsIndex[trainID].stops[stopID],
-        arrivalTimeUpdate = stopTimeUpdate && stopTimeUpdate.arrival;
+    var stopTimeUpdate = getStopTimeUpdateForStopForTrain(stopID, trainID), //FIXME: Keep same ordering.
+        arrivalTimeUpdate;
+
+    if ( ! stopTimeUpdate ) { return; }
+
+    arrivalTimeUpdate = stopTimeUpdate.arrival;
 
     return (arrivalTimeUpdate && arrivalTimeUpdate.time.low) || null;
 }
 
 
 function getTrainDepartureTimeForStop (trainID, stopID) {
-    var stopTimeUpdate      = trainsIndex[trainID].stops[stopID],
-        departureTimeUpdate = stopTimeUpdate && stopTimeUpdate.departure;
+    var stopTimeUpdate = getStopTimeUpdateForStopForTrain(stopID, trainID), //FIXME: Keep same ordering.
+        departureTimeUpdate;
+
+    if ( ! stopTimeUpdate ) { return; }
+
+    departureTimeUpdate = stopTimeUpdate.departure;
 
     return (departureTimeUpdate && departureTimeUpdate.time.low) || null;
 }
@@ -365,6 +384,8 @@ module.exports = {
 
     getStartDateForTrain                    : getStartDateForTrain                    ,
     getOriginTimeForTrain                   : getOriginTimeForTrain                   ,
+
+    getStopsFromCallForTrain                : getStopsFromCallForTrain                ,
 
     getOnwardCallsForTrain                  : getOnwardCallsForTrain                  ,
     getFirstOnwardCallForTrain              : getFirstOnwardCallForTrain              ,

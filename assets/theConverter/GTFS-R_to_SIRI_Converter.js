@@ -389,12 +389,12 @@ function getLatitude (getParams) {
 }
 
 
-function getDistances (getParams) {
+function getDistances (trainID, stopID) {
     return {
-        "PresentableDistance"    : getPresentableDistance(getParams)    ,
-        "DistanceFromCall"       : getDistanceFromCall(getParams)       ,
-        "StopsFromCall"          : getStopsFromCall(getParams)          ,
-        "CallDistanceAlongRoute" : getCallDistanceAlongRoute(getParams) ,
+        "PresentableDistance"    : getPresentableDistance(trainID, stopID)    ,
+        "DistanceFromCall"       : getDistanceFromCall(trainID, stopID)       ,
+        "StopsFromCall"          : getStopsFromCall(trainID, stopID)          ,
+        "CallDistanceAlongRoute" : getCallDistanceAlongRoute(trainID, stopID) ,
     };
 }
 
@@ -440,9 +440,8 @@ function getDistanceFromCall (getParams) {
 }
 
 
-function getStopsFromCall (getParams) {
-    //TODO: Implement
-    return null;
+function getStopsFromCall (trainID, stopID) {
+    return GTFSr.getStopsFromCallForTrain(trainID, stopID);
 }
 
 
@@ -507,7 +506,7 @@ function test (getParams) {
     
 
     var siriOutput = JSON.stringify(getVehicleMonitoringResponse(getParams), null, '  ');
-    //console.log(siriOutput);
+    console.log(siriOutput);
 }
 
 
