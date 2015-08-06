@@ -4,6 +4,11 @@
 
 // Goal is to keep all GTFS-R concepts/logic in this file,
 // and all GTFS and SIRI logic in their respective files.
+//
+// FIXME: Fix the partial route name logic. 
+// Some routes have a .. because the second one is a place filler.
+// Routes with a single char (1..)
+// with two chars (FC.)
 
 
 var jsonfile = require('jsonfile'),
