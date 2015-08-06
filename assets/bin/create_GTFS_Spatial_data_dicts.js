@@ -19,13 +19,9 @@ var async       = require('async'),
  * GTFSr latitude, longitude, distance. 
  *
  *  { tripKey: { 
- *                  points : [ { lat: X,
- *                               lon: Y,
- *                               dist_traveled: Z },
- *                             ...
- *                           ],
- *
- *                  stops  : {  stop_id : { <index into points> } },
+ *                  shapeID  : shapeID
+ *                  stopsPts : [ { dist_traveled : x,
+ *                                 pathIndex     : y, } ]
  *             }
  *  }
  */
@@ -176,24 +172,24 @@ function finale (err, results) {
                 stopPt      = { latitude  : stopCoords.lat,
                                 longitude : stopCoords.lon, },
 
-                distA = Number.POSITIVE_INFINITY, 
+                distA,
                 distB = Number.POSITIVE_INFINITY,
 
-                dist,
                 midPt;
 
             if (i >= (points.length - 2)) {
 
-                dist = geolib.getDistance(lastShapePt, stopPt);
+                distA = geolib.getDistance(lastShapePt, stopPt);
 
                 ++i;
-                stopLoci[stopID] = { dist_traveled: dist, injectIndex: i, };
+                stopLoci[stopID] = { dist_traveled: distA, pathIndex: i, };
 
             } else {
                 // TODO: Check for edge cases.
                 //       Handle instances where stop point equals path point,
                 //          and cases where they're equal by using integers for
-                //          the injectIndex and reals otherwise.
+                //          the pathIndex and reals otherwise.
+                //       Handle case where stop is the first point.
                 do {
                     distA = distB;
 
@@ -204,13 +200,13 @@ function finale (err, results) {
                     ++i;
                 } while ((distA > distB) && (i < (points.length - 2)));
 
-                stopLoci[stopID] = { dist_traveled: distA, injectIndex: i, };
+                stopLoci[stopID] = { dist_traveled: distA, pathIndex: i, };
             }
         });
 
         theDataStructure[tripKey] = {
-            points : shapeID,
-            stops  : stopLoci,
+            shapeID  : shapeID,
+            stopsPts : stopLoci,
         };
     });
 
