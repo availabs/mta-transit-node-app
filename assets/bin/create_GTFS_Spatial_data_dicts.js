@@ -19,7 +19,7 @@ var LOG_STATS = true,
     DEVIANCE_THRESHOLD = 50;    // How many feet to allow between GTFS stop location
                                 // and its projection onto the path
                                 // before logging the deviance.
-var errorLog = '';
+var logOutput = '';
 
 
 var miniCases = 0,  // Cases where simple minification worked.
@@ -66,8 +66,9 @@ function buildTheSpatialDataDictionary (err, results) {
 
             stopProjections;
 
-        // Some trips don't have a shape.
-        if ( ! waypointCoords ) { return; }
+
+        if ( ! waypointCoords ) { return; } // Some trips don't have a shape.
+
 
         stopProjections = fitStopsToPath(stopsToPathKey, stopPointCoords, waypointCoords, tripID);
 
@@ -76,7 +77,7 @@ function buildTheSpatialDataDictionary (err, results) {
                 stops : stopProjections,
             };
         } else {
-            errorLog += ('\n\n!!! WARNING: No projections for ' + tripID + ' !!!\n\n');
+            logOutput += ('\n\n!!! WARNING: No projections for ' + tripID + ' !!!\n\n');
         }
     });
 
@@ -92,69 +93,62 @@ function buildTheSpatialDataDictionary (err, results) {
     fs.writeFile(gtfsDataDir + 'GTFS_Spatial_Data.json', 
                  JSON.stringify(theSpatialData));
 
-    if (errorLog && LOG_STATS) {
-        fs.writeFile(gtfsDataDir + 'log.out', statsString + errorLog);
+    if (logOutput && LOG_STATS) {
+        fs.writeFile(gtfsDataDir + 'log.out', statsString + logOutput);
     }
 }
 
 
 
 var fitStopsToPath = _.memoize(function (stopsToPathKey, stopPointCoords, waypointCoords, tripID) {
-    var stopPoints   = getGeoJSPointsForGTFSPoints(stopPointCoords),
-        waypoints    = getGeoJSPointsForGTFSPoints(waypointCoords),
-        pathSegments = getGeoJSLineSegmentsForGTFSPathWaypoints(waypointCoords),
+    var stopPoints      = getGeoJSPointsForGTFSPoints(stopPointCoords),
+        waypoints       = getGeoJSPointsForGTFSPoints(waypointCoords),
+        pathSegments    = getGeoJSLineSegmentsForGTFSPathWaypoints(waypointCoords),
 
-        theTable = getStopsProjectedToPathSegmentsTable(stopPoints, waypoints, pathSegments),
-        
-        numPointsExceedingDeviationThreshold = 0,
-        maxDeviation,
+        theTable        = getStopsProjectedToPathSegmentsTable(stopPoints, waypoints, pathSegments),
 
-        miniAlgo, 
-        lsqAlgo,
-
-        stopProjections,
-
-        i;
+        stopProjections = trySimpleMinification(theTable);
 
 
-        if ( (miniAlgo = trySimpleMinification(theTable)) ) { // For testing, comment out the `if` and compare the result of miniAlgo and lsqAlgo.
-            ++miniCases;
-        } else {
-            ++lsqCases; 
-            lsqAlgo = fitStopsToPathUsingLeastSquares(theTable);
-
-            errorLog += '\nWARNING: Trip ' + tripID + ' required the least squares fitting algorithm.\n\n';
+        if ( ! stopProjections ) {
+            logOutput += '\nWARNING: Trip ' + tripID + ' required the least squares fitting algorithm.\n\n';
+            stopProjections = fitStopsToPathUsingLeastSquares(theTable);
         }
 
-        stopProjections = (miniAlgo || lsqAlgo);
-         
-
         if (LOG_STATS) {
-            maxDeviation = _.first(stopProjections).deviation * 5280;
-        
-            for (i=0; i < stopProjections.length; ++i) {
-                if ((stopProjections[i].deviation * 5280) > DEVIANCE_THRESHOLD) {
-                    ++numPointsExceedingDeviationThreshold;
-                    if ((stopProjections[i].deviation * 5280) > maxDeviation) {
-                      maxDeviation = stopProjections[i].deviation * 5280;  
-                    }
-                }
-            }
-
-            // TODO: Add mean and stdDev to the stats.
-            if (numPointsExceedingDeviationThreshold) {
-                errorLog +=  '\n======================= Deviation Threshold Exceeded =======================\n' +
-                            'Trip ID: '+ tripID + '\n' +
-                            '\tNumber of projected stops exceeding the deviation threshold : ' +
-                            numPointsExceedingDeviationThreshold + '\n' +
-                            '\tMax deviation: ' + maxDeviation + ' feet.' + '\n' + 
-                            '============================================================================\n';
-            }
+            logStatsForStopsToPathProjection(stopProjections, tripID);
         }
 
     return stopProjections;
 });
 
+
+function logStatsForStopsToPathProjection (stopProjections, tripID) {
+    var numExceedingThreshold = 0,
+        maxDeviation          = _.first(stopProjections).deviation * 5280,
+        i;
+
+    for (i=0; i < stopProjections.length; ++i) {
+        if ((stopProjections[i].deviation * 5280) > DEVIANCE_THRESHOLD) {
+            ++numExceedingThreshold;
+            if ((stopProjections[i].deviation * 5280) > maxDeviation) {
+              maxDeviation = stopProjections[i].deviation * 5280;  
+            }
+        }
+    }
+
+    // TODO: Add mean and stdDev to the stats.
+    if (numExceedingThreshold) {
+        logOutput +=  '\n======================= Deviation Threshold Exceeded =======================\n' +
+                    'Trip ID: '+ tripID + '\n' +
+                    '\tNumber of projected stops exceeding the deviation threshold : ' +
+                    numExceedingThreshold + '\n' +
+                    '\tMax deviation: ' + maxDeviation + ' feet.' + '\n' + 
+                    '============================================================================\n';
+    }
+
+
+}
 
 
 // O(S W lg W) where S is the number of stops, W is the number of waypointCoords in the path.
@@ -163,11 +157,13 @@ function trySimpleMinification (theTable) {
         return _.first(_.sortByAll(row, ['deviation', 'snapped_dist_traveled'])); 
     });
 
+
     function invariantCheck (projectedPointA, projectedPointB) {
         return (projectedPointA.snapped_dist_traveled <= projectedPointB.snapped_dist_traveled);
     }
 
     if (_.every(_.rest(possibleOptimal), function (currPossOpt, i) { return invariantCheck(possibleOptimal[i], currPossOpt); })) {
+        ++miniCases;
         return possibleOptimal;
     } else {
         return null;
@@ -187,6 +183,7 @@ function fitStopsToPathUsingLeastSquares (theTable) {
 
     var bestAssignmentOfSegments;
 
+    ++lsqCases; 
 
     // Initialize the first row.
     _.forEach(_.first(theTable), function (cell) { 
