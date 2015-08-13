@@ -429,8 +429,53 @@ function getVisitNumber (getParams) {
 }
 
 
-function getPresentableDistance (getParams) {
-    //TODO: Implement
+
+//  The PresentableDistance field:
+//  
+//  The logic that determines whether stops or miles are shown 
+//  in the PresentableDistance field is below:
+//  
+//      show distance in miles if and only if:
+//          (distance in miles to _immediate next stop_ is > D) 
+//          OR 
+//          (distance in stops to current stop is > N AND distance in miles to current stop > E)
+//
+//          in other words, show distance in stops if and only if 
+//              (distance in miles to _immediate next stop_ is <= D) 
+//              AND 
+//              (distance in stops to current stop <= N OR distance in miles to current stop <= E)
+//
+//      Show "approaching" if and only if:
+//          distance_in_miles to immediate next stop < P
+//
+//      show "at stop" if and only if:
+//          distance_in_miles to immediate next stop < T
+//
+//  Current Parameter Values:
+//      Parameter	Value    
+//          D	     0.5 miles
+//          N	     3 stops
+//          E	     0.5 miles
+//          P	     500 feet
+//          T	     100 feet
+//
+function getPresentableDistance (trainID, stopID) {
+    // Constant Parameters
+    var D = 0.5,
+        N = 3,
+        E = 0.5,
+        P = 500,
+        T = 100;
+
+
+    // The Following are not implemented yet. Will throw an error.
+    var distInMilesToNextStop = GTFSr.getDistanceInMilesToNextStop(trainID),
+        distInStopsToNextStop = GTFSr.getDistanceInStopsToNextStop(trainID),
+        distInMilesToCurrStop = GTFSr.getDistanceInMilesToCurrStop(trainID, stopID),
+        distInStopsToCurrStop = GTFSr.getDistanceInStopsToCurrStop(trainID, stopID);
+
+
+
     return null;
 }
 

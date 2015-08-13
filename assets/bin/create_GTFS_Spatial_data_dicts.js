@@ -5,88 +5,362 @@
 
 
 var async       = require('async'),
-    geolib      = require('geolib'),
     fs          = require('fs'),
     Converter   = require("csvtojson").Converter,
-    //sizeof      = require('sizeof').sizeof,
+    turf        = require('turf'),
+    //jsonfile    = require('jsonfile'),
     _           = require('lodash'),
 
-    gtfsDataDir = __dirname + '/../Subway_GTFS_Data/';
+    gtfsDataDir = __dirname + '/' + '../Subway_GTFS_Data/';
+
+
+// Make these config options.
+var LOG_STATS = true,
+    DEVIANCE_THRESHOLD = 50;    // How many feet to allow between GTFS stop location
+                                // and its projection onto the path
+                                // before logging the deviance.
+var errorLog = '';
+
+
+var miniCases = 0,  // Cases where simple minification worked.
+    lsqCases = 0;   // Cases requiring least squares fit.
 
 
 
-/* The primary data structure created to handle
- * GTFSr latitude, longitude, distance. 
- *
- *  { tripKey: { 
- *                  shapeID  : shapeID
- *                  stopsPts : [ { dist_traveled : x,
- *                                 pathIndex     : y, } ]
- *             }
- *  }
- */
+// Used in async.parallel to run the required GTFS data parsers.
+var gtfsFileParsers = {
+    shapeID2Coords : getShapeID2Coords,
+    tripID2ShapeID : getTripID2ShapeID,
+    tripID2StopIDs : getTripID2StopIDs,
+    stopID2Coords  : getStopIDToCoords,
+};
 
 
+
+// Starts the ball rolling...
+async.parallel(gtfsFileParsers, buildTheSpatialDataDictionary);
+
+
+
+// The main function that brings it all together.
+function buildTheSpatialDataDictionary (err, results) {
+    var theSpatialData = { paths     : results.shapeID2Coords ,
+                           tripStops : {}                     , } ,
+        statsString;
+
+
+    if (err) { console.log(err); return; }
+
+    console.time('buildTheSpatialDataDictionary');
+
+    // Fit the stops to the paths.
+    _.forEach(results.tripID2ShapeID, function (shapeID, tripID) {
+
+        var tripKey        = tripID.substring(9),
+            stopIDs        = results.tripID2StopIDs[tripID],
+            waypointCoords = results.shapeID2Coords[shapeID],
+
+            stopPointCoords = stopIDs.map(function(stopID) { return results.stopID2Coords[stopID]; }),
+
+            stopsToPathKey = stopIDs.join(',') + shapeID,
+
+            stopProjections;
+
+        // Some trips don't have a shape.
+        if ( ! waypointCoords ) { return; }
+
+        stopProjections = fitStopsToPath(stopsToPathKey, stopPointCoords, waypointCoords, tripID);
+
+        if (stopProjections) {
+            theSpatialData.tripStops[tripKey] = {
+                stops : stopProjections,
+            };
+        } else {
+            errorLog += ('\n\n!!! WARNING: No projections for ' + tripID + ' !!!\n\n');
+        }
+    });
+
+
+    console.timeEnd('buildTheSpatialDataDictionary');
+
+    statsString = '\n============================== Statistics ================================\n' +
+                  '\tSimple Minimization Cases : ' + miniCases + '\n' +
+                  '\tLeast Squares Fit Cases   : ' + lsqCases + '\n' +
+                  '============================================================================\n\n\n';
+
+    results = null; // Allow garbage collection of no-longer-needed GTFS data before stringifying the result.
+    fs.writeFile(gtfsDataDir + 'GTFS_Spatial_Data.json', 
+                 JSON.stringify(theSpatialData));
+
+    if (errorLog && LOG_STATS) {
+        fs.writeFile(gtfsDataDir + 'log.out', statsString + errorLog);
+    }
+}
+
+
+
+var fitStopsToPath = _.memoize(function (stopsToPathKey, stopPointCoords, waypointCoords, tripID) {
+    var stopPoints   = getGeoJSPointsForGTFSPoints(stopPointCoords),
+        waypoints    = getGeoJSPointsForGTFSPoints(waypointCoords),
+        pathSegments = getGeoJSLineSegmentsForGTFSPathWaypoints(waypointCoords),
+
+        theTable = getStopsProjectedToPathSegmentsTable(stopPoints, waypoints, pathSegments),
+        
+        numPointsExceedingDeviationThreshold = 0,
+        maxDeviation,
+
+        miniAlgo, 
+        lsqAlgo,
+
+        stopProjections,
+
+        i;
+
+
+        if ( (miniAlgo = trySimpleMinification(theTable)) ) { // For testing, comment out the `if` and compare the result of miniAlgo and lsqAlgo.
+            ++miniCases;
+        } else {
+            ++lsqCases; 
+            lsqAlgo = fitStopsToPathUsingLeastSquares(theTable);
+
+            errorLog += '\nWARNING: Trip ' + tripID + ' required the least squares fitting algorithm.\n\n';
+        }
+
+        stopProjections = (miniAlgo || lsqAlgo);
+         
+
+        if (LOG_STATS) {
+            maxDeviation = _.first(stopProjections).deviation * 5280;
+        
+            for (i=0; i < stopProjections.length; ++i) {
+                if ((stopProjections[i].deviation * 5280) > DEVIANCE_THRESHOLD) {
+                    ++numPointsExceedingDeviationThreshold;
+                    if ((stopProjections[i].deviation * 5280) > maxDeviation) {
+                      maxDeviation = stopProjections[i].deviation * 5280;  
+                    }
+                }
+            }
+
+            // TODO: Add mean and stdDev to the stats.
+            if (numPointsExceedingDeviationThreshold) {
+                errorLog +=  '\n======================= Deviation Threshold Exceeded =======================\n' +
+                            'Trip ID: '+ tripID + '\n' +
+                            '\tNumber of projected stops exceeding the deviation threshold : ' +
+                            numPointsExceedingDeviationThreshold + '\n' +
+                            '\tMax deviation: ' + maxDeviation + ' feet.' + '\n' + 
+                            '============================================================================\n';
+            }
+        }
+
+    return stopProjections;
+});
+
+
+
+// O(S W lg W) where S is the number of stops, W is the number of waypointCoords in the path.
+function trySimpleMinification (theTable) {
+    var possibleOptimal = theTable.map(function (row) {
+        return _.first(_.sortByAll(row, ['deviation', 'snapped_dist_traveled'])); 
+    });
+
+    function invariantCheck (projectedPointA, projectedPointB) {
+        return (projectedPointA.snapped_dist_traveled <= projectedPointB.snapped_dist_traveled);
+    }
+
+    if (_.every(_.rest(possibleOptimal), function (currPossOpt, i) { return invariantCheck(possibleOptimal[i], currPossOpt); })) {
+        return possibleOptimal;
+    } else {
+        return null;
+    }
+}
+
+
+// Finds the stops-to-path fitting with the minimum 
+//      total squared distance between stops and their projection onto path line segments
+//      while maintaining the strong no-backtracking constraint.
+//
+// O(SW^2) where S is the number of stops, W is the number of waypointCoords in the path.
+//
+// NOTE: O(S W lg^2 W) is possible by using Willard's range trees on each row to find the optimal
+//       cell from the previous row from which to advance.
+function fitStopsToPathUsingLeastSquares (theTable) {
+
+    var bestAssignmentOfSegments;
+
+
+    // Initialize the first row.
+    _.forEach(_.first(theTable), function (cell) { 
+        cell.cost = (cell.deviation * cell.deviation);
+        cell.path = [cell.segmentNum];
+    });
+
+    // Do dynamic programing...
+    _.forEach(_.rest(theTable), function (stopRow, i) {
+        _.forEach(stopRow, function (thisCell) {
+
+            var bestFromPreviousRow = {
+                cost : Number.POSITIVE_INFINITY,
+            };
+
+            _.forEach(theTable[i], function (fromCell) {
+                if ((fromCell.snapped_dist_traveled <= thisCell.snapped_dist_traveled) && 
+                    (fromCell.cost < bestFromPreviousRow.cost)) {
+
+                    bestFromPreviousRow = fromCell;
+                }
+            });
+
+            thisCell.cost = bestFromPreviousRow.cost + (thisCell.deviation * thisCell.deviation);
+
+            if (thisCell.cost < Number.POSITIVE_INFINITY) {
+                thisCell.path = bestFromPreviousRow.path.slice(0); // This can be done once.
+                thisCell.path.push(thisCell.segmentNum);
+            } else {
+                thisCell.path = null;
+            }
+        });
+    });
+
+
+    // Did we find a path that works satisfies the constraint???
+    if ((bestAssignmentOfSegments = _.min(_.last(theTable), 'cost').path)) {
+
+        return bestAssignmentOfSegments.map(function (segmentNum, stopIndex) {
+            var bestProjection = theTable[stopIndex][segmentNum];
+
+            return {
+                segmentNum            : segmentNum                           ,
+                snapped_coords        : bestProjection.snapped_coords        ,
+                snapped_dist_traveled : bestProjection.snapped_dist_traveled ,
+                deviation             : bestProjection.deviation             , // Kept for analyzing the GTFS data. Not necessary for GTFSr to SIRI mapping.
+            };
+        });
+
+    } else {
+
+        return null;
+    }
+}
+
+
+function getGeoJSPointsForGTFSPoints (gtfsPts) {
+    return gtfsPts.map(function (pt) {
+        return turf.point([pt.latitude, pt.longitude]);
+    }); 
+}
+
+
+function getGeoJSLineSegmentsForGTFSPathWaypoints (waypointCoords) {
+    return _.rest(waypointCoords).map(function (current, index) {
+        var prevCoords = [waypointCoords[index].latitude, waypointCoords[index].longitude],
+            currCoords = [current.latitude, current.longitude];
+
+        return turf.linestring([prevCoords, currCoords], { start_dist_along: waypointCoords[index].dist_traveled });
+    });
+}
+
+
+
+/* ======================================= Parse the GTFS Data ======================================= */
+
+function getStopsProjectedToPathSegmentsTable (stopPoints, waypoints, pathSegments) {
+    return stopPoints.map(function (stopPt) {
+        return pathSegments.map(function (segment, i) {
+            var snapped             = turf.pointOnLine(segment, stopPt),
+                snappedCoords       = snapped.geometry.coordinates,
+
+                segmentStartPt      = waypoints[i],
+                snappedDistTraveled = turf.distance(segmentStartPt, snapped, 'miles') + segment.properties.start_dist_along,
+
+                deviation           = turf.distance(stopPt, snapped, 'miles');
+
+            return { 
+                 segmentNum            : i                   , 
+                 snapped_coords        : snappedCoords       ,
+                 snapped_dist_traveled : snappedDistTraveled , 
+                 deviation             : deviation           , 
+            };
+        });
+    });
+}
+
+
+// ShapeID to shape path coordinates
 function getShapeID2Coords (cbak) {
+    console.time ('getShapeID2Coords');
+
     var converter  = new Converter({constructResult:true}),
         fileStream = fs.createReadStream(gtfsDataDir + 'shapes.txt');
 
     converter.on("end_parsed", function (parsedTable) {
-        var indexedShapes = {},
-            curShape,
-            lat,
-            lon,
-            distTrav,
-            seqNum;
+        var shapeIDs2Coords = {},
+            currPath,
+            prevPoint,
+            currPoint,
+            distTraveled,
+            seqNum,
 
+            lastSeqNum = Number.POSITIVE_INFINITY;
+
+        
         _.forEach(parsedTable, function (row) {
+            currPoint = turf.point([row.shape_pt_lat, row.shape_pt_lon]);
+
             seqNum = row.shape_pt_sequence;
 
-            lat = row.shape_pt_lat;
-            lon = row.shape_pt_lon;
-
-            if (seqNum === 0) {
-                indexedShapes[row.shape_id] = curShape = [];
-                distTrav = 0;
+            if (seqNum < lastSeqNum) {
+                shapeIDs2Coords[row.shape_id] = currPath = [];
+                distTraveled = 0;
             } else {
-                distTrav += geolib.getDistance(
-                                    {  latitude  : curShape[seqNum - 1].lat,
-                                       longitude : curShape[seqNum - 1].lon,  },
-
-                                    {  latitude  : lat,
-                                       longitude : lon, }
-                                );
+                distTraveled += turf.distance(prevPoint, currPoint, 'miles');
             }
 
-            curShape.push( { lat: lat, lon: lon, dist_traveled: distTrav, } );
+            currPath.push( { latitude      : row.shape_pt_lat ,
+                             longitude     : row.shape_pt_lon ,
+                             dist_traveled : distTraveled     , } );
 
+            lastSeqNum = seqNum;
+            prevPoint = currPoint;
         });
 
-        cbak(null, indexedShapes);
+        //fs.writeFile('shapeID2Coords.json', JSON.stringify(shapeIDs2Coords, null, 4));
+
+        console.timeEnd('getShapeID2Coords');
+        cbak(null, shapeIDs2Coords);
     });
 
     fileStream.pipe(converter);
 }
 
+
+
 function getTripID2ShapeID (cbak) {
+    console.time('getTripID2ShapeID');
+
     var converter  = new Converter({constructResult:true}),
         fileStream = fs.createReadStream(gtfsDataDir + 'trips.txt');
 
     converter.on("end_parsed", function (parsedTable) {
-        var t2sMap = {};
+        var tripID2ShapeIDMap = {};
 
         _.forEach(parsedTable, function (row) {
-            t2sMap[row.trip_id] = row.shape_id;
+            tripID2ShapeIDMap[row.trip_id] = row.shape_id;
         });
 
-        cbak(null, t2sMap);
+        //fs.writeFile('tripID2ShapeID.json', JSON.stringify(tripID2ShapeIDMap, null, 4));
+        
+        console.timeEnd('getTripID2ShapeID');
+        cbak(null, tripID2ShapeIDMap);
     });
 
     fileStream.pipe(converter);
 }
 
 
+
 function getTripID2StopIDs (cbak) {
+    console.time('getTripID2StopIDs');
+
     var converter  = new Converter({constructResult:true}),
         fileStream = fs.createReadStream(gtfsDataDir + 'stop_times.txt');
 
@@ -105,6 +379,10 @@ function getTripID2StopIDs (cbak) {
             curStopSeq.push(row.stop_id);
         });
 
+        
+        //fs.writeFile('tripID2StopIDs.json', JSON.stringify(stopTimesMap, null, 4));
+
+        console.timeEnd('getTripID2StopIDs');
         cbak(null, stopTimesMap);
     });
 
@@ -112,7 +390,10 @@ function getTripID2StopIDs (cbak) {
 }
 
 
+
 function getStopIDToCoords (cbak) {
+    console.time('getStopIDToCoords');
+
     var converter  = new Converter({constructResult:true}),
         fileStream = fs.createReadStream(gtfsDataDir + 'stops.txt');
 
@@ -120,12 +401,13 @@ function getStopIDToCoords (cbak) {
         var stopCoordsMap = {};
 
         _.forEach(parsedTable, function (row) {
-            stopCoordsMap[row.stop_id] = {
-                lat: row.stop_lat,
-                lon: row.stop_lon,
-            };
+            stopCoordsMap[row.stop_id] = { latitude  : row.stop_lat , 
+                                           longitude : row.stop_lon , };
         });
 
+        //fs.writeFile('stopID2Coords.json', JSON.stringify(stopCoordsMap, null, 4));
+
+        console.timeEnd('getStopIDToCoords');
         cbak(null, stopCoordsMap);
     });
 
@@ -133,84 +415,44 @@ function getStopIDToCoords (cbak) {
 }
 
 
-var parsers = {
-    shapeID2Coords : getShapeID2Coords,
-    tripID2ShapeID : getTripID2ShapeID,
-    tripID2StopIDs : getTripID2StopIDs,
-    stopID2Coords  : getStopIDToCoords,
-};
 
 
 
-function finale (err, results) {
-    var theDataStructure = {};
 
-    if (err) {
-        console.log(err);
-        return;
-    }
+// TODO: Move these into functions called if process.env == 'development'
+//
+// For development, use serialized parsing results.
+//var mocks = Object.keys(gtfsFileParsers).reduce(function (previous, filename) {
 
-    _.forEach(results.tripID2ShapeID, function (shapeID, tripID) {
+    //previous[filename] =  function (callback) {
+        //jsonfile.readFile(filename + '.json', function (err, theObject) {
+            //callback(null, theObject);
+        //});
+    //};
 
-        var tripKey  = tripID.substring(9),
-            stops    = results.tripID2StopIDs[tripID],
-            points   = results.shapeID2Coords[shapeID],
+    //return previous;
+//}, {});
+//
+//async.parallel(mocks, buildTheSpatialDataDictionary);
+//
 
-            lastShapePt = (points && points.length) && { latitude  : _.last(points).lat,
-                                                         longitude : _.last(points).lon, },
+// Can put this in the if(LOG_STATS) conditional block of fitStopsToPath
+// To test the algorithms, comparing the results of two algorithms.
+//if (miniAlgo){
+    //if (miniAlgo.length !== lsqAlgo.length) {
+        //console.log('For trip', tripID);
+        //console.log('\tDifferent sized results for the simple minimization and the least squares algorithms.');
+    //}
 
-            stopLoci = {},
-            i        = 0;
+    //for (i=0; i < miniAlgo.length; ++i) {
+        //if (miniAlgo[i].snapped_dist_traveled !== lsqAlgo[i].snapped_dist_traveled) {
+            //console.log('miniAlgo.snapped_dist_traveled - lsqAlgo.snapped_dist_traveled =', miniAlgo[i].snapped_dist_traveled - lsqAlgo[i].snapped_dist_traveled);
+        //}
+        //if (miniAlgo[i].deviation !== lsqAlgo[i].deviation) {
+            //console.log('miniAlgo.deviation - lsqAlg.deviation:', miniAlgo[i].deviation - lsqAlgo[i].deviation);
+        //}
+    //}
 
-        // FIXME: Figure out why some have no points.
-        if (!points) { return; }
+//} 
 
-        
-        // Do do, clean up the logic in here. Rough draft procedures.
-        _.forEach(stops, function(stopID) {
-            var stopCoords  = results.stopID2Coords[stopID],
-                stopPt      = { latitude  : stopCoords.lat,
-                                longitude : stopCoords.lon, },
 
-                distA,
-                distB = Number.POSITIVE_INFINITY,
-
-                midPt;
-
-            if (i >= (points.length - 2)) {
-
-                distA = geolib.getDistance(lastShapePt, stopPt);
-
-                ++i;
-                stopLoci[stopID] = { dist_traveled: distA, pathIndex: i, };
-
-            } else {
-                // TODO: Check for edge cases.
-                //       Handle instances where stop point equals path point,
-                //          and cases where they're equal by using integers for
-                //          the pathIndex and reals otherwise.
-                //       Handle case where stop is the first point.
-                do {
-                    distA = distB;
-
-                    midPt = { latitude  : (points[i].lat + points[i+1].lat) / 2,
-                              longitude : (points[i].lon + points[i+1].lon) / 2, };
-
-                    distB = geolib.getDistance(stopPt, midPt);
-                    ++i;
-                } while ((distA > distB) && (i < (points.length - 2)));
-
-                stopLoci[stopID] = { dist_traveled: distA, pathIndex: i, };
-            }
-        });
-
-        theDataStructure[tripKey] = {
-            shapeID  : shapeID,
-            stopsPts : stopLoci,
-        };
-    });
-
-    fs.writeFile(gtfsDataDir + 'GTFS_Spatial_Data.json', JSON.stringify(theDataStructure, null, 4));
-}
-
-async.parallel(parsers, finale);

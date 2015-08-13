@@ -118,3 +118,5 @@ nbproject
 .node_history
 
 .tern-project
+assets/GTFS_Test_Data
+*.bak[0-9]*

@@ -42,6 +42,7 @@
     "sails-disk": "~0.10.0",
     "save-svg-as-png": "^1.0.0",
     "sizeof": "^1.0.0",
+    "turf": "^2.0.2",
     "webpack": "^1.10.1"
   },
   "scripts": {
