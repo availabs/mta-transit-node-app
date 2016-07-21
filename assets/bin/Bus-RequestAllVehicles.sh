@@ -1,0 +1,1 @@
+curl "http://api.prod.obanyc.com/api/siri/vehicle-monitoring.json?key=a2aef3dc-3a02-4823-96e1-3347b535fe1a&amp;VehicleMonitoringDetailLevel=normal" | jq '.Siri.ServiceDelivery.SituationExchangeDelivery' >> "allVehicleRequest_$(date +'%T').json"

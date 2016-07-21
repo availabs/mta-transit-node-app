@@ -1,0 +1,1452 @@
+{
+    "header": {
+        "gtfs_realtime_version": "1.0",
+        "incrementality": 0,
+        "timestamp": {
+            "low": 1453615322,
+            "high": 0,
+            "unsigned": true
+        },
+        ".nyct_feed_header": null
+    },
+    "entity": [
+        {
+            "id": "GO103_152711",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_152711",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160122",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156125",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156125",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156408",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156408",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156411",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156411",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156428",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156428",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156450",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156450",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156451",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156451",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156452",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156452",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156453",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156453",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156454",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156454",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156455",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156455",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156457",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156457",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156459",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156459",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156460",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156460",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156461",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156461",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156462",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156462",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156463",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156463",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156464",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156464",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156465",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156465",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156466",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156466",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156467",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156467",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156469",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156469",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156471",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156471",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156473",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156473",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156475",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156475",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156477",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156477",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156479",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156479",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156611",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156611",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156652",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156652",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156751",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156751",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156752",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156752",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156756",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156756",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156757",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156757",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156758",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156758",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156760",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156760",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156762",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156762",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156765",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156765",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156857",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156857",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156866",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156866",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156867",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156867",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156869",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156869",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156901",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156901",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156953",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156953",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156957",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156957",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156958",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156958",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156959",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156959",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156960",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156960",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158019",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158019",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158059",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158059",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158060",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158060",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158061",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158061",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158062",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158062",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158063",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158063",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158064",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158064",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158065",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158065",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158092",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158092",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158094",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158094",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158701",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158701",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158709",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158709",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158710",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158710",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158715",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158715",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158740",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158740",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 0,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [
+                    {
+                        "stop_sequence": 9,
+                        "stop_id": "129",
+                        "arrival": {
+                            "delay": 1680,
+                            "time": null,
+                            "uncertainty": 1
+                        },
+                        "departure": null,
+                        "schedule_relationship": 0,
+                        ".nyct_stop_time_update": null
+                    }
+                ],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158743",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158743",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158760",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158760",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158857",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158857",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158859",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158859",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158860",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158860",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158861",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158861",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158862",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158862",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158863",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158863",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158864",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158864",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158865",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158865",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160123",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156700",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156700",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160124",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_156900",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_156900",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160124",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        },
+        {
+            "id": "GO103_158800",
+            "is_deleted": false,
+            "trip_update": {
+                "trip": {
+                    "trip_id": "GO103_158800",
+                    "route_id": null,
+                    "start_time": null,
+                    "start_date": "20160124",
+                    "schedule_relationship": 3,
+                    ".nyct_trip_descriptor": null
+                },
+                "vehicle": null,
+                "stop_time_update": [],
+                "timestamp": null
+            },
+            "vehicle": null,
+            "alert": null
+        }
+    ]
+}

@@ -11,7 +11,8 @@ var nyctSubwayProtoFile = __dirname + '/../proto_files/nyct-subway.proto';
 // create a protobuf decoder
 var transit = ProtoBuf.protoFromFile(nyctSubwayProtoFile).build('transit_realtime');
 
-var feedUrl = "http://datamine.mta.info/mta_esi.php?key=" + key;    
+//var feedUrl = "http://datamine.mta.info/mta_esi.php?feed_id=2&key=" + key;    
+var feedUrl = "http://mnorth.prod.acquia-sites.com/wse/LIRR/gtfsrt/realtime/" + key + "/proto";
 
 
 // The callback is passed the message.

@@ -9,10 +9,11 @@ var feedReader = require('../feed_readers/bus-feed-reader'),
                     //LineRef       : 'MTA NYCT_B63', },
 
     params     = {  OperatorRef               : 'MTA',
-                    MonitoringRef             : 308209,
+                    MonitoringRef             : '308209',
+                    LineRef                   : 'MTA NYCT_B60',
                     StopMonitoringDetailLevel : 'calls', },
 
-    callback   = function (msg) { console.log(JSON.stringify(msg, null, 4)); };
+    //format = 'xml';
+    format = 'json';
 
-
-feedReader('stop', params, callback);
+feedReader('stop', format, params, console.log);

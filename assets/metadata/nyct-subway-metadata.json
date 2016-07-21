@@ -1,7 +1,7 @@
 {
     "header": {
         "path": "header",
-        "description": "header information",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -9,7 +9,7 @@
     },
     "header,gtfs_realtime_version": {
         "path": "header,gtfs_realtime_version",
-        "description": "version of speed specification.",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -17,7 +17,7 @@
     },
     "header,incrementality": {
         "path": "header,incrementality",
-        "description": "determines whether dataset is incremental or full",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -25,9 +25,9 @@
     },
     "header,timestamp": {
         "path": "header,timestamp",
-        "description": "the moment where this dataset was generated on server",
+        "description": "",
         "mapping": "",
-        "notes": "This timestamp identifies the moment when the content of this feed has been created (in server time). In POSIX time (i.e., number of seconds since January 1st 1970 00:00:00 UTC).",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
@@ -57,7 +57,7 @@
     },
     "header,.nyct_feed_header": {
         "path": "header,.nyct_feed_header",
-        "description": "This message is an extension to the FeedHeader containing the version of the NYCT extensions and\ninformation on how feed consumers should interpret trip updates in the NYC subway feed.\n\nFor the NYCT Subway, the GTFS-realtime feed replaces any scheduled trip within the\ntrip_replacement_period.\n\nThis feed is a full dataset, it contains all trips starting in the trip_replacement_period.\n\nIf a trip from the\nstatic GTFS is not found in the GTFS-realtime feed, it should be considered as cancelled.\n\nThe replacement period can be different for each route, so we supply a list of the routes where the trips\nin the feed replace all scheduled trips within the replacement period. This is 30 minutes for all routes\ncurrently implemented.",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -73,15 +73,15 @@
     },
     "header,.nyct_feed_header,trip_replacement_period": {
         "path": "header,.nyct_feed_header,trip_replacement_period",
-        "description": "The TripReplacementPeriod defines the trip replacement period for each route in the system.",
+        "description": "",
         "mapping": "",
-        "notes": "Trip replacement\nperiod for each route\nin the feed.",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "header,.nyct_feed_header,trip_replacement_period,route_id": {
         "path": "header,.nyct_feed_header,trip_replacement_period,route_id",
-        "description": "Route ID used as in\ntransit_realtime.TripDescriptor.route_id",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -89,7 +89,7 @@
     },
     "header,.nyct_feed_header,trip_replacement_period,replacement_period": {
         "path": "header,.nyct_feed_header,trip_replacement_period,replacement_period",
-        "description": "The start time is omitted, the end time\nis currently now + 30 minutes for all\nroutes of the A division. See transit_realtime.TimeRange",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -137,15 +137,15 @@
     },
     "entity": {
         "path": "entity",
-        "description": "A definition (or update) of an entity in the transit feed. If the entity is not being deleted, exactly one of 'trip_update', 'vehicle' and 'alert' fields should be populated.",
-        "mapping": "multiple entities can be included in the feed.",
+        "description": "",
+        "mapping": "",
         "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "entity,id": {
         "path": "entity,id",
-        "description": "Feed-unique identifier for this entity. The ids are used only to provide incrementality support. The actual entities referenced by the feed must be specified by explicit selectors (see EntitySelector below for more info).",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -153,7 +153,7 @@
     },
     "entity,is_deleted": {
         "path": "entity,is_deleted",
-        "description": "Whether this entity is to be deleted. Relevant only for incremental fetches.",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -161,9 +161,9 @@
     },
     "entity,trip_update": {
         "path": "entity,trip_update",
-        "description": "The NYC subway trip updates includes the 1, 2, 3, 4, 5, 6 lines and the Grand Central Shuttle (the A\ndivision, IRT).\n\nThe feed contains all revenue trips that are either:\n already underway (assigned trips), or\n scheduled to start in the next 30 minutes (unassigned trips) \n\nTrips are usually assigned to a physical train a few minutes before the scheduled start time, sometimes\njust a few seconds before. \n\nIf a trip is included in the GTFS-realtime feed, there is a high probability that it will depart from its\noriginating terminal as planned. It is more likely that a train that is never assigned a trip identifier to be\nchanged or cancelled than an assigned one. \n\nTrain Assignment is a function of the Automatic Train Supervision (ATS) office system used by NYCT\nRail Operations to monitor and track train movements. ATS provides the ability to \"assign\" the\nnyct_train_id attribute when a physical train is at its origin terminal. These assigned trips have the\nis_assigned field set in the TripDescriptor. \n\nWhen a train is at a terminal but has not been given a work program it is declared unassigned and is\ntagged as such. Unassigned trains can be moved to a storage location or assigned a nyct_train_id\nwhen a determination for service is made. ",
+        "description": "",
         "mapping": "",
-        "notes": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=4\n\nhttps://developers.google.com/transit/gtfs-realtime/reference#TripUpdate\n\n",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
@@ -171,7 +171,7 @@
         "path": "entity,trip_update,trip",
         "description": "",
         "mapping": "",
-        "notes": "As defined in the GTFS-realtime Specification",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
@@ -251,13 +251,13 @@
         "path": "entity,trip_update,vehicle",
         "description": "",
         "mapping": "",
-        "notes": "Not used",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "entity,trip_update,stop_time_update": {
         "path": "entity,trip_update,stop_time_update",
-        "description": "This includes all future Stop Times for the trip but StopTimes from the past\nare omitted. The first StopTime in the sequence is the stop the train is\ncurrently approaching, stopped at or about to leave. A stop is dropped from\nthe sequence when the train departs the station.",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -393,7 +393,7 @@
     },
     "entity,alert": {
         "path": "entity,alert",
-        "description": "\"type\" of the entity",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -609,7 +609,7 @@
     },
     "entity,alert,active_period": {
         "path": "entity,alert,active_period",
-        "description": "multiple periods can be defined when alert is active",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -617,31 +617,31 @@
     },
     "entity,alert,informed_entity": {
         "path": "entity,alert,informed_entity",
-        "description": "selects which GTFS entities will be affected",
+        "description": "",
         "mapping": "",
-        "notes": "valid parameters: agency_id, route_id, route_type, stop_id, trip (see TripDescriptor)\n\nmultiple selectors (informed_entity) can be given",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "entity,alert,cause": {
         "path": "entity,alert,cause",
-        "description": "cause of the alert",
+        "description": "",
         "mapping": "",
-        "notes": "see gtfs-realtime.proto for valid values",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "entity,alert,effect": {
         "path": "entity,alert,effect",
-        "description": "effect of the alert",
+        "description": "",
         "mapping": "",
-        "notes": "see gtfs-realtime.proto for valid values",
+        "notes": "",
         "linkTo": "",
         "docLinks": ""
     },
     "entity,alert,url": {
         "path": "entity,alert,url",
-        "description": "the given url provides additional information",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -649,7 +649,7 @@
     },
     "entity,alert,header_text": {
         "path": "entity,alert,header_text",
-        "description": "header for the alert will be highlighted",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -657,7 +657,7 @@
     },
     "entity,alert,header_text,translation": {
         "path": "entity,alert,header_text,translation",
-        "description": "multiple languages/translations supported\n\n",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -667,7 +667,7 @@
         "path": "entity,alert,header_text,translation,text",
         "description": "",
         "mapping": "",
-        "notes": "Example: \"Stop at Elm street is closed, temporary stop at Oak street\"",
+        "notes": "",
         "": "",
         "linkTo": "",
         "docLinks": ""
@@ -682,7 +682,7 @@
     },
     "entity,alert,description_text": {
         "path": "entity,alert,description_text",
-        "description": "Alert description. Additional info to the header text",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
@@ -770,27 +770,27 @@
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,train_id": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,train_id",
-        "description": "This field is meant for internal use only. It provides\nan easy way to associated GTFS-RT trip identifiers\nwith NYCT rail operations identifier.\n\nThe ATS office system assigns unique train\nidentification (Train ID) to each train operating\nwithin or ready to enter the mainline of the\nmonitored territory. An example of this is 06 0123+\nPEL/BBR and is decoded as follows: \n\nThe first character represents the trip type\ndesignator. 0 identifies a scheduled revenue trip.\nOther revenue trip values that are a result of a\nchange to the base schedule include; [= reroute], [/\nskip stop], [$ turn train] also known as shortly lined\nservice.\n\nThe second character 6 represents the trip line i.e.\nnumber 6 train.\n\nThe third set of characters identify the decoded\norigin time. The last character may be blank “on\nthe whole minute” or + “30 seconds”\nNote: Origin times will not change when there is a\ntrip type change.\nThis is followed by a three character “Origin\nLocation” / “Destination Location”",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
-        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=7"
+        "docLinks": ""
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,is_assigned": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,is_assigned",
-        "description": "This trip has been assigned to a physical train. If\ntrue, this trip is already underway or most likely will\ndepart shortly. See the discussion of the assigned\nstatus at TripUpdate for more details.",
+        "description": "",
         "mapping": "",
         "notes": "",
         "linkTo": "",
-        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=7"
+        "docLinks": ""
     },
     "entity,alert,informed_entity,trip,.nyct_trip_descriptor,direction": {
         "path": "entity,alert,informed_entity,trip,.nyct_trip_descriptor,direction",
-        "description": "enum\n\nThe direction the train is moving to. Only NORTH and SOUTH are used.",
+        "description": "",
         "mapping": "",
-        "notes": "NORTH\n   * Uptown and Bronx-bound trains.\n   * Times Square Shuttle to Grand Central.\n\nEAST\n   * Not used.\nSOUTH\n   * Downtown and Brooklyn-bound trains\n   * Times Square Shuttle to Times Square.\n\nWEST \n   * Not used.",
+        "notes": "",
         "linkTo": "",
-        "docLinks": "http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#page=8"
+        "docLinks": ""
     },
     "entity,alert,informed_entity,stop_id": {
         "path": "entity,alert,informed_entity,stop_id",

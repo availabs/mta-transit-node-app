@@ -1,7 +1,7 @@
 'use strict';
 
 
-var https  = require("https"),
+var http  = require("http"),
     _      = require('lodash'),
 
     apiKey = require('../keys/BUS-API-KEY');
@@ -14,7 +14,7 @@ var https  = require("https"),
             entityToMonitor -- 'bus' or 'vehicle'
             getParams -- Objext
                 
-                For SIRI StopMonitoring Requests (https://bustime.mta.info/wiki/Developers/SIRIStopMonitoring)
+                For SIRI StopMonitoring Requests (http://bustime.mta.info/wiki/Developers/SIRIStopMonitoring)
   
                     |------------------------------+----------------------------------------------------------------------------------------------
                     | key                          |     Your MTA Bus Time developer API key.
@@ -81,17 +81,15 @@ var https  = require("https"),
 
 
 
-function readFeed (entityToMonitor, getParams, callback) {
-
-    var feedUrl = 'https://bustime.mta.info/api/siri/' + entityToMonitor + '-monitoring.json?',
+function readFeed (entityToMonitor, format, getParams, callback) {
+    
+    //var feedUrl =  'http://bustime.mta.info/api/siri/' + entityToMonitor + '-monitoring.' + format + '?',
+    var feedUrl =  'http://api.prod.obanyc.com/api/siri/' + entityToMonitor + '-monitoring.' + format + '?',
         params  = _.assign({ key: apiKey }, getParams);
 
     feedUrl += _.pairs(params).map(function (kvPair) { return kvPair.join('='); }).join('&');
 
     feedUrl = feedUrl.replace(' ', '%20');
-
-    console.log('// ' + feedUrl);
-
 
     function parse(res) {
         var data = [];
@@ -105,13 +103,11 @@ function readFeed (entityToMonitor, getParams, callback) {
         });
 
         res.on("end", function() {
-            var msg = JSON.parse(data.join(''));
-
-            callback(msg);
+            callback(data.toString('utf8'));
         }); 
     }
 
-    https.get(feedUrl, parse);
+    http.get(feedUrl, parse);
 }
 
 
