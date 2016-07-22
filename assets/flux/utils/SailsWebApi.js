@@ -9,13 +9,15 @@ var d3             = require('d3'),
 var getRoutes  = {},
     postRoutes = {};
 
-getRoutes[messageTypes.NYCT_SUBWAY_GTFSR]    = '/subway/metadata';
-getRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = '/bus/stop/metadata/';
-getRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = '/bus/vehicle/metadata';
+getRoutes[messageTypes.MTA_BUS_STOP]    = '/bus/stop/metadata/';
+getRoutes[messageTypes.MTA_BUS_VEHICLE] = '/bus/vehicle/metadata';
+getRoutes[messageTypes.MTA_SUBWAY_GTFSRT]    = '/subway/gtfsrt/metadata';
+getRoutes[messageTypes.MTA_SUBWAY_SIRI_STOP]    = '/subway/siri/stop/metadata';
+getRoutes[messageTypes.MTA_SUBWAY_SIRI_VEHICLE]    = '/subway/siri/vehicle/metadata';
 
-postRoutes[messageTypes.NYCT_SUBWAY_GTFSR]    = '/update/subway/metadata';
-postRoutes[messageTypes.MTA_BUS_STOP_SIRI]    = '/update/bus/stop/metadata/';
+postRoutes[messageTypes.MTA_BUS_STOP]    = '/update/bus/stop/metadata/';
 postRoutes[messageTypes.MTA_BUS_VEHICLE_SIRI] = '/update/bus/vehicle/metadata';
+postRoutes[messageTypes.MTA_SUBWAY_GTFSRT]    = '/update/subway/gtfsrt/metadata';
 
 
 function sendServerGetRequest (messageType) {

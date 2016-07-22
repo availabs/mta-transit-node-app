@@ -33,6 +33,7 @@
     "jsonfile": "^2.2.1",
     "keymirror": "^0.1.1",
     "lodash": "^3.10.0",
+    "mkdirp": "^0.5.1",
     "node-protobuf": "^1.2.12",
     "object-assign": "^3.0.0",
     "protobufjs": "^4.0.0",

@@ -32,8 +32,11 @@ module.exports = {
     }),
 
     MTA_MessageTypes : keyMirror({
-        NYCT_SUBWAY_GTFSR    : null,
-        MTA_BUS_STOP_SIRI    : null,
-        MTA_BUS_VEHICLE_SIRI : null,
+        MTA_BUS_STOP    : null,
+        MTA_BUS_VEHICLE : null,
+
+        MTA_SUBWAY_GTFSRT       : null,
+        MTA_SUBWAY_SIRI_VEHICLE : null,
+        MTA_SUBWAY_SIRI_STOP    : null,
     }),
 };

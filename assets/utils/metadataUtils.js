@@ -8,8 +8,10 @@
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 
-var jsonfile       = require('jsonfile'),
-    _              = require('lodash');
+var path     = require('path'),
+    jsonfile = require('jsonfile'),
+    mkdirp   = require('mkdirp'),
+    _        = require('lodash');
 
 
 
@@ -52,6 +54,8 @@ function newMetadataMaintainer (metadataFilePath) {
     var maintainer = {},
         metadata;
     
+    mkdirp.sync(path.dirname(metadataFilePath))
+
     try {
         metadata = jsonfile.readFileSync(metadataFilePath);
     } catch (err) {
@@ -94,7 +98,7 @@ var updateMetadata = function (newMetadata, oldMetadata) {
         newMetadata;
 
     newMetaKeys = _.difference(metadataKeyExtractor(newMetadata), _.keys(oldMetadata));
-    
+
     newMetadata = newMetaKeys.reduce(function(pre, cur) { 
                                         pre[cur] = null;
                                         return pre; 
