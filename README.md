@@ -10,6 +10,7 @@ There are scripts in `/assets/bin/` that will pull messages from the APIs. You w
 The scripts in `/assets/bin/API-structure-mapping-scripts/` will continually pull from the APIs and map out the structure of the responses. Visualizations of these response structures are available in the app. 
 
 ##Deployment
++ `npm install -g sails //May require sudo`
 + `npm install --production`
 + `bower install`
 + `sails lift --prod`
