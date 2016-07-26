@@ -18,8 +18,8 @@ files.
 The scripts in 
 [`/assets/bin/API-structure-mapping-scripts/`](https://github.com/availabs/mta-transit-node-app/tree/master/assets/bin/API-structure-mapping-scripts) 
 will continually pull from the APIs and map out the structure of the responses. 
-Visualizations of these response structures are available in the app. 
 You can alter the URLs in those files to point the scripts at a given server. 
+Visualizations of these response structures are available in the app. 
 (Note, sample feed response structure mappings are included in the repo. No `SituationExchangeDelivery` occurred for the Subway system during the observation time.)
 
 ##Deployment
